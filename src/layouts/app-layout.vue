@@ -110,12 +110,13 @@
                   </span>
                   <span>
                     <router-link to="/mycourse">
-                      My Course
+                      Dashboard
                     </router-link>
                   </span>
                 </a>
               </li>
-              <li class="relative">
+
+              <li class="relative pt-4">
                 <a
                   class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-gray-600 outline-none transition duration-300 ease-linear hover:bg-slate-50 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-natural-900 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
                   data-te-sidenav-link-ref>
@@ -124,14 +125,14 @@
                   </span>
                   <span>
                     <router-link to="/chating">
-                      Chating
+                      Data Peminjaman
                     </router-link>
                   </span>
                 </a>
               </li>
              
                 
-              <li class="relative">
+              <li class="relative pt-4">
                 <a
                   class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear hover:bg-natural-900 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-natural-900 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
                   data-te-sidenav-link-ref>
@@ -141,11 +142,57 @@
                   </span>
                   <span>
                     <router-link to="/account">
-                      Account
+                      Data Barang
                     </router-link>
                   </span>
                 </a>
               </li>
+
+              <li class="relative pt-4">
+                <a
+                  class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear hover:bg-natural-900  hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-natural-900 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
+                  data-te-sidenav-link-ref>
+                  <span
+                    class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-neutral-900">
+                  </span>
+                  <span>
+                    <router-link to="/mycourse">
+                      Barang Masuk
+                    </router-link>
+                  </span>
+                </a>
+              </li>
+
+              <li class="relative pt-4">
+                <a
+                  class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear hover:bg-natural-900  hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-natural-900 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
+                  data-te-sidenav-link-ref>
+                  <span
+                    class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-neutral-900">
+                  </span>
+                  <span>
+                    <router-link to="/mycourse">
+                      Barang Keluar
+                    </router-link>
+                  </span>
+                </a>
+              </li>
+
+              <li class="relative pt-4">
+                <a
+                  class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear hover:bg-natural-900  hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-natural-900 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
+                  data-te-sidenav-link-ref>
+                  <span
+                    class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-neutral-900">
+                  </span>
+                  <span>
+                    <router-link to="/mycourse">
+                      History
+                    </router-link>
+                  </span>
+                </a>
+              </li>
+
             </ul>
           </nav>
 
