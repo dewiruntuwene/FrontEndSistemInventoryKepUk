@@ -29,7 +29,7 @@ const routes = {
     },
     {
       path: '/Dashboard',
-      component: () => import('../pages/dashboard.vue'),
+      component: () => import('../pages/Dashboard.vue'),
     },
     {
       path: '/LandingPage',
