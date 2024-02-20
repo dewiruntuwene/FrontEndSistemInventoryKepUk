@@ -109,7 +109,7 @@
                     class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-neutral-900">
                   </span>
                   <span>
-                    <router-link to="/mycourse">
+                    <router-link to="/dashboard">
                       Dashboard
                     </router-link>
                   </span>
@@ -124,7 +124,7 @@
                     class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-gray-300">
                   </span>
                   <span>
-                    <router-link to="/chating">
+                    <router-link to="/DataPeminjaman">
                       Data Peminjaman
                     </router-link>
                   </span>
@@ -141,7 +141,7 @@
                     
                   </span>
                   <span>
-                    <router-link to="/account">
+                    <router-link to="/DataBarang">
                       Data Barang
                     </router-link>
                   </span>
@@ -156,7 +156,7 @@
                     class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-neutral-900">
                   </span>
                   <span>
-                    <router-link to="/mycourse">
+                    <router-link to="/BarangMasuk">
                       Barang Masuk
                     </router-link>
                   </span>
@@ -171,7 +171,7 @@
                     class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-neutral-900">
                   </span>
                   <span>
-                    <router-link to="/mycourse">
+                    <router-link to="/BarangKeluar">
                       Barang Keluar
                     </router-link>
                   </span>
@@ -186,7 +186,7 @@
                     class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-neutral-900">
                   </span>
                   <span>
-                    <router-link to="/mycourse">
+                    <router-link to="/History">
                       History
                     </router-link>
                   </span>

@@ -7,74 +7,46 @@ const routes = {
 
   children: [
     {
-      path: '/logout',
-      component: () => import('../pages/logout.vue'),
+      path: '/BarangKeluar',
+      component: () => import('../pages/BarangKeluar.vue'),
     },
     
     {
-      path: '/account',
-      component: () => import('../pages/account.vue'),
+      path: '/BarangMasuk',
+      component: () => import('../pages/BarangMasuk.vue'),
     },
     {
-      path: '/chating',
-      component: () => import('../pages/chating.vue'),
+      path: '/DataBarang',
+      component: () => import('../pages/DataBarang.vue'),
     },
     {
-      path: '/mycourse',
-      component: () => import('../pages/mycourse.vue'),
+      path: '/DataPeminjaman',
+      component: () => import('../pages/DataPeminjaman.vue'),
     },
     {
-      path: '/materialcourse',
-      component: () => import('../pages/materialcourse.vue'),
+      path: '/History',
+      component: () => import('../pages/History.vue'),
     },
     {
-      path: '/course',
-      component: () => import('../pages/course.vue'),
+      path: '/Dashboard',
+      component: () => import('../pages/dashboard.vue'),
     },
     {
-      path: '/addcoursedesc',
-      component: () => import('../pages/addcoursedesc.vue'),
+      path: '/LandingPage',
+      component: () => import('../pages/LandingPage.vue'),
     },
     {
-      path: '/addcoursematerial',
-      component: () => import('../pages/addcoursematerial.vue'),
+      path: '/Login',
+      component: () => import('../pages/Login.vue'),
     },
     {
-      path: '/addcoursepublish',
-      component: () => import('../pages/addcoursepublish.vue'),
+      path: '/UserCatalog',
+      component: () => import('../pages/UserCatalog.vue'),
     },
     {
-      path: '/desc',
-      component: () => import('../pages/desc.vue'),
-    },
-    {
-      path: '/annoucement',
-      component: () => import('../pages/annoucement.vue'),
-    },
-    {
-      path: '/assignment',
-      component: () => import('../pages/assignment.vue'),
-    },
-    {
-      path: '/assigninstruction',
-      component: () => import('../pages/assigninstruction.vue'),
-    },
-    {
-      path: '/assignparticipant',
-      component: () => import('../pages/assignparticipant.vue'),
-    },
-    {
-      path: '/assignreport',
-      component: () => import('../pages/assignreport.vue'),
-    },
-    {
-      path: '/addassignment',
-      component: () => import('../pages/addassignment.vue'),
-    },
-    {
-      path: '/assignsubreport',
-      component: () => import('../pages/assignsubreport.vue'),
-    },
+      path: '/UserOrder',
+      component: () => import('../pages/UserOrder.vue'),
+    }
   ]
 }
 
