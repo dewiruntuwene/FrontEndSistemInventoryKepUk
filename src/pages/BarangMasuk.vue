@@ -21,9 +21,9 @@
     </div>
 
     <RouterView />
-  </template>
+</template>
   
-  <!-- <script>
+<script >
   export default {
     data() {
       return {
@@ -37,7 +37,5 @@
   };
   </script>
   
-  <style>
-  /* Add your table styling here */
-  </style> -->
+
   
