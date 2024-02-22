@@ -2,9 +2,6 @@ import { createRouter, createWebHistory } from "vue-router"
 
 
 const routes = {
-  path: '/',
-  component: () => import('../layouts/app-layout.vue'),
-
   children: [
     {
       path: '/logout',
@@ -31,6 +28,7 @@ const routes = {
       path: '/course',
       component: () => import('../pages/course.vue'),
     },
+<<<<<<< Updated upstream
     {
       path: '/addcoursedesc',
       component: () => import('../pages/addcoursedesc.vue'),
@@ -75,6 +73,9 @@ const routes = {
       path: '/assignsubreport',
       component: () => import('../pages/assignsubreport.vue'),
     },
+=======
+
+>>>>>>> Stashed changes
   ]
 }
 
