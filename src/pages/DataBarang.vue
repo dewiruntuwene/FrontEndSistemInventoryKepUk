@@ -24,7 +24,7 @@
               <td class="py-3 px-2 text-left border"><input type="text" v-model="item.nama" class="border border-gray-300 rounded px-2 py-1 w-full" placeholder="Nama Barang"></td>
               <td class="py-3 px-2 text-left border"><input type="text" v-model="item.totalStok" class="border border-gray-300 rounded px-2 py-1 w-full" placeholder="Total Stok"></td>
               <td class="py-3 px-2 text-left border"><input type="text" v-model="item.jenis" class="border border-gray-300 rounded px-2 py-1 w-full" placeholder="Jenis Barang"></td>
-              <td class="py-3 px-2 text-left border">
+             <td class="py-3 px-2 text-left border">
                 <button @click="editItem(index)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded">Edit</button>
                 <button @click="deleteItem(index)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded">Delete</button>
               </td>
@@ -50,6 +50,7 @@
     <!-- Komponen router-view untuk menampilkan halaman yang diarahkan -->
     <router-view />
   </div>
+  <RouterView />
 </template>
 
 <script>

@@ -1,6 +1,50 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { Component } from 'vue-property-decorator';
+import { defineProps } from 'vue';
 import { useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue';
+import layout from '@components/layout.vue';
+import CardBarang  from '@components/CardBarang.vue';
+import axios from 'axios';
+
+const components = {
+  layout
+}
+
+
+
+export interface Barang {
+    id_barang: string;
+    nama_barang: string;
+    jenis_barang: string;
+    total_stock: number;
+}
+
+
+const props = defineProps<{
+  barang: Barang;
+}>();
+
+const barangs = ref<Barang[]>([]);
+const search = ref([]);       // Gunakan ref untuk membuat reactive data
+
+// Lakukan panggilan axios saat komponen dimuat
+onMounted(() => {
+  axios.get('https://vjk2k0f5-5000.asse.devtunnels.ms/barang')
+    .then(response => {
+      barangs.value = response.data as Barang[]; // Update nilai barangs dengan data dari server
+    })
+    .catch(err => console.log(err));
+});
+
+// Fungsi untuk melakukan pencarian barang
+const searchBarang = () => {
+  axios.get('' + search)
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(err => console.log(err));
+}
 
 export interface CartItem {
     nama: string;
@@ -8,8 +52,8 @@ export interface CartItem {
     jumlah: number;
 }
 
-
 const cartItems = ref<CartItem[]>([]);
+const router = useRouter();
 
 function tambahKeKeranjang() {
     const newItem: CartItem = { nama: 'GLOVE STERIL', kode: 'A001', jumlah: 1 };
@@ -18,11 +62,16 @@ function tambahKeKeranjang() {
     const router = useRouter();
     router.push('/keranjang'); // Arahkan ke halaman keranjang setelah menambahkan item
 }
-
-
 </script>
 
 <template>
+  <layout>
+    <div class="md:flex items-center justify-between p-6">
+      <div class="col-md-4 mt-4" v-for="barang in barangs" :key="barang.id_barang">
+        <CardBarang :barang="barang" /> 
+      </div> 
+    </div>
+  </layout>
     <div class="mt-20 sm:ml-5 h-full ">   
         <div class="flex items-center sm:justify-between mt-10 ml-5 font-medium border-b border-gray-200 dark:text-natural-900 dark:border-gray-700 w-11/12 p-6 pl-6 space-x-7 space-x-reverse">
             <span>My Course</span>
@@ -34,280 +83,16 @@ function tambahKeKeranjang() {
                 <router-link to="/addcoursedesc">
                     <a href="#" class="static inline-block text-sm px-4 py-2 leading-none border-black rounded text-black border-white hover:border-transparent hover:text-natural-900 bg-white mt-4 lg:mt-0">+ Add New Course</a>
                 </router-link>
-
             </div>
         </div>
 
         <!-- Card -->
-        <div class="md:flex items-center justify-between p-6">
-            <div class="mt-2">
-                <div class="w-56 h-80">
-                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <router-link to="/keranjang">
-                            <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
-                        </router-link>
-                        <div class="p-2 flex justify-between items-center">
-                            <div>
-                                <h5 class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">GLOVE STERIL</h5>
-                                <p class="mb-1 text-sm font-normal text-gray-700 dark:text-gray-400">A001</p>
-                            </div>
-                            <button class="focus:outline-none" @click="tambahKeKeranjang()">
-                                <img src="keranjang.png" alt="Add to Cart" class="w-6 h-6 mr-3" />
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="mt-2">
-                <div class="w-56 h-80">
-                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <router-link to="/course">
-                            <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
-                        </router-link>
-                        <div class="p-2">
-                            <h5 class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Fundamental of Web Design</h5>
-                            <p class="mb-1 text-sm font-normal text-gray-700 dark:text-gray-400">30 Participant</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-2">
-                <div class="w-56 h-80">
-                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <router-link to="/course">
-                            <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
-                        </router-link>
-                        <div class="p-2">
-                            <h5 class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Fundamental of Web Design</h5>
-                            <p class="mb-1 text-sm font-normal text-gray-700 dark:text-gray-400">30 Participant</p>
-                        </div>
-                    </div>
-                </div>
-            </div>  
-            
-            <div class="mt-2">
-                <div class="w-56 h-80">
-                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <router-link to="/course">
-                            <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
-                        </router-link>
-                        <div class="p-2">
-                            <h5 class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Fundamental of Web Design</h5>
-                            <p class="mb-1 text-sm font-normal text-gray-700 dark:text-gray-400">30 Participant</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-2">
-                <div class="w-56 h-80">
-                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <router-link to="/course">
-                            <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
-                        </router-link>
-                        <div class="p-2">
-                            <h5 class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Fundamental of Web Design</h5>
-                            <p class="mb-1 text-sm font-normal text-gray-700 dark:text-gray-400">30 Participant</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-2">
-                <div class="w-56 h-80">
-                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <router-link to="/course">
-                            <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
-                        </router-link>
-                        <div class="p-2">
-                            <h5 class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Fundamental of Web Design</h5>
-                            <p class="mb-1 text-sm font-normal text-gray-700 dark:text-gray-400">30 Participant</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-4 mb-4 items-center justify-between p-6 ">
+          <div class="md:container md:mx-auto columns-xs sticky mt-2" v-for="barang in barangs" :key="barang.id_barang">
+            <CardBarang :barang="barang" /> 
+          </div> 
         </div>
-
-        <div class="md:flex items-center justify-between p-6">
-            <div class="mt-2">
-                <div class="w-56 h-80">
-                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <router-link to="/course">
-                            <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
-                        </router-link>
-                        <div class="p-2">
-                            <h5 class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Fundamental of Web Design</h5>
-                            <p class="mb-1 text-sm font-normal text-gray-700 dark:text-gray-400">30 Participant</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="mt-2">
-                <div class="w-56 h-80">
-                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <router-link to="/course">
-                            <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
-                        </router-link>
-                        <div class="p-2">
-                            <h5 class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Fundamental of Web Design</h5>
-                            <p class="mb-1 text-sm font-normal text-gray-700 dark:text-gray-400">30 Participant</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-2">
-                <div class="w-56 h-80">
-                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <router-link to="/course">
-                            <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
-                        </router-link>
-                        <div class="p-2">
-                            <h5 class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Fundamental of Web Design</h5>
-                            <p class="mb-1 text-sm font-normal text-gray-700 dark:text-gray-400">30 Participant</p>
-                        </div>
-                    </div>
-                </div>
-            </div>  
-            
-            <div class="mt-2">
-                <div class="w-56 h-80">
-                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <router-link to="/course">
-                            <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
-                        </router-link>
-                        <div class="p-2">
-                            <h5 class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Fundamental of Web Design</h5>
-                            <p class="mb-1 text-sm font-normal text-gray-700 dark:text-gray-400">30 Participant</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-2">
-                <div class="w-56 h-80">
-                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <router-link to="/course">
-                            <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
-                        </router-link>
-                        <div class="p-2">
-                            <h5 class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Fundamental of Web Design</h5>
-                            <p class="mb-1 text-sm font-normal text-gray-700 dark:text-gray-400">30 Participant</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-2">
-                <div class="w-56 h-80">
-                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <router-link to="/course">
-                            <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
-                        </router-link>
-                        <div class="p-2">
-                            <h5 class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Fundamental of Web Design</h5>
-                            <p class="mb-1 text-sm font-normal text-gray-700 dark:text-gray-400">30 Participant</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="md:flex items-center justify-between p-6">
-            <div class="mt-2">
-                <div class="w-56 h-80">
-                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <router-link to="/course">
-                            <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
-                        </router-link>
-                        <div class="p-2">
-                            <h5 class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Fundamental of Web Design</h5>
-                            <p class="mb-1 text-sm font-normal text-gray-700 dark:text-gray-400">30 Participant</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="mt-2">
-                <div class="w-56 h-80">
-                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <router-link to="/course">
-                            <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
-                        </router-link>
-                        <div class="p-2">
-                            <h5 class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Fundamental of Web Design</h5>
-                            <p class="mb-1 text-sm font-normal text-gray-700 dark:text-gray-400">30 Participant</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-2">
-                <div class="w-56 h-80">
-                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <router-link to="/course">
-                            <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
-                        </router-link>
-                        <div class="p-2">
-                            <h5 class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Fundamental of Web Design</h5>
-                            <p class="mb-1 text-sm font-normal text-gray-700 dark:text-gray-400">30 Participant</p>
-                        </div>
-                    </div>
-                </div>
-            </div>  
-            
-            <div class="mt-2">
-                <div class="w-56 h-80">
-                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <router-link to="/course">
-                            <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
-                        </router-link>
-                        <div class="p-2">
-                            <h5 class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Fundamental of Web Design</h5>
-                            <p class="mb-1 text-sm font-normal text-gray-700 dark:text-gray-400">30 Participant</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-2">
-                <div class="w-56 h-80">
-                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <router-link to="/course">
-                            <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
-                        </router-link>
-                        <div class="p-2">
-                            <h5 class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Fundamental of Web Design</h5>
-                            <p class="mb-1 text-sm font-normal text-gray-700 dark:text-gray-400">30 Participant</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-2">
-                <div class="w-56 h-80">
-                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <router-link to="/course">
-                            <img class="rounded-t-lg" src="https://smartguy.com/webservice/storage/category/web-design.jpg" alt="" />
-                        </router-link>
-                        <div class="p-2">
-                            <h5 class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Fundamental of Web Design</h5>
-                            <p class="mb-1 text-sm font-normal text-gray-700 dark:text-gray-400">30 Participant</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-
+      
     </div>
   <RouterView />
 </template>

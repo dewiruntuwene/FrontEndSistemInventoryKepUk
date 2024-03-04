@@ -2,8 +2,7 @@ import { createRouter, createWebHistory } from "vue-router"
 
 
 const routes = {
-  path: '/',
-  component: () => import('../layouts/app-layout.vue'),
+  
 
   children: [
     {
@@ -40,12 +39,24 @@ const routes = {
       component: () => import('../pages/Login.vue'),
     },
     {
+      path: '/register',
+      component: () => import('../pages/register.vue'),
+    },
+    {
       path: '/UserCatalog',
       component: () => import('../pages/UserCatalog.vue'),
     },
     {
       path: '/UserOrder',
       component: () => import('../pages/UserOrder.vue'),
+    },
+    {
+      path: '/CardBarang',
+      component: () => import('../components/CardBarang.vue')
+    },
+    {
+      path: '/layout',
+      component: () => import('../components/layout.vue')
     }
   ]
 }
