@@ -11,29 +11,27 @@ const router =  useRouter();
 
 
 const props = defineProps({
-    barang: Object as () => Barang// Menetapkan tipe prop barang
+    barang: Object as () => Barang // Menetapkan tipe prop barang
 });
-
-console.log(props.barang)
-
 
 // Fungsi untuk menambahkan barang ke keranjang
 const tambahKeKeranjang = async (id_barang: string) => {
     // Memeriksa apakah props.barang terdefinisi
     if (props.barang) {
         // Mengambil data barang dari props.barang
-        const barangToAdd: Partial<Barang> = {
-            id_barang: props.barang.id_barang,
-            nama_barang: props.barang.nama_barang,
-            jenis_barang: props.barang.jenis_barang,
-            total_stock: props.barang.total_stock,
-            gambar_barang: props.barang.gambar_barang,
-            harga_barang: props.barang.harga_barang,
-            path: props.barang.path
+        const barangToAdd = {
+            create: {
+                id_barang: props.barang.id_barang,
+                nama_barang: props.barang.nama_barang,
+                jenis_barang: props.barang.jenis_barang,
+                total_stock: props.barang.total_stock,
+                gambar_barang: props.barang.gambar_barang
+            }
         };
 
+
         try {
-            const response = await axios.post('https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang', barangToAdd);
+            const response = await axios.post('https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang', {barangToAdd});
             console.log(response)
             // Memberikan notifikasi bahwa barang berhasil ditambahkan ke keranjang
             toast.success("Sukses Masuk Keranjang", {
