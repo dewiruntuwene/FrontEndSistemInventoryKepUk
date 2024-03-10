@@ -14,26 +14,44 @@ const props = defineProps({
     barang: Object as () => Barang // Menetapkan tipe prop barang
 });
 
+
+// interface Item {
+//   id: string;
+//   nama: string;
+//   totalStok: string;
+//   jenis: string;
+// }
+
+
+// const data = ref<Item[]>([
+//   { id: '', nama: '', totalStok: '', jenis: '' },
+//   { id: '', nama: '', totalStok: '', jenis: '' }
+// ]);
+
+// const newItem = ref<Item>({ id: '', nama: '', totalStok: '', jenis: '' });
+
+
 // Fungsi untuk menambahkan barang ke keranjang
 const tambahKeKeranjang = async (id_barang: string) => {
     // Memeriksa apakah props.barang terdefinisi
-    if (props.barang) {
-        // Mengambil data barang dari props.barang
-        const barangToAdd = {
-            create: {
+    if (props.barang && props.barang.id_barang) { // Pastikan props.barang dan props.barang.id_barang ada
+        try {
+            const barangToAdd = {
                 id_barang: props.barang.id_barang,
                 nama_barang: props.barang.nama_barang,
                 jenis_barang: props.barang.jenis_barang,
                 total_stock: props.barang.total_stock,
-                gambar_barang: props.barang.gambar_barang
-            }
-        };
+                gambar_barang: props.barang.path // Mengambil dari props.barang.path
+            };
 
+            const response = await axios.post('https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang', {
+                barangKeluar: { // Menggunakan barangKeluar karena terhubung dengan tabel BarangKeluar
+                    create: barangToAdd
+                }
+            });
 
-        try {
-            const response = await axios.post('https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang', {barangToAdd});
-            console.log(response)
-            // Memberikan notifikasi bahwa barang berhasil ditambahkan ke keranjang
+            console.log(response.data)
+            
             toast.success("Sukses Masuk Keranjang", {
                 type: "success",
                 position: "top-right",
@@ -43,7 +61,6 @@ const tambahKeKeranjang = async (id_barang: string) => {
             router.push({ path: '/UserOrder' });
         } catch (error) {
             console.error('Error adding to cart:', error);
-            // Menampilkan notifikasi jika terjadi kesalahan
             toast.error("Gagal Menambahkan ke Keranjang", {
                 type: "error",
                 position: "top-right",
@@ -52,9 +69,8 @@ const tambahKeKeranjang = async (id_barang: string) => {
             });
         }
     } else {
-        // Menampilkan pesan kesalahan jika props.barang tidak terdefinisi
-        console.error('Props barang tidak terdefinisi');
-        toast.error("Props barang tidak terdefinisi", {
+        console.error('Props barang atau props.barang.id_barang tidak terdefinisi');
+        toast.error("Props barang atau props.barang.id_barang tidak terdefinisi", {
             type: "error",
             position: "top-right",
             duration: 3000,
