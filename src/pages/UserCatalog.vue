@@ -14,17 +14,18 @@ import axios from 'axios';
 //   }
 // });
 const router = useRouter();
-const barangs = ref<Barang[]>([]);
+
 
 export interface Barang {
   id_barang: string,
   nama_barang: string,
   jenis_barang: string,
-  total_stock: number,
+  total_stock: string,
   gambar_barang: string,
-  harga_barang: number,
   path: string
 }
+
+const barangs = ref<Barang[]>();
 
 // Langkah 2 dan 3: Isi objek Barang dengan data respons
 const normalizeResponseToBarang = (response: any): Barang[] => {
@@ -36,7 +37,6 @@ const normalizeResponseToBarang = (response: any): Barang[] => {
     jenis_barang: item.jenis_barang,
     total_stock: item.total_stock,
     gambar_barang: item.gambar_barang,
-    harga_barang: item.harga_barang
   }));
 };
 
@@ -49,16 +49,75 @@ onMounted(async () => {
     barangs.value = normalizeResponseToBarang(response.data);
 
     console.log(response)
-    console.log(barangs.value)
+
+    // Pastikan bahwa barangs sudah terisi dengan nilai yang valid sebelum mengaksesnya
+    if (barangs.value) {
+      barangs.value.forEach((barang) => {
+        console.log(barang.id_barang);
+      });
+    } else {
+      console.error("Data barang belum tersedia");
+    }
   } catch (error) {
     console.error('Error fetching data:', error);
   }
+
 });
 
 const filteredBarangs = computed(() => barangs.value);
 
 
-console.log(filteredBarangs)
+
+// if (barangs.value) {
+//     barangs.value.forEach((barang) => {
+//         console.log(barang.id_barang);
+//     });
+// } else {
+//     console.error("Data barang belum tersedia");
+// }
+
+
+// Fungsi untuk menambahkan barang ke keranjang
+const tambahKeKeranjang = async (barang: Barang) => {
+    try {
+       // Pastikan barang adalah objek yang valid
+       if (!barang || typeof barang !== 'object') {
+            console.error('Barang tidak valid');
+            return;
+        } else{
+          console.log('barang valid')
+        }
+
+        // Pastikan id_barang pada barang yang akan ditambahkan tidak kosong
+        if (!barang.id_barang) {
+            console.error('id_barang tidak valid');
+            return;
+        } else {
+          console.log('id_barang valid')
+        }
+
+        console.log('Data Barang', barang);
+        const response = await axios.post('https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang', {
+                barangKeluar: 
+                  {
+                    id_barang: barang.id_barang,
+                    nama_barang: barang.nama_barang,
+                    total_stock: barang.total_stock,
+                    jenis_barang: barang.jenis_barang,
+                    gambar_barang: barang.gambar_barang
+                  }
+              
+        });
+        console.log(response.data);
+        const barangKeluar = response.data.barangKeluar
+        console.log('Barang Keluar', barangKeluar);
+        // Tambahkan logika lainnya sesuai kebutuhan Anda, seperti menampilkan pesan sukses atau error
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        // Tambahkan logika lainnya sesuai kebutuhan Anda, seperti menampilkan pesan error
+    }
+};
+
   
 // // Fungsi untuk melakukan pencarian barang
 // const searchBarang = () => {
@@ -85,8 +144,8 @@ console.log(filteredBarangs)
     <div class="mt-20 sm:ml-5 h-full ">   
         <!-- Card -->
         <div class="grid grid-cols-1 md:grid-cols-6 gap-4 mb-4 items-center justify-between p-6 ">
-          <div class="md:container md:mx-auto columns-xs sticky mt-2" v-for="item in filteredBarangs" :key="item.id_barang">
-            <CardBarang :barang= "item" /> 
+          <div class="md:container md:mx-auto columns-xs sticky mt-2" v-for="item in filteredBarangs" :key="item.id_barang" >
+            <CardBarang :barang= "item"  @tambahKeKeranjang="tambahKeKeranjang" /> 
           </div> 
         </div>
       
