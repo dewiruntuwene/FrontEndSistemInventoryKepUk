@@ -4,7 +4,8 @@ import { onMounted, ref, Ref, computed,ComputedRef, defineProps } from 'vue';
 import CardBarang  from '@components/CardBarang.vue';
 import layout  from '@components/layout.vue';
 import axios from 'axios';
-
+import {useToast} from 'vue-toast-notification';
+import Navbar from "@components/Navbar.vue";
 
 // Definisikan props dengan tipe Barang
 // expor const props = defineProps({
@@ -14,7 +15,7 @@ import axios from 'axios';
 //   }
 // });
 const router = useRouter();
-
+const toast = useToast();
 
 export interface Barang {
   id_barang: string,
@@ -98,23 +99,31 @@ const tambahKeKeranjang = async (barang: Barang) => {
 
         console.log('Data Barang', barang);
         const response = await axios.post('https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang', {
-                barangKeluar: 
-                  {
-                    id_barang: barang.id_barang,
-                    nama_barang: barang.nama_barang,
-                    total_stock: barang.total_stock,
-                    jenis_barang: barang.jenis_barang,
-                    gambar_barang: barang.gambar_barang
-                  }
+          barangKeluar: 
+            {
+              id_barang: barang.id_barang,
+              nama_barang: barang.nama_barang,
+              total_stock: barang.total_stock,
+              jenis_barang: barang.jenis_barang,
+              gambar_barang: barang.path
+            }
               
         });
-        console.log(response.data);
-        const barangKeluar = response.data.barangKeluar
-        console.log('Barang Keluar', barangKeluar);
-        // Tambahkan logika lainnya sesuai kebutuhan Anda, seperti menampilkan pesan sukses atau error
+        router.push({path: "/UserOrder"})
+        toast.success("Sukses Masuk Keranjang", {
+          type: "success",
+          position: "top-right",
+          duration: 3000,
+          dismissible: true,
+        });
     } catch (error) {
         console.error('Error adding to cart:', error);
-        // Tambahkan logika lainnya sesuai kebutuhan Anda, seperti menampilkan pesan error
+        toast.error("Gagal Masuk Keranjang", {
+          type: "error",
+          position: "top-right",
+          duration: 3000,
+          dismissible: true,
+        });
     }
 };
 
@@ -141,6 +150,21 @@ const tambahKeKeranjang = async (barang: Barang) => {
 </script>
 
 <template>
+  <Navbar :updateKeranjang="barangs" />
+    <!-- breadcrumb -->
+    <div class="mt-4">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-white p-2 rounded-md shadow-md">
+            <li class="breadcrumb-item">
+              <router-link to="/UserCatalog" class="text-blue-500">User Catalog</router-link>
+            </li>
+            <li class="breadcrumb-item">
+              <router-link to="/UserCatalog" class="text-blue-500">Account</router-link>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Keranjang</li>
+          </ol>
+        </nav>
+      </div>
     <div class="mt-20 sm:ml-5 h-full ">   
         <!-- Card -->
         <div class="grid grid-cols-1 md:grid-cols-6 gap-4 mb-4 items-center justify-between p-6 ">
