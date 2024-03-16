@@ -42,16 +42,14 @@
                     alt="Product"
                   />
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-gray"><strong>{{ keranjang.barangKeluar[0].id_barang }}</strong></td>
+                <td v-if="keranjang.barangKeluar && keranjang.barangKeluar[0]" class="px-6 py-4 whitespace-nowrap text-gray"><strong>{{ keranjang.barangKeluar[0].id_barang }}</strong></td>
                 <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangKeluar[0].nama_barang }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangKeluar[0].jenis_barang }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangKeluar[0].total_stock }}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-red-500 cursor-pointer">
-                  <i class="fas fa-trash text-red-500" @click="hapusKeranjang(keranjang.barangKeluar[0].id_barang)"></i>
+                  <button @click="removeItemFromKeranjang(index)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded">Delete</button>
                 </td>
-              </tr>
-
-              
+              </tr>    
             </tbody>
           </table>
         </div>
@@ -63,28 +61,37 @@
           <form @submit.prevent="checkout" class="bg-white shadow-md rounded-md p-6">
             <div class="mb-4">
               <label for="nama" class="text-gray-600">Nama Dosen :</label>
-              <input type="text" class="form-input mt-1 block w-full" v-model="pesan.nama_dosen" />
+              <input type="text" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="pesan.nama_dosen" />
             </div>
             <div class="mb-4">
               <label for="noMeja" class="text-gray-600">Nama Matakuliah :</label>
-              <input type="text" class="form-input mt-1 block w-full" v-model="pesan.nama_matakuliah" />
+              <input type="text" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="pesan.nama_matakuliah" />
             </div>
             <div class="mb-4">
               <label for="noMeja" class="text-gray-600">Prasat :</label>
-              <input type="text" class="form-input mt-1 block w-full" v-model="pesan.prasat" />
+              <input type="text" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="pesan.prasat" />
             </div>
             <div class="mb-4">
               <label for="noMeja" class="text-gray-600">Jam Praktek :</label>
-              <input type="text" class="form-input mt-1 block w-full" v-model="pesan.jam_praktek" />
+              <input type="text" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="pesan.jam_praktek" />
             </div>
             <div class="mb-4">
               <label for="noMeja" class="text-gray-600">Tanggal Praktek :</label>
-              <input type="text" class="form-input mt-1 block w-full" v-model="pesan.tanggal_praktek" />
+              <input type="text" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="pesan.tanggal_praktek" />
             </div>
 
-            <button type="submit" class="btn btn-success w-full">
+            <button @click="toggleSubmitModal" type="submit" class="btn btn-success w-full">
               Pesan
             </button>
+
+            <div v-if="isSubmitOpen" class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
+              <div class="bg-white p-8 rounded-lg">
+                <p>Pesanan Anda Akan di Proses</p>
+                <button @click="toggleSubmitModal" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  Close 
+                </button>
+              </div>
+            </div>
           </form>
         </div>
       </div>
@@ -93,28 +100,63 @@
 </template>
 
 <script setup lang="ts">
-import Navbar from "@components/Navbar.vue";
-import { ref, Ref, onMounted } from 'vue';
+import { ref, onMounted, defineComponent } from 'vue';
 import axios from "axios";
-import {useToast} from 'vue-toast-notification';
+import { useToast } from 'vue-toast-notification';
 import { useRouter } from 'vue-router';
+import Navbar from "@components/Navbar.vue";
+
+
+// const useSubmit = () => {
+//   const isSubmitOpen = ref(false);
+
+//   const toggleSubmit = () => {
+//     isSubmitOpen.value = !isSubmitOpen.value;
+//   };
+
+//   return {
+//     isSubmitOpen,
+//     toggleSubmit,
+//   };
+// };
+
+// const ModalExample = defineComponent({
+//   name: 'SubmitExample',
+//   setup() {
+//     const { isSubmitOpen, toggleSubmit } = useSubmit();
+
+//     return {
+//       isSubmitOpen,
+//       toggleSubmit,
+//     };
+//   },
+// });
+
+
 
 const router = useRouter();
 const toast = useToast();
+const isSubmitOpen = ref(false);
+
+interface BarangKeluar {
+  id_barang: string;
+  nama_barang: string;
+  jenis_barang: string;
+  total_stock: number;
+  gambar_barang: string;
+}
 
 interface Keranjang {
   id_keranjang: number;
-  barangKeluar: {
-    id_barang: string;
-    nama_barang: string;
-    jenis_barang: string;
-    total_stock: number;
-    gambar_barang: string;
-  }[];
+  barangKeluar: BarangKeluar[];
 }
 
-const keranjangs: Ref<Keranjang[]> = ref([]);
+const keranjangs = ref<Keranjang[]>([]);
 console.log(keranjangs)
+
+const setKeranjangs = (data: Keranjang[]) => {
+  keranjangs.value = data
+};
 
 const pesan = ref({
   nama_dosen: '', 
@@ -122,12 +164,9 @@ const pesan = ref({
   prasat: '', 
   jam_praktek: '',
   tanggal_praktek: '',
-  keranjangs: [] as Keranjang[]
+  keranjangs: []
 });
 
-const setKeranjangs = (data: Keranjang[]) => {
-  keranjangs.value = data;
-};
 
 
 const hapusKeranjang = async (id_barang: string) => {
@@ -146,34 +185,44 @@ const hapusKeranjang = async (id_barang: string) => {
   }
 };
 
+
+const removeItemFromKeranjang = async (id_keranjang: number) => {
+  try {
+    await axios.delete(`https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang/${id_keranjang}`);
+    keranjangs.value = keranjangs.value.filter((item: any) => item.id_keranjang !== id_keranjang);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
 const checkout = async () => {
-  if (pesan.value.nama_dosen && pesan.value.nama_matakuliah) {
-    pesan.value.keranjangs = keranjangs.value;
     try {
-      await axios.post("https://vjk2k0f5-5000.asse.devtunnels.ms/peminjamBarang", pesan.value);
-      await Promise.all(
-        keranjangs.value.map((item) =>
-          axios.delete(`https://vjk2k0f5-5000.asse.devtunnels.ms/keranjangs/${item.barangKeluar[0].id_barang}`)
-        )
-      );
-      router.push({ path: "/pesanan-sukses" });
-      toast.success("Sukses Dipesan", {
-        type: "success",
-        position: "top-right",
-        duration: 3000,
-        dismissible: true,
-      });
+      const requestData = {
+        nama_dosen: pesan.value.nama_dosen,
+        nama_matakuliah: pesan.value.nama_matakuliah,
+        prasat: pesan.value.prasat,
+        jam_praktek: pesan.value.jam_praktek,
+        tanggal_praktek: pesan.value.tanggal_praktek,
+        keranjangs: keranjangs.value.map(keranjang => ({
+          barangKeluar: {
+            id_barang: keranjang.barangKeluar[0].id_barang,
+            nama_barang: keranjang.barangKeluar[0].nama_barang,
+            total_stock: keranjang.barangKeluar[0].total_stock,
+            jenis_barang: keranjang.barangKeluar[0].jenis_barang,
+            gambar_barang: keranjang.barangKeluar[0].gambar_barang
+          }
+        }))
+      };
+
+      await axios.post("https://vjk2k0f5-5000.asse.devtunnels.ms/peminjamBarang", requestData);
+      // Remove items from the keranjang after successfully placing the order
+      await Promise.all(keranjangs.value.map((item: any) => removeItemFromKeranjang(item.id_keranjang)));
+      
+      isSubmitOpen.value = true;
     } catch (err) {
       console.log(err);
     }
-  } else {
-    toast.error("Nama dan Nomor Meja Harus diisi", {
-      type: "error",
-      position: "top-right",
-      duration: 3000,
-      dismissible: true,
-    });
-  }
 };
 
 onMounted(async () => {
@@ -186,14 +235,8 @@ onMounted(async () => {
   }
 });
 
-</script>
 
-<style>
-.breadcrumb-item a:hover {
-  text-decoration: underline;
-}
-.breadcrumb-item a.active {
-  color: #333;
-  pointer-events: none;
-}
-</style>
+const toggleSubmitModal = () => {
+  isSubmitOpen.value = !isSubmitOpen.value;
+};
+</script>
