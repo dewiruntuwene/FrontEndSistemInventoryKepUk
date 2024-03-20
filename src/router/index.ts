@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from "vue-router"
 
 
 const routes = {
-  
 
   children: [
     {
@@ -57,7 +56,11 @@ const routes = {
     {
       path: '/layout',
       component: () => import('../components/layout.vue')
-    }
+    },
+    {
+      path: '/NavBar',
+      component: () => import('../components/NavBar.vue')
+    },
   ]
 }
 
@@ -66,5 +69,5 @@ const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [ routes ], 
   })
-
+  
 export default router

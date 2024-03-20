@@ -49,7 +49,7 @@ onMounted(async () => {
     const response = await axios.get('https://vjk2k0f5-5000.asse.devtunnels.ms/barang');
     barangs.value = normalizeResponseToBarang(response.data);
 
-    console.log(response)
+    // console.log(response)
 
     // Pastikan bahwa barangs sudah terisi dengan nilai yang valid sebelum mengaksesnya
     if (barangs.value) {
@@ -99,7 +99,7 @@ const tambahKeKeranjang = async (barang: Barang) => {
 
         console.log('Data Barang', barang);
         const response = await axios.post('https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang', {
-          barangKeluar: 
+          barangKeranjang: 
             {
               id_barang: barang.id_barang,
               nama_barang: barang.nama_barang,

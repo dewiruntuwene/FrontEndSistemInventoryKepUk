@@ -42,7 +42,7 @@
                     alt="Product"
                   />
                 </td>
-                <td v-if="keranjang.barangKeluar && keranjang.barangKeluar[0]" class="px-6 py-4 whitespace-nowrap text-gray"><strong>{{ keranjang.barangKeluar[0].id_barang }}</strong></td>
+                <td v-if="keranjang.barangKeluar[0] && keranjang.barangKeluar[0]" class="px-6 py-4 whitespace-nowrap text-gray"><strong>{{ keranjang.barangKeluar[0].id_barang }}</strong></td>
                 <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangKeluar[0].nama_barang }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangKeluar[0].jenis_barang }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangKeluar[0].total_stock }}</td>
@@ -166,7 +166,6 @@ const pesan = ref({
   tanggal_praktek: '',
   keranjangs: []
 });
-
 
 
 const hapusKeranjang = async (id_barang: string) => {

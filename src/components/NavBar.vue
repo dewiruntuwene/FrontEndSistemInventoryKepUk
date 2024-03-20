@@ -9,11 +9,20 @@
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
               <router-link to="/" class="text-gray-800 hover:text-gray-600">Home</router-link>
-              <router-link to="/UserCatalog" class="text-gray-800 hover:text-gray-600">Foods</router-link>
+              <router-link to="/UserCatalog" class="text-gray-800 hover:text-gray-600">Catalog Barang</router-link>
+              <div class="md:w-32 lg:w-48">
+                <input type="text" class="w-96 rounded-full pl-3 py-1" placeholder="Search">
+              </div>
+              <div class="flex-row ">
+              <router-link to="/logout">
+                <a href="#" class="inline-block text-sm px-4 py-2 leading-none border-black rounded text-black border-white hover:border-transparent hover:text-natural-900 hover:bg-white mt-4 lg:mt-0">Logout</a>
+              </router-link>
+          </div>
             </div>
           </div>
-          <div class="ml-auto">
-            <div class="flex items-center space-x-4">
+          
+          <div class="ml-auto flex">
+            <div class="flex items-center space-x-4 ">
               <router-link to="/UserOrder" class="relative text-gray-800 hover:text-gray-600">
                 <span>Keranjang</span>
                 <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -39,7 +48,7 @@ const jumlah_pesanans = ref([]);
 const updateKeranjang = ref([]);
 
 const setJumlah = (data: any[]) => {
-  jumlah_pesanans.value = data;
+  total_stock.value = data;
 };
 
 onMounted(() => {
