@@ -33,19 +33,19 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
-              <tr v-for="(keranjang, index) in keranjangs" :key="keranjang.barangKeluar[0].id_barang" class="bg-white">
+              <tr v-for="(keranjang, index) in keranjangs" :key="keranjang.transaksiBarang.barang.id_barang" class="bg-white">
                 <td class="px-6 py-4 whitespace-nowrap">{{ index + 1 }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <img
-                    :src="`${keranjang.barangKeluar[0].gambar_barang}`"
+                    :src="`${keranjang.transaksiBarang.barang.gambar_barang}`"
                     class="w-24 h-24 object-cover rounded-md shadow-md"
                     alt="Product"
                   />
                 </td>
-                <td v-if="keranjang.barangKeluar[0] && keranjang.barangKeluar[0]" class="px-6 py-4 whitespace-nowrap text-gray"><strong>{{ keranjang.barangKeluar[0].id_barang }}</strong></td>
-                <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangKeluar[0].nama_barang }}</td>
-                <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangKeluar[0].jenis_barang }}</td>
-                <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangKeluar[0].total_stock }}</td>
+                <td v-if="keranjang.transaksiBarang.barang && keranjang.transaksiBarang.barang" class="px-6 py-4 whitespace-nowrap text-gray"><strong>{{ keranjang.transaksiBarang.barang.id_barang }}</strong></td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.transaksiBarang.barang.nama_barang }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.transaksiBarang.barang.jenis_barang }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.transaksiBarang.barang.total_stock }}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-red-500 cursor-pointer">
                   <button @click="removeItemFromKeranjang(index)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded">Delete</button>
                 </td>
@@ -105,6 +105,7 @@ import axios from "axios";
 import { useToast } from 'vue-toast-notification';
 import { useRouter } from 'vue-router';
 import Navbar from "@components/Navbar.vue";
+import { Barang, TransaksiBarang } from "../pages/UserCatalog.vue";
 
 
 // const useSubmit = () => {
@@ -138,17 +139,11 @@ const router = useRouter();
 const toast = useToast();
 const isSubmitOpen = ref(false);
 
-interface BarangKeluar {
-  id_barang: string;
-  nama_barang: string;
-  jenis_barang: string;
-  total_stock: number;
-  gambar_barang: string;
-}
+
 
 interface Keranjang {
   id_keranjang: number;
-  barangKeluar: BarangKeluar[];
+  transaksiBarang: TransaksiBarang;
 }
 
 const keranjangs = ref<Keranjang[]>([]);
@@ -204,14 +199,17 @@ const checkout = async () => {
         jam_praktek: pesan.value.jam_praktek,
         tanggal_praktek: pesan.value.tanggal_praktek,
         keranjangs: keranjangs.value.map(keranjang => ({
-          barangKeluar: {
-            id_barang: keranjang.barangKeluar[0].id_barang,
-            nama_barang: keranjang.barangKeluar[0].nama_barang,
-            total_stock: keranjang.barangKeluar[0].total_stock,
-            jenis_barang: keranjang.barangKeluar[0].jenis_barang,
-            gambar_barang: keranjang.barangKeluar[0].gambar_barang
+          transaksiBarang: {
+            type: keranjang.transaksiBarang.type,
+            barang: {
+              id_barang: keranjang.transaksiBarang.barang.id_barang,
+              nama_barang: keranjang.transaksiBarang.barang.nama_barang,
+              total_stock: keranjang.transaksiBarang.barang.total_stock,
+              jenis_barang: keranjang.transaksiBarang.barang.jenis_barang,
+              gambar_barang: keranjang.transaksiBarang.barang.gambar_barang
+            }
           }
-        }))
+  }))
       };
 
       await axios.post("https://vjk2k0f5-5000.asse.devtunnels.ms/peminjamBarang", requestData);
