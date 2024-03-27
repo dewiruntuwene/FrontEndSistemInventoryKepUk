@@ -6,6 +6,7 @@ import layout  from '@components/layout.vue';
 import axios from 'axios';
 import {useToast} from 'vue-toast-notification';
 import Navbar from "@components/Navbar.vue";
+import { BarangKeluar } from './BarangKeluar.vue';
 
 // Definisikan props dengan tipe Barang
 // expor const props = defineProps({
@@ -26,6 +27,12 @@ export interface Barang {
   path: string
 }
 
+export interface TransaksiBarang {
+  barangId: string;
+  type: 'BarangKeluar';
+  barang: Barang;
+}
+const transaksiBarang = ref<TransaksiBarang[]>();
 const barangs = ref<Barang[]>();
 
 // Langkah 2 dan 3: Isi objek Barang dengan data respons
@@ -40,7 +47,6 @@ const normalizeResponseToBarang = (response: any): Barang[] => {
     gambar_barang: item.gambar_barang,
   }));
 };
-
 
 
 // Langkah 4: Panggil fungsi normalizeResponseToBarang dengan respons yang diterima
@@ -78,6 +84,7 @@ const filteredBarangs = computed(() => barangs.value);
 // }
 
 
+
 // Fungsi untuk menambahkan barang ke keranjang
 const tambahKeKeranjang = async (barang: Barang) => {
     try {
@@ -97,16 +104,23 @@ const tambahKeKeranjang = async (barang: Barang) => {
           console.log('id_barang valid')
         }
 
+        const transaksiBarang: TransaksiBarang = {
+          barangId: barang.id_barang,
+          type: 'BarangKeluar',
+          barang: {
+            id_barang: barang.id_barang,
+            nama_barang: barang.nama_barang,
+            jenis_barang: barang.jenis_barang,
+            total_stock: barang.total_stock,
+            gambar_barang: barang.path,
+            path: barang.path
+          },
+        };
+
+
         console.log('Data Barang', barang);
         const response = await axios.post('https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang', {
-          barangKeranjang: 
-            {
-              id_barang: barang.id_barang,
-              nama_barang: barang.nama_barang,
-              total_stock: barang.total_stock,
-              jenis_barang: barang.jenis_barang,
-              gambar_barang: barang.path
-            }
+          transaksiBarang
               
         });
         router.push({path: "/UserOrder"})
