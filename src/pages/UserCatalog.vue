@@ -6,7 +6,7 @@ import layout  from '@components/layout.vue';
 import axios from 'axios';
 import {useToast} from 'vue-toast-notification';
 import Navbar from "@components/Navbar.vue";
-import { BarangKeluar } from './BarangKeluar.vue';
+
 
 // Definisikan props dengan tipe Barang
 // expor const props = defineProps({
@@ -24,16 +24,23 @@ export interface Barang {
   jenis_barang: string,
   total_stock: string,
   gambar_barang: string,
-  path: string
+  harga_barang: Number
+
 }
 
-export interface TransaksiBarang {
-  barangId: string;
-  type: 'BarangKeluar';
-  barang: Barang;
+export interface Keranjang {
+  id_keranjang: Number;
+  barangs: Barang;
+  jumlah_barang: Number;
+  barangId: String;
 }
-const transaksiBarang = ref<TransaksiBarang[]>();
-const barangs = ref<Barang[]>();
+
+const pesan = ref({
+  jumlah_barang: null, 
+});
+
+const transaksiBarang = ref<Keranjang[]>();
+const barang = ref<Barang[]>();
 
 // Langkah 2 dan 3: Isi objek Barang dengan data respons
 const normalizeResponseToBarang = (response: any): Barang[] => {
@@ -53,13 +60,13 @@ const normalizeResponseToBarang = (response: any): Barang[] => {
 onMounted(async () => {
   try {
     const response = await axios.get('https://vjk2k0f5-5000.asse.devtunnels.ms/barang');
-    barangs.value = normalizeResponseToBarang(response.data);
+    barang.value = normalizeResponseToBarang(response.data);
 
     // console.log(response)
 
     // Pastikan bahwa barangs sudah terisi dengan nilai yang valid sebelum mengaksesnya
-    if (barangs.value) {
-      barangs.value.forEach((barang) => {
+    if (barang.value) {
+      barang.value.forEach((barang) => {
         console.log(barang.id_barang);
       });
     } else {
@@ -71,7 +78,7 @@ onMounted(async () => {
 
 });
 
-const filteredBarangs = computed(() => barangs.value);
+const filteredBarangs = computed(() => barang.value);
 
 
 
@@ -87,10 +94,12 @@ const filteredBarangs = computed(() => barangs.value);
 
 // Fungsi untuk menambahkan barang ke keranjang
 const tambahKeKeranjang = async (barang: Barang) => {
+  const baseUrl = 'http://localhost:5000';
     try {
        // Pastikan barang adalah objek yang valid
-       if (!barang || typeof barang !== 'object') {
-            console.error('Barang tidak valid');
+         // Pastikan barang adalah objek yang valid dan memiliki properti 'id_barang'
+         if (!barang || typeof barang !== 'object' || !barang.id_barang) {
+            console.error('Barang tidak valid atau tidak memiliki id_barang');
             return;
         } else{
           console.log('barang valid')
@@ -104,24 +113,19 @@ const tambahKeKeranjang = async (barang: Barang) => {
           console.log('id_barang valid')
         }
 
-        const transaksiBarang: TransaksiBarang = {
-          barangId: barang.id_barang,
-          type: 'BarangKeluar',
-          barang: {
-            id_barang: barang.id_barang,
-            nama_barang: barang.nama_barang,
-            jenis_barang: barang.jenis_barang,
-            total_stock: barang.total_stock,
-            gambar_barang: barang.path,
-            path: barang.path
-          },
-        };
-
-
+       
         console.log('Data Barang', barang);
         const response = await axios.post('https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang', {
-          transaksiBarang
-              
+            jumlah_barang: pesan.value.jumlah_barang,
+            barangId: barang.id_barang,
+            barang: {
+                id_barang: barang.id_barang,
+                nama_barang: barang.nama_barang,
+                total_stock: barang.total_stock,
+                jenis_barang: barang.jenis_barang,
+                gambar_barang: `${baseUrl}/uploads/${barang.gambar_barang}`,
+                harga_barang: barang.harga_barang
+            },   
         });
         router.push({path: "/UserOrder"})
         toast.success("Sukses Masuk Keranjang", {
@@ -164,7 +168,7 @@ const tambahKeKeranjang = async (barang: Barang) => {
 </script>
 
 <template>
-  <Navbar :updateKeranjang="barangs" />
+  <Navbar :updateKeranjang="barang" />
     <!-- breadcrumb -->
     <div class="mt-4">
         <nav aria-label="breadcrumb">
