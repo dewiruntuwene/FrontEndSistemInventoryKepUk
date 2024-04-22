@@ -54,8 +54,8 @@ const routes = {
       component: () => import('../components/CardBarang.vue')
     },
     {
-      path: '/layout',
-      component: () => import('../components/layout.vue')
+      path: '/Layout',
+      component: () => import('../components/Layout.vue')
     },
     {
       path: '/NavBar',
