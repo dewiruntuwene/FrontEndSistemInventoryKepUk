@@ -28,24 +28,26 @@
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID BARANG</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NAMA BARANG</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">JENIS BARANG</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">TOTAL STOCK</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">JUMLAH BARANG</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hapus</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
-              <tr v-for="(keranjang, index) in keranjangs" :key="keranjang.transaksiBarang.barang.id_barang" class="bg-white">
+              <tr v-for="(keranjang, index) in keranjangs" :key="keranjang.barangs.id_barang" class="bg-white">
                 <td class="px-6 py-4 whitespace-nowrap">{{ index + 1 }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <img
-                    :src="`${keranjang.transaksiBarang.barang.gambar_barang}`"
+                    :src="`${keranjang.barangs.gambar_barang}`"
                     class="w-24 h-24 object-cover rounded-md shadow-md"
                     alt="Product"
                   />
                 </td>
-                <td v-if="keranjang.transaksiBarang.barang && keranjang.transaksiBarang.barang" class="px-6 py-4 whitespace-nowrap text-gray"><strong>{{ keranjang.transaksiBarang.barang.id_barang }}</strong></td>
-                <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.transaksiBarang.barang.nama_barang }}</td>
-                <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.transaksiBarang.barang.jenis_barang }}</td>
-                <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.transaksiBarang.barang.total_stock }}</td>
+                <td v-if="keranjang.barangs && keranjang.barangs" class="px-6 py-4 whitespace-nowrap text-gray"><strong>{{ keranjang.barangs.id_barang }}</strong></td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangs.nama_barang }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangs.jenis_barang }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <input type="number" class="form-input mt-1 block w-full border border-gray-300 rounded" :key="pesan.jumlah_barang"/>
+                </td>
                 <td class="px-6 py-4 whitespace-nowrap text-red-500 cursor-pointer">
                   <button @click="removeItemFromKeranjang(index)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded">Delete</button>
                 </td>
@@ -60,11 +62,11 @@
         <div class="w-full md:w-1/3">
           <form @submit.prevent="checkout" class="bg-white shadow-md rounded-md p-6">
             <div class="mb-4">
-              <label for="nama" class="text-gray-600">Nama Dosen :</label>
+              <label for="namaDosen" class="text-gray-600">Nama Dosen :</label>
               <input type="text" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="pesan.nama_dosen" />
             </div>
             <div class="mb-4">
-              <label for="noMeja" class="text-gray-600">Nama Matakuliah :</label>
+              <label for="namaMatakuliah" class="text-gray-600">Nama Matakuliah :</label>
               <input type="text" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="pesan.nama_matakuliah" />
             </div>
             <div class="mb-4">
@@ -80,7 +82,7 @@
               <input type="text" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="pesan.tanggal_praktek" />
             </div>
 
-            <button @click="toggleSubmitModal" type="submit" class="btn btn-success w-full">
+            <button @click="toggleSubmitModal" type="submit" class="btn btn-success w-full bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded mt-2">
               Pesan
             </button>
 
@@ -97,6 +99,7 @@
       </div>
     </div>
   </div>
+  <RouterView />
 </template>
 
 <script setup lang="ts">
@@ -105,7 +108,7 @@ import axios from "axios";
 import { useToast } from 'vue-toast-notification';
 import { useRouter } from 'vue-router';
 import Navbar from "@components/Navbar.vue";
-import { Barang, TransaksiBarang } from "../pages/UserCatalog.vue";
+import { Barang, Keranjang } from "../pages/UserCatalog.vue";
 
 
 // const useSubmit = () => {
@@ -134,17 +137,10 @@ import { Barang, TransaksiBarang } from "../pages/UserCatalog.vue";
 // });
 
 
-
 const router = useRouter();
 const toast = useToast();
 const isSubmitOpen = ref(false);
 
-
-
-interface Keranjang {
-  id_keranjang: number;
-  transaksiBarang: TransaksiBarang;
-}
 
 const keranjangs = ref<Keranjang[]>([]);
 console.log(keranjangs)
@@ -153,13 +149,19 @@ const setKeranjangs = (data: Keranjang[]) => {
   keranjangs.value = data
 };
 
+
 const pesan = ref({
   nama_dosen: '', 
   nama_matakuliah: '', 
   prasat: '', 
   jam_praktek: '',
   tanggal_praktek: '',
+  jumlah_barang: 0, 
   keranjangs: []
+});
+
+const pesan_keranjang = ref({
+  jumlah_barang: 0, 
 });
 
 
@@ -190,7 +192,7 @@ const removeItemFromKeranjang = async (id_keranjang: number) => {
 };
 
 
-const checkout = async () => {
+const checkout = async (id_keranjang: number) => {
     try {
       const requestData = {
         nama_dosen: pesan.value.nama_dosen,
@@ -198,23 +200,16 @@ const checkout = async () => {
         prasat: pesan.value.prasat,
         jam_praktek: pesan.value.jam_praktek,
         tanggal_praktek: pesan.value.tanggal_praktek,
-        keranjangs: keranjangs.value.map(keranjang => ({
-          transaksiBarang: {
-            type: keranjang.transaksiBarang.type,
-            barang: {
-              id_barang: keranjang.transaksiBarang.barang.id_barang,
-              nama_barang: keranjang.transaksiBarang.barang.nama_barang,
-              total_stock: keranjang.transaksiBarang.barang.total_stock,
-              jenis_barang: keranjang.transaksiBarang.barang.jenis_barang,
-              gambar_barang: keranjang.transaksiBarang.barang.gambar_barang
-            }
-          }
-  }))
+        // keranjangs: {
+        //   // pesan_keranjang.value.jumlah_barang
+        // }
       };
+
+      await axios.patch(`https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang${id_keranjang}`, {jumlah_barang: pesan.jumlah_barang})
 
       await axios.post("https://vjk2k0f5-5000.asse.devtunnels.ms/peminjamBarang", requestData);
       // Remove items from the keranjang after successfully placing the order
-      await Promise.all(keranjangs.value.map((item: any) => removeItemFromKeranjang(item.id_keranjang)));
+      // await Promise.all(keranjangs.value.map((item: any) => removeItemFromKeranjang(item.id_keranjang)));
       
       isSubmitOpen.value = true;
     } catch (err) {
