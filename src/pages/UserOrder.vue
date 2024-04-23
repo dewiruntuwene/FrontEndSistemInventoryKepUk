@@ -59,44 +59,57 @@
 
       <!-- Form Checkout -->
       <div class="mt-8 flex justify-end">
-        <div class="w-full md:w-1/3">
-          <form @submit.prevent="checkout" class="bg-white shadow-md rounded-md p-6">
-            <div class="mb-4">
-              <label for="namaDosen" class="text-gray-600">Nama Dosen :</label>
-              <input type="text" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="pesan.nama_dosen" />
-            </div>
-            <div class="mb-4">
-              <label for="namaMatakuliah" class="text-gray-600">Nama Matakuliah :</label>
-              <input type="text" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="pesan.nama_matakuliah" />
-            </div>
-            <div class="mb-4">
-              <label for="noMeja" class="text-gray-600">Prasat :</label>
-              <input type="text" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="pesan.prasat" />
-            </div>
-            <div class="mb-4">
-              <label for="noMeja" class="text-gray-600">Jam Praktek :</label>
-              <input type="text" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="pesan.jam_praktek" />
-            </div>
-            <div class="mb-4">
-              <label for="noMeja" class="text-gray-600">Tanggal Praktek :</label>
-              <input type="text" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="pesan.tanggal_praktek" />
-            </div>
+          <div class="w-full md:w-1/3">
+              <form @submit.prevent="checkout" class="bg-white shadow-md rounded-md p-6">
+                  <div class="mb-4">
+                      <label for="namaDosen" class="text-gray-600">Nama Dosen :</label>
+                      <input type="text" class="form-input mt-1 block w-full border rounded border-gray-300"
+                          :class="{ 'border-red-500': !pesan.nama_dosen }" v-model="pesan.nama_dosen" />
+                      <p v-if="!pesan.nama_dosen" class="text-red-500 text-xs italic">Nama Dosen wajib diisi</p>
+                  </div>
+                  <div class="mb-4">
+                      <label for="namaMatakuliah" class="text-gray-600">Nama Matakuliah :</label>
+                      <input type="text" class="form-input mt-1 block w-full border rounded border-gray-300"
+                          :class="{ 'border-red-500': !pesan.nama_matakuliah }" v-model="pesan.nama_matakuliah" />
+                      <p v-if="!pesan.nama_matakuliah" class="text-red-500 text-xs italic">Nama Matakuliah wajib diisi</p>
+                  </div>
+                  <div class="mb-4">
+                      <label for="noMeja" class="text-gray-600">Prasat :</label>
+                      <input type="text" class="form-input mt-1 block w-full border rounded border-gray-300"
+                          :class="{ 'border-red-500': !pesan.prasat }" v-model="pesan.prasat" />
+                      <p v-if="!pesan.prasat" class="text-red-500 text-xs italic">Prasat wajib diisi</p>
+                  </div>
+                  <div class="mb-4">
+                      <label for="noMeja" class="text-gray-600">Jam Praktek :</label>
+                      <input type="text" class="form-input mt-1 block w-full border rounded border-gray-300"
+                          :class="{ 'border-red-500': !pesan.jam_praktek }" v-model="pesan.jam_praktek" />
+                      <p v-if="!pesan.jam_praktek" class="text-red-500 text-xs italic">Jam Praktek wajib diisi</p>
+                  </div>
+                  <div class="mb-4">
+                      <label for="noMeja" class="text-gray-600">Tanggal Praktek :</label>
+                      <input type="text" class="form-input mt-1 block w-full border rounded border-gray-300"
+                          :class="{ 'border-red-500': !pesan.tanggal_praktek }" v-model="pesan.tanggal_praktek" />
+                      <p v-if="!pesan.tanggal_praktek" class="text-red-500 text-xs italic">Tanggal Praktek wajib diisi</p>
+                  </div>
 
-            <button @click="toggleSubmitModal" type="submit" class="btn btn-success w-full bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded mt-2">
-              Pesan
-            </button>
+                  <button @click="toggleSubmitModal" type="submit"
+                      class="btn btn-success w-full bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded mt-2">
+                      Pesan
+                  </button>
 
-            <div v-if="isSubmitOpen" class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
-              <div class="bg-white p-8 rounded-lg">
-                <p>Pesanan Anda Akan di Proses</p>
-                <button @click="toggleSubmitModal" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                  Close 
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
+                  <div v-if="isSubmitOpen" class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
+                      <div class="bg-white p-8 rounded-lg">
+                          <p>Pesanan Anda Akan di Proses</p>
+                          <button @click="toggleSubmitModal"
+                              class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                              Close
+                          </button>
+                      </div>
+                  </div>
+              </form>
+          </div>
       </div>
+
     </div>
   </div>
   <RouterView />
@@ -145,12 +158,17 @@ const isSubmitOpen = ref(false);
 const keranjangs = ref<Keranjang[]>([]);
 console.log(keranjangs)
 
+interface PesanKeranjang {
+  jumlah_barang: number;
+  // Properti lain yang mungkin ada
+}
+
 const pesan_keranjang = ref({
   jumlah_barang: Array(keranjangs.value.length).fill(0), 
 });
 
 const setKeranjangs = (data: Keranjang[]) => {
-  keranjangs.value = data;
+  keranjangs.value = data.map((item) => ({ ...item, jumlah_barang: 0 })); // Initialize quantity to 0 for each item;
 };
 
 const pesan = ref({
@@ -159,6 +177,7 @@ const pesan = ref({
   prasat: '', 
   jam_praktek: '',
   tanggal_praktek: '',
+  jumlah_barang: 0,
   keranjangs: []
 });
 
@@ -196,9 +215,17 @@ const removeItemFromKeranjang = async (id_keranjang: number) => {
 
 const updateKeranjang = async (id_keranjang: number) => {
         try {
-          await axios.patch(`https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang/${id_keranjang}`,
-          {jumlah_barang: pesan_keranjang.value.jumlah_barang}
-        );
+          // find the index of the item in keranjangs.value that matches the id_keranjang
+          const itemIndex = keranjangs.value.findIndex(item => item.id_keranjang === id_keranjang);
+          
+          // If the item exists (findIndex doesn't return -1), we create an update data object containing the specific jumlah_barang
+          // from pesan_keranjang.value.jumlah_barang at the corresponding index.
+          if (itemIndex !== -1) {
+            const updateData = {
+              jumlah_barang: pesan_keranjang.value.jumlah_barang[itemIndex]
+            };
+            await axios.patch(`https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang/${id_keranjang}`, updateData);
+          }
         } catch (error) {
           console.log(error);
         }
@@ -207,9 +234,26 @@ const updateKeranjang = async (id_keranjang: number) => {
 
 const checkout = async () => {
     try {
-      //Update items from the keranjang 
-      await Promise.all(keranjangs.value.map((item: any) => updateKeranjang(item.id_keranjang)));
+
+      // Validasi untuk setiap item dalam keranjang
+      const isAnyItemNotFilled = keranjangs.value.some((item) => item.jumlah_barang === 0);
       
+      // Jika ada item yang tidak diisi, tampilkan pesan kesalahan
+      if (isAnyItemNotFilled) {
+        toast.error("Semua jumlah barang harus diisi", {
+          type: "error",
+          position: "top-right",
+          duration: 3000,
+          dismissible: true,
+        });
+        return; // Stop the function execution
+      }
+
+      // Update items from the keranjang 
+      await Promise.all(keranjangs.value.map(async (item: any) => {
+        await updateKeranjang(item.id_keranjang);
+      }));
+
       const requestData = {
         nama_dosen: pesan.value.nama_dosen,
         nama_matakuliah: pesan.value.nama_matakuliah,
@@ -223,9 +267,7 @@ const checkout = async () => {
 
 
       await axios.post("https://vjk2k0f5-5000.asse.devtunnels.ms/peminjamBarang", requestData);
-      //Update items from the keranjang 
-      await Promise.all(keranjangs.value.map((item: any) => updateKeranjang(item.id_keranjang)));
-      
+     
       isSubmitOpen.value = true;
     } catch (err) {
       console.log(err);
