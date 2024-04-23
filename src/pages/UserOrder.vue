@@ -46,7 +46,7 @@
                 <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangs.nama_barang }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangs.jenis_barang }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <input type="number" class="form-input mt-1 block w-full border border-gray-300 rounded" :key="pesan.jumlah_barang"/>
+                  <input type="number" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="pesan_keranjang.jumlah_barang[index]"/> 
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-red-500 cursor-pointer">
                   <button @click="removeItemFromKeranjang(index)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded">Delete</button>
@@ -145,10 +145,13 @@ const isSubmitOpen = ref(false);
 const keranjangs = ref<Keranjang[]>([]);
 console.log(keranjangs)
 
-const setKeranjangs = (data: Keranjang[]) => {
-  keranjangs.value = data
-};
+const pesan_keranjang = ref({
+  jumlah_barang: Array(keranjangs.value.length).fill(0), 
+});
 
+const setKeranjangs = (data: Keranjang[]) => {
+  keranjangs.value = data;
+};
 
 const pesan = ref({
   nama_dosen: '', 
@@ -156,18 +159,14 @@ const pesan = ref({
   prasat: '', 
   jam_praktek: '',
   tanggal_praktek: '',
-  jumlah_barang: 0, 
   keranjangs: []
 });
 
-const pesan_keranjang = ref({
-  jumlah_barang: 0, 
-});
 
 
-const hapusKeranjang = async (id_barang: string) => {
+const hapusKeranjang = async (id_keranjang: number) => {
   try {
-    await axios.delete(`https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang${id_barang}`);
+    await axios.delete(`https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang/${id_keranjang}`);
     toast.error("Sukses Hapus Keranjang", {
       type: "error",
       position: "top-right",
@@ -191,9 +190,26 @@ const removeItemFromKeranjang = async (id_keranjang: number) => {
   }
 };
 
+// const updateJumlahBarang = (index:number, newValue:number) => {
+//   pesan.value.jumlah_barang = newValue;
+// };
 
-const checkout = async (id_keranjang: number) => {
+const updateKeranjang = async (id_keranjang: number) => {
+        try {
+          await axios.patch(`https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang/${id_keranjang}`,
+          {jumlah_barang: pesan_keranjang.value.jumlah_barang}
+        );
+        } catch (error) {
+          console.log(error);
+        }
+};
+
+
+const checkout = async () => {
     try {
+      //Update items from the keranjang 
+      await Promise.all(keranjangs.value.map((item: any) => updateKeranjang(item.id_keranjang)));
+      
       const requestData = {
         nama_dosen: pesan.value.nama_dosen,
         nama_matakuliah: pesan.value.nama_matakuliah,
@@ -205,11 +221,10 @@ const checkout = async (id_keranjang: number) => {
         // }
       };
 
-      await axios.patch(`https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang${id_keranjang}`, {jumlah_barang: pesan.jumlah_barang})
 
       await axios.post("https://vjk2k0f5-5000.asse.devtunnels.ms/peminjamBarang", requestData);
-      // Remove items from the keranjang after successfully placing the order
-      // await Promise.all(keranjangs.value.map((item: any) => removeItemFromKeranjang(item.id_keranjang)));
+      //Update items from the keranjang 
+      await Promise.all(keranjangs.value.map((item: any) => updateKeranjang(item.id_keranjang)));
       
       isSubmitOpen.value = true;
     } catch (err) {
