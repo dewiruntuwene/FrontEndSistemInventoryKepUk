@@ -6,9 +6,9 @@
           <div class="flex-shrink-0">
             <router-link to="/" class="text-xl font-bold text-gray-800">Sistem Inventory</router-link>
           </div>
+        
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
-              <router-link to="/" class="text-gray-800 hover:text-gray-600">Home</router-link>
               <router-link to="/UserCatalog" class="text-gray-800 hover:text-gray-600">Catalog Barang</router-link>
               <div class="md:w-32 lg:w-48">
                 <input type="text" class="w-96 rounded-full pl-3 py-1" placeholder="Search">
@@ -21,18 +21,32 @@
             </div>
           </div>
           
-          <div class="ml-auto flex">
+          <!-- <div class="ml-auto flex">
             <div class="flex items-center space-x-4 ">
               <router-link to="/UserOrder" class="relative text-gray-800 hover:text-gray-600">
-                <span>Keranjang</span>
-                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                  <path d="M12 14l9-5-9-5-9 5 9 5z" />
-                  <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="file: mt-4 h-6 w-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                 </svg>
-                <span class="bg-green-500 text-white rounded-full px-2 py-1">{{ updateKeranjang ? updateKeranjang.length : jumlah_pesanans.length }}</span>
+                <span class="bg-green-500 text-white rounded-full px-2 py-1">{{ updateKeranjang ? updateKeranjang.length : keranjangs.length }}</span>
               </router-link>
             </div>
+          </div> -->
+
+          <!-- component -->
+          <div class="h-screen flex items-center">
+            <div class="relative py-2">
+            <div class="t-0 absolute left-3">
+              <p class="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white">{{ keranjangs.length }}</p>
+            </div>
+            <router-link to="/UserOrder" class="relative text-gray-800 hover:text-gray-600">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="file: mt-4 h-6 w-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+              </svg> 
+              
+            </router-link>
           </div>
+          </div>
+          
         </div>
       </div>
     </nav>
@@ -42,13 +56,14 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { Keranjang } from "../pages/UserCatalog.vue";
 
-const jumlah_pesanans = ref([]);
+const keranjangs = ref<Keranjang[]>([]);
 
 const updateKeranjang = ref([]);
 
 const setJumlah = (data: any[]) => {
-  total_stock.value = data;
+  keranjangs.value = data;
 };
 
 onMounted(() => {
@@ -59,6 +74,4 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-/* Custom styles here */
-</style>
+
