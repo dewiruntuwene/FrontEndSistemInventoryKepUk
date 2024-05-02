@@ -1,4 +1,5 @@
 <template>
+  <Layout/>
   <div class="mt-16 pl-[15rem]">
     <div class="border-y-2 border-b-4 bg-blue-200  flex flex-row justify-between items-center p-5">
       <h1 class="text-4xl font-bold pa-3">Data Peminjam</h1>
@@ -11,7 +12,7 @@
     </div>
 
     <!-- Tabel -->
-    <div class="container max-w-4xl mx-auto mr-px mt-4 flex justify-left mb-4"> <!-- Menambahkan properti mt-4 untuk memindahkan ke bawah -->
+    <div class="container max-w-4xl mx-auto mr-px mt-4 flex justify-left mb-4 overflow-x-auto">
       <div class="bg-white shadow bg-blue-500 overflow-hidden sm:rounded-lg">
         <div class="overflow-x-auto mx-auto max-w-4xl mr-10 min-w-3.5 h-fit pt-2">
           <table class="min-w-full divide-y  divide-gray-200 justify-center">
@@ -22,34 +23,31 @@
                   ID Peminjam
                 </th>
                 <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
-                  ID Barang
-                </th>
-                <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
                   Nama Dosen
                 </th>
                 <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
                   Nama Mata Kuliah
                 </th>
                 <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
-                  Prasarat
+                  Prasat
                 </th>
                 <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
                   Jam Praktek
                 </th>
                 <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
-                  Tanggal Praktek
+                  Tanggal Pemngambilan
                 </th>
                 <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
-                  Tanggal Pengambilan
+                  Jumlah Barang 
+                </th>
+                <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
+                  Id Barang
                 </th>
                 <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
                   Nama Barang
                 </th>
                 <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
-                  Keterangan
-                </th>
-                <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">
-                  Jumlah Barang
+                  Jenis Barang
                 </th>
               </tr>
             </thead>
@@ -60,9 +58,6 @@
                 <!-- Isi Tabel -->
                 <td class="px-2 py-2 whitespace-nowrap">
                   <div class="text-xs text-gray-900">{{ item.idPeminjam }}</div>
-                </td>
-                <td class="px-2 py-2 whitespace-nowrap">
-                  <div class="text-xs text-gray-900">{{ item.idBarang }}</div>
                 </td>
                 <td class="px-2 py-2 whitespace-nowrap">
                   <div class="text-xs text-gray-900">{{ item.namaDosen }}</div>
@@ -77,20 +72,21 @@
                   <div class="text-xs text-gray-900">{{ item.jamPraktek }}</div>
                 </td>
                 <td class="px-2 py-2 whitespace-nowrap">
-                  <div class="text-xs text-gray-900">{{ item.tanggalPraktek }}</div>
-                </td>
-                <td class="px-2 py-2 whitespace-nowrap">
                   <div class="text-xs text-gray-900">{{ item.tanggalPengambilan }}</div>
                 </td>
                 <td class="px-2 py-2 whitespace-nowrap">
-                  <div class="text-xs text-gray-900">{{ item.keranjang .barangKeluar.namaBarang }}</div>
+                  <div class="text-xs text-gray-900">{{ item.jumlahBarang }}</div>
                 </td>
                 <td class="px-2 py-2 whitespace-nowrap">
-                  <div class="text-xs text-gray-900">{{ item.keranjang.barangKeluar.jenisBarang }}</div>
+                  <div class="text-xs text-gray-900">{{ item.idBarang }}</div>
                 </td>
                 <td class="px-2 py-2 whitespace-nowrap">
-                  <div class="text-xs text-gray-900">{{ item.keranjang.barangKeluar.totalstok }}</div>
+                  <div class="text-xs text-gray-900">{{ item.namaBarang }}</div>
                 </td>
+                <td class="px-2 py-2 whitespace-nowrap">
+                  <div class="text-xs text-gray-900">{{ item.jenisBarang }}</div>
+                </td>
+                
               </tr>
             </tbody>
           </table>
@@ -101,100 +97,77 @@
 </template>
 
 
-<script setup lang="ts">
+<script>
 import axios from 'axios';
-import { ref, onMounted, computed, Ref } from 'vue';
+import Layout from "@components/layout.vue";
 
-// Tipe data untuk item dalam array data
-interface DataItem {
-  idPeminjam: number;
-  idBarang: number;
-  namaDosen: string;
-  namaMataKuliah: string;
-  prasat: number;
-  jamPraktek: string;
-  tanggalPraktek: string;
-  tanggalPengambilan: string;
-  keranjang: {
-    barangKeluar: {
-      namaBarang: string;
-      jenisBarang: string;
-      totalstok: number;
-    }
-  }
-}
-
-// Membuat referensi dengan tipe DataItem[]
-const data: Ref<DataItem[]> = ref([]); // Menyimpan data yang diperoleh dari API
-
-// Membuat referensi dengan tipe string
-const sortKey = ref<string>(''); // Untuk menyimpan kunci sortir
-
-// Menyimpan aturan sortir untuk setiap kunci
-const sortOrders: Record<string, number> = {
-  idPeminjam: 1,
-  idBarang: 1,
-  namaDosen: 1,
-  namaMataKuliah: 1,
-  prasat: 1,
-  jamPraktek: 1,
-  tanggalPraktek: 1,
-  tanggalPengambilan: 1,
-  namaBarang: 1,
-  jenisBarang: 1,
-  totalstok: 1
-};
-
-// Membuat komputed dengan tipe DataItem[]
-const sortedData = computed<DataItem[]>(() => {
-  const key = sortKey.value as keyof DataItem;
-  const order = sortOrders[key] || 1;
-  return data.value.slice().sort((a, b) => {
-    // Mengakses nilai properti dengan aman menggunakan pengindeksan yang diberikan oleh keyof
-    const aValue: string = String(a[key]);
-    const bValue: string = String(b[key]);
-    return order * aValue.localeCompare(bValue);
-  });
-});
-
-
-async function fetchData(): Promise<void> {
-  try {
-    // Menggunakan Axios untuk mengambil data dari endpoint API
-    const response = await axios.get('https://vjk2k0f5-5000.asse.devtunnels.ms/peminjamBarang'); // Ganti URL_ENDPOINT dengan URL yang benar
-    data.value = response.data;
-    console.log(data.value)
-
-    // Mendapatkan elemen tbody dari tabel menggunakan query selector
-    const tbodyElement = document.querySelector('.min-w-full tbody') as HTMLTableSectionElement | null;
-
-    if (tbodyElement) {
-      // Mengosongkan isi tbody sebelum mengisi dengan data baru
-      tbodyElement.innerHTML = '';
-
-      // Loop melalui data dan menambahkan baris baru ke dalam tbody
-      data.value.forEach(item => {
-        const row = tbodyElement.insertRow();
-        Object.values(item).forEach(value => {
-          const cell = row.insertCell();
-          const text = document.createTextNode(String(value));
-          cell.appendChild(text);
-        });
+export default {
+  components: {
+    Layout 
+  },
+  data() {
+    return {
+      data: [],
+      sortKey: '',
+      sortOrders: {
+        idPeminjam: 1,
+        namaDosen: 1,
+        namaMataKuliah: 1,
+        prasat: 1,
+        jamPraktek: 1,
+        tanggalPemngambilan: 1,
+        jumlahBarang: 1,
+        idBarang: 1,
+        namaBarang: 1,
+        jenisBarang: 1
+      }
+    };
+  },
+  computed: {
+    sortedData() {
+      const key = this.sortKey;
+      const order = this.sortOrders[key] || 1;
+      return this.data.slice().sort((a, b) => {
+        a = a[key];
+        b = b[key];
+        // Periksa apakah nilai tidak null atau undefined sebelum mengonversinya menjadi string
+        if (a !== null && a !== undefined && b !== null && b !== undefined) {
+          // Jika nilai tidak null atau undefined, konversi ke string dan bandingkan
+          return order * (a.toString().localeCompare(b.toString()));
+        } else {
+          // Jika nilai null atau undefined, atur urutan ke nilai default (misalnya, 1)
+          return order;
+      }
       });
-    } else {
-      console.error('Error: tbody element not found');
     }
+  },
+  methods: {
+    async fetchData() {
+  try {
+    const response = await axios.get('https://vjk2k0f5-5000.asse.devtunnels.ms/peminjamBarang');
+    this.data = response.data.map(item => ({
+      idPeminjam: item.id_peminjam,
+      namaDosen: item.nama_dosen,
+      namaMataKuliah: item.nama_matakuliah,
+      prasat: item.prasat,
+      jamPraktek: item.jam_praktek,
+      tanggalPengambilan: item.tanggal_pengambilan,
+      jumlahBarang: item.keranjangs.jumlah_barang, // Ubah properti jumlahBarang
+      idBarang: item.keranjangs.barangs.id_barang,
+      namaBarang: item.keranjangs.barangs.nama_barang,
+      totalStock: item.keranjangs.barangs.total_stock, // Tambah properti totalStock jika diperlukan
+      jenisBarang: item.keranjangs.barangs.jenis_barang,
+      hargaBarang: item.keranjangs.barangs.harga_barang, // Tambah properti hargaBarang jika diperlukan
+      gambarBarang: item.keranjangs.barangs.gambar_barang // Tambah properti gambarBarang jika diperlukan
+    }));
   } catch (error) {
     console.error('Error fetching data:', error);
   }
 }
 
-function sortBy(key: string): void {
-  sortKey.value = key;
-  sortOrders[key] = sortOrders[key] * -1;
-}
-
-onMounted(() => {
-  fetchData(); // Panggil fetchData saat komponen dimuat
-});
+  },
+  mounted() {
+    this.fetchData();
+  }
+};
 </script>
