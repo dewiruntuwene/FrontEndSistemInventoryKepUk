@@ -1,5 +1,57 @@
+<script>
+import { ref } from "vue";
+import axios from "axios";
+import Layout from "@components/layout.vue";
+
+export default {
+  components: {
+    Layout // Menambahkan Layout sebagai komponen yang digunakan
+  },
+  data() {
+    return {
+      data: [],
+    };
+  },
+  methods: {
+    async updateItem() {
+      try {
+        const response = await axios.get(
+          "https://vjk2k0f5-5000.asse.devtunnels.ms/dashboardNotif"
+        );
+        this.data = response.data;
+        this.clearTable();
+        this.addRowsToTable();
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    },
+    clearTable() {
+      const tableBody = this.$refs.tableBody;
+      tableBody.innerHTML = "";
+    },
+    addRowsToTable() {
+      const tableBody = this.$refs.tableBody;
+      this.data.forEach((item) => {
+        const row = document.createElement("tr");
+        Object.values(item).forEach((value) => {
+          const cell = document.createElement("td");
+          const text = document.createTextNode(value);
+          cell.appendChild(text);
+          row.appendChild(cell);
+        });
+        tableBody.appendChild(row);
+      });
+    },
+    printTable() {
+      window.print();
+    },
+  },
+};
+</script>
+
+
 <template>
-  <Layout :updateKeranjang="barang" />
+  <Layout />
     <div class="mt-16 pl-[15rem]">
       <div class="max-w-6xl mr-16">
         <!-- Tabel kosong -->
@@ -19,7 +71,7 @@
                   Jenis Stok
                 </th>
                 <th class="py-3 px-2 text-left border" style="text-align: center">
-                  Kode Barang
+                  Jumlah Barang
                 </th>
                 <th
                   class="py-3 px-2 text-left border"
@@ -72,51 +124,5 @@
   <RouterView />
 </template>
 
-<script>
-import { ref } from "vue";
-import axios from "axios";
-import Layout from "@components/layout.vue";
 
-export default {
-  data() {
-    return {
-      data: [],
-    };
-  },
-  methods: {
-    async updateItem() {
-      try {
-        const response = await axios.get(
-          "https://vjk2k0f5-5000.asse.devtunnels.ms/dashboardNotif"
-        );
-        this.data = response.data;
-        this.clearTable();
-        this.addRowsToTable();
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    },
-    clearTable() {
-      const tableBody = this.$refs.tableBody;
-      tableBody.innerHTML = "";
-    },
-    addRowsToTable() {
-      const tableBody = this.$refs.tableBody;
-      this.data.forEach((item) => {
-        const row = document.createElement("tr");
-        Object.values(item).forEach((value) => {
-          const cell = document.createElement("td");
-          const text = document.createTextNode(value);
-          cell.appendChild(text);
-          row.appendChild(cell);
-        });
-        tableBody.appendChild(row);
-      });
-    },
-    printTable() {
-      window.print();
-    },
-  },
-};
-</script>
 
