@@ -15,7 +15,10 @@
             <li class="breadcrumb-item active" aria-current="page">Keranjang</li>
           </ol>
         </nav>
+
+        
       </div>
+
 
       <div class="mt-8">
         <h2 class="text-3xl font-bold mb-4">Keranjang <span class="font-semibold">Saya</span></h2>
@@ -37,7 +40,7 @@
                 <td class="px-6 py-4 whitespace-nowrap">{{ index + 1 }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <img
-                    :src="`${keranjang.barangs.gambar_barang}`"
+                    :src="`http://localhost:5000/uploads/${keranjang.barangs.gambar_barang}`"
                     class="w-24 h-24 object-cover rounded-md shadow-md"
                     alt="Product"
                   />
@@ -46,7 +49,9 @@
                 <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangs.nama_barang }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangs.jenis_barang }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <input type="number" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="pesan_keranjang.jumlah_barang[index]"/> 
+                  <input type="number" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="pesan_keranjang.jumlah_barang[index]"  :class="{ 
+    'border-red-500': isFormIncomplete && (!pesan_keranjang.jumlah_barang[index] || pesan_keranjang.jumlah_barang[index] <= 0) 
+  }"/> 
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-red-500 cursor-pointer">
                   <button @click="removeItemFromKeranjang(index)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded">Delete</button>
@@ -64,48 +69,60 @@
                   <div class="mb-4">
                       <label for="namaDosen" class="text-gray-600">Nama Dosen :</label>
                       <input type="text" class="form-input mt-1 block w-full border rounded border-gray-300"
-                          :class="{ 'border-red-500': !pesan.nama_dosen }" v-model="pesan.nama_dosen" />
-                      <p v-if="!pesan.nama_dosen" class="text-red-500 text-xs italic">Nama Dosen wajib diisi</p>
+                           v-model="pesan.nama_dosen" :class="{ 'border-red-500': isFormIncomplete && !pesan.nama_dosen }" />
+                      
                   </div>
                   <div class="mb-4">
-                      <label for="namaMatakuliah" class="text-gray-600">Nama Matakuliah :</label>
-                      <input type="text" class="form-input mt-1 block w-full border rounded border-gray-300"
-                          :class="{ 'border-red-500': !pesan.nama_matakuliah }" v-model="pesan.nama_matakuliah" />
-                      <p v-if="!pesan.nama_matakuliah" class="text-red-500 text-xs italic">Nama Matakuliah wajib diisi</p>
-                  </div>
-                  <div class="mb-4">
-                      <label for="noMeja" class="text-gray-600">Prasat :</label>
-                      <input type="text" class="form-input mt-1 block w-full border rounded border-gray-300"
-                          :class="{ 'border-red-500': !pesan.prasat }" v-model="pesan.prasat" />
-                      <p v-if="!pesan.prasat" class="text-red-500 text-xs italic">Prasat wajib diisi</p>
-                  </div>
-                  <div class="mb-4">
-                      <label for="noMeja" class="text-gray-600">Jam Praktek :</label>
-                      <input type="text" class="form-input mt-1 block w-full border rounded border-gray-300"
-                          :class="{ 'border-red-500': !pesan.jam_praktek }" v-model="pesan.jam_praktek" />
-                      <p v-if="!pesan.jam_praktek" class="text-red-500 text-xs italic">Jam Praktek wajib diisi</p>
-                  </div>
-                  <div class="mb-4">
-                      <label for="noMeja" class="text-gray-600">Tanggal Praktek :</label>
-                      <input type="text" class="form-input mt-1 block w-full border rounded border-gray-300"
-                          :class="{ 'border-red-500': !pesan.tanggal_praktek }" v-model="pesan.tanggal_praktek" />
-                      <p v-if="!pesan.tanggal_praktek" class="text-red-500 text-xs italic">Tanggal Praktek wajib diisi</p>
+                    <label for="namaMatakuliah" class="text-gray-600">Nama Matakuliah :</label>
+                    <select v-model="pesan.nama_matakuliah" class="form-select mt-1 block w-full border rounded border-gray-300" :class="{ 'border-red-500': isFormIncomplete && !pesan.nama_matakuliah }">
+                      <option value="" disabled selected>Pilih Matakuliah</option>
+                      <option v-for="mk in matakuliah" :key="mk" :value="mk">{{ mk }}</option>
+                    </select>
                   </div>
 
-                  <button @click="toggleSubmitModal" type="submit"
-                      class="btn btn-success w-full bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded mt-2">
+                  <div class="mb-4">
+                      <label for="prasat" class="text-gray-600">Prasat :</label>
+                      <input type="text" class="form-input mt-1 block w-full border rounded border-gray-300" v-model="pesan.prasat" 
+                      :class="{ 'border-red-500': isFormIncomplete && !pesan.prasat }" />
+                  </div>
+                  <div class="mb-4">
+                      <label for="jamPraktek" class="text-gray-600">Jam Praktek :</label>
+                      <input type="text" class="form-input mt-1 block w-full border rounded border-gray-300" v-model="pesan.jam_praktek" 
+                      :class="{ 'border-red-500': isFormIncomplete && !pesan.jam_praktek }"/>
+                     
+                  </div>
+                  <div class="mb-4">
+                      <label type="Date" for="tanggalPraktek" class="text-gray-600">Tanggal Praktek :</label>
+                      <input datepicker type="Date" class="form-input mt-1 block w-full border rounded border-gray-300" v-model="pesan.tanggal_praktek" 
+                      :class="{ 'border-red-500': isFormIncomplete && !pesan.tanggal_praktek }"/>
+                  </div>        
+
+                  <!-- Error message for incomplete form -->
+                  <div>
+                    <p v-show="showError" class="text-red-500 text-xs italic mb-4">
+                      Mohon lengkapi semua field sebelum melakukan checkout
+                    </p>
+                  </div>
+
+                  <!-- Button "Pesan" -->
+                 <button 
+                      @click="toggleSubmitModal" 
+                      type="submit"
+                      class="btn btn-success w-full bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded mt-2"
+                    >
                       Pesan
-                  </button>
+                    </button>
 
-                  <div v-if="isSubmitOpen" class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
-                      <div class="bg-white p-8 rounded-lg">
-                          <p>Pesanan Anda Akan di Proses</p>
-                          <button @click="toggleSubmitModal"
-                              class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                              Close
-                          </button>
-                      </div>
+                  <!-- Modal for submission confirmation -->
+                <div v-if="isSubmitOpen && !isFormIncomplete" class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
+                  <div class="bg-white p-8 rounded-lg">
+                    <p>Pesanan Anda Akan di Proses</p>
+                    <button @click="toggleSubmitModal"
+                      class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                      Close
+                    </button>
                   </div>
+                </div>
               </form>
           </div>
       </div>
@@ -153,10 +170,15 @@ import { Barang, Keranjang } from "../pages/UserCatalog.vue";
 const router = useRouter();
 const toast = useToast();
 const isSubmitOpen = ref(false);
+const isFormIncomplete = ref(false); // New variable to track form completion
+const showError = ref(false);
 
+
+const matakuliah = ['Kardio', 'Hematologi', 'Anatomi', 'Fisiologi', 'Patologi', 'Farmakologi'];
 
 const keranjangs = ref<Keranjang[]>([]);
 console.log(keranjangs)
+
 
 interface PesanKeranjang {
   jumlah_barang: number;
@@ -232,23 +254,10 @@ const updateKeranjang = async (id_keranjang: number) => {
 };
 
 
+
 const checkout = async () => {
     try {
-
-      // Validasi untuk setiap item dalam keranjang
-      const isAnyItemNotFilled = keranjangs.value.some((item) => item.jumlah_barang === 0);
       
-      // Jika ada item yang tidak diisi, tampilkan pesan kesalahan
-      if (isAnyItemNotFilled) {
-        toast.error("Semua jumlah barang harus diisi", {
-          type: "error",
-          position: "top-right",
-          duration: 3000,
-          dismissible: true,
-        });
-        return; // Stop the function execution
-      }
-
       // Update items from the keranjang 
       await Promise.all(keranjangs.value.map(async (item: any) => {
         await updateKeranjang(item.id_keranjang);
@@ -286,6 +295,15 @@ onMounted(async () => {
 
 
 const toggleSubmitModal = () => {
+    // Check if all fields in the form are filled
+  isFormIncomplete.value = !pesan.value.nama_dosen || !pesan.value.nama_matakuliah || !pesan.value.prasat || !pesan.value.jam_praktek || !pesan.value.tanggal_praktek || !pesan_keranjang.value.jumlah_barang.some((jumlah: number) => jumlah > 0);
+
+  if (isFormIncomplete.value) {
+    showError.value = true;
+    throw new Error("Mohon lengkapi semua field sebelum melakukan checkout");
+  }
+
   isSubmitOpen.value = !isSubmitOpen.value;
+
 };
 </script>
