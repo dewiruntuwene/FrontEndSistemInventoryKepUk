@@ -18,15 +18,20 @@ import Navbar from "@components/Navbar.vue";
 const router = useRouter();
 const toast = useToast();
 
+const searchQuery = ref('');
+
+
 export interface Barang {
   id_barang: string,
   nama_barang: string,
   jenis_barang: string,
   total_stock: string,
   gambar_barang: string,
-  harga_barang: Number
-
+  harga_barang: Number,
+  path: string
 }
+
+
 
 export interface Keranjang {
   id_keranjang: Number;
@@ -36,11 +41,28 @@ export interface Keranjang {
 }
 
 const pesan = ref({
-  jumlah_barang: null, 
+  jumlah_barang: 0, 
 });
+
+
 
 const transaksiBarang = ref<Keranjang[]>();
 const barang = ref<Barang[]>();
+
+console.log(barang)
+
+// Filtered barangs based on search query
+const filteredBarangs = computed(() => {
+  // Check if barang.value is defined before accessing its value
+  if (barang.value) {
+    return barang.value.filter(item =>
+      item.nama_barang.toLowerCase().includes(searchQuery.value.toLowerCase())
+    );
+  } else {
+    // Return empty array if barang.value is undefined
+    return [];
+  }
+});
 
 // Langkah 2 dan 3: Isi objek Barang dengan data respons
 const normalizeResponseToBarang = (response: any): Barang[] => {
@@ -77,8 +99,6 @@ onMounted(async () => {
   }
 
 });
-
-const filteredBarangs = computed(() => barang.value);
 
 
 
@@ -123,8 +143,8 @@ const tambahKeKeranjang = async (barang: Barang) => {
                 nama_barang: barang.nama_barang,
                 total_stock: barang.total_stock,
                 jenis_barang: barang.jenis_barang,
-                gambar_barang: `${baseUrl}/uploads/${barang.gambar_barang}`,
-                harga_barang: barang.harga_barang
+                gambar_barang: `http://localhost:5000/uploads/${barang.gambar_barang}`,
+                harga_barang: barang.harga_barang,
             },   
         });
         router.push({path: "/UserOrder"})
@@ -134,6 +154,9 @@ const tambahKeKeranjang = async (barang: Barang) => {
           duration: 3000,
           dismissible: true,
         });
+
+        // Tangani respons untuk mendapatkan id_keranjang yang baru dibuat
+        const idKeranjangBaru = response.data.id_keranjang;
     } catch (error) {
         console.error('Error adding to cart:', error);
         toast.error("Gagal Masuk Keranjang", {
@@ -145,15 +168,16 @@ const tambahKeKeranjang = async (barang: Barang) => {
     }
 };
 
+const searchBarang = async () => {
+  try {
+    const response = await axios.get("https://vjk2k0f5-5000.asse.devtunnels.ms/barang?q=" + searchQuery.value);
+    barang.value = normalizeResponseToBarang(response.data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
   
-// // Fungsi untuk melakukan pencarian barang
-// const searchBarang = () => {
-//   axios.get('' + search)
-//     .then(response => {
-//       console.log(response.data);
-//     })
-//     .catch(err => console.log(err));
-// }
+
 
 // export interface CartItem {
 //     nama: string;
@@ -169,6 +193,27 @@ const tambahKeKeranjang = async (barang: Barang) => {
 
 <template>
   <Navbar :updateKeranjang="barang" />
+    <!-- Input Search -->
+    <div class="row mt-3">
+    <div class="col">
+      <div class="input-group mb-3">
+        <input
+          v-model="searchQuery"
+          type="text"
+          class="form-control"
+          placeholder="Cari Barang..."
+          aria-label="Cari"
+          aria-describedby="basic-addon1"
+          @input="searchBarang"
+        />
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">
+            <b-icon-search></b-icon-search>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
     <!-- breadcrumb -->
     <div class="mt-4">
         <nav aria-label="breadcrumb">
