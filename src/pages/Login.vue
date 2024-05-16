@@ -1,18 +1,349 @@
 <script setup lang="ts">
 import axios from 'axios';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
+import { GoogleAuth, JWT, OAuth2Client } from 'google-auth-library'
 
-const username = ref('');
+const router = useRouter();
+const email = ref('');
 const password = ref('');
+
+
+interface CustomJwtPayload extends JwtPayload {
+  role: string;
+}
+
+
+
+
+// const loginWithGoogle = () => {
+//   window.location.href = 'http://localhost:5000/auth/google';
+// };
+
+// onMounted(() => {
+//   const urlParams = new URLSearchParams(window.location.search);
+//   const token = urlParams.get('token');
+
+//   if (token) {
+//     sessionStorage.setItem('token', token);
+//     router.push('/dashboard'); // Redirect to dashboard or any other page after login
+//   }
+// });
+
+interface GoogleOAuthUserInfo {
+  user_id: string;
+  email: string;
+  username: string;
+}
+
+
+// const GoogleAuthButton = {
+//   name: 'GoogleAuthButton',
+//   authenticate: async (): Promise<{ code: string }> => {
+//     const auth = new GoogleAuth({
+//       clientOptions: {
+//         clientId: process.env.GOOGLE_CLIENT_ID,
+//         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//       },
+//     });
+
+//     const client = await auth.getClient();
+//     const accessToken = await auth.getAccessToken();
+
+//     const jwtClient = new JWT({
+//       email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+//       key: process.env.GOOGLE_SERVICE_ACCOUNT_KEY,
+//       scopes: ['https://www.googleapis.com/auth/cloud-platform'],
+//     });
+
+//     const oauth2Client = jwtClient as OAuth2Client;
+//     oauth2Client.setCredentials({ access_token: accessToken });
+
+//     const response = await oauth2Client.request({
+//       url: 'https://www.googleapis.com/oauth2/v3/userinfo',
+//       method: 'GET',
+//     });
+
+//     const payload = response.data as GoogleOAuthUserInfo;
+//     console.log(payload);
+
+//     // You should return the authorization code instead of the whole response object
+//     return { code: payload.user_id };
+//   },
+// };
+
+// const handleGoogleLogin = async () => {
+//   try {
+//     const auth = new GoogleAuth({
+//       clientOptions: {
+//         clientId: process.env.GOOGLE_CLIENT_ID,
+//         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//       },
+//     });
+
+//     const client = await auth.getClient();
+//     const accessToken = await auth.getAccessToken();
+
+//     const jwtClient = new JWT({
+//       email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+//       key: process.env.GOOGLE_SERVICE_ACCOUNT_KEY,
+//       scopes: ['https://www.googleapis.com/auth/cloud-platform'],
+//     });
+
+//     const oauth2Client = jwtClient as OAuth2Client;
+//     oauth2Client.setCredentials({ access_token: accessToken });
+
+//     const response = await oauth2Client.request({
+//       url: 'https://www.googleapis.com/oauth2/v3/userinfo',
+//       method: 'GET',
+//     });
+
+//     const payload = response.data as GoogleOAuthUserInfo;
+//     console.log(payload);
+
+//     const code = payload.user_id; // Assuming sub as user_id
+//     const res = await axios.post('/auth/google', { code });
+//     const token = res.data.token;
+
+//     sessionStorage.setItem('token', token);
+
+//     const decoded = jwtDecode<{ role: string }>(token);
+//     const role = decoded.role;
+
+//     if (role === 'USER') {
+//       window.location.href = `/userCatalog?token=${token}`;
+//     } else if (role === 'ADMIN') {
+//       window.location.href = `/Dashboard?token=${token}`;
+//     } else {
+//       window.location.href = `/?token=${token}`;
+//     }
+//   } catch (error) {
+//     console.error('Error during Google login:', error);
+//   }
+// };
+
+
+
+// const oauth2Client = new OAuth2Client(
+//   process.env.GOOGLE_CLIENT_ID,
+//   process.env.GOOGLE_CLIENT_SECRET,
+//   'http://localhost:3000/callback' // Redirect URL Anda
+// );
+
+
+// const handleGoogleLogin = async () => {
+//   const googleLoginUrl = oauth2Client.generateAuthUrl({
+//     access_type: 'offline',
+//     scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email'],
+//   });
+//   window.location.href = googleLoginUrl;
+// };
+
+// onMounted(async () => {
+//   const urlParams = new URLSearchParams(window.location.search);
+//   const code = urlParams.get('code');
+
+//   if (code) {
+//     try {
+//       const { tokens } = await oauth2Client.getToken(code);
+//       oauth2Client.setCredentials(tokens);
+
+//       const userInfoResponse = await oauth2Client.request({
+//         url: 'https://www.googleapis.com/oauth2/v3/userinfo',
+//       });
+
+//       const userInfo = userInfoResponse.data as GoogleOAuthUserInfo;
+//       console.log('User Info:', userInfo);
+
+//       // Simpan token ke sessionStorage atau localStorage
+//       sessionStorage.setItem('token', tokens.access_token || '');
+
+//       // Redirect ke halaman sesuai kebutuhan
+//       router.push('/dashboard');
+//     } catch (error) {
+//       console.error('Error during Google Auth:', error);
+//     }
+//   }
+// });
+
+
+
+// // Fungsi untuk menangani login Google
+// const handleGoogleLogin = () => {
+//   // Redirect ke endpoint login Google di backend
+//   window.location.href = 'http://localhost:5000/auth/google';
+// };
+
+// // Fungsi untuk menangani callback dari login Google
+// const handleGoogleCallback = async () => {
+//   try {
+//     console.log("Handling Google callback...");
+
+//     // Lakukan request untuk menukar code dengan access token dari Google
+//     const response = await axios.get('https://vjk2k0f5-5000.asse.devtunnels.ms/auth/google/callback');
+//     console.log("Response from backend:", response.data);
+
+//     const { token } = response.data;
+
+//     // Jika perlu, dapatkan informasi pengguna dengan token dari Google
+//     const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+//       headers: {
+//         Authorization: `Bearer ${token}`
+//       }
+//     });
+//     console.log("User info response:", userInfoResponse.data);
+
+//     // Di sini, Anda dapat memverifikasi peran pengguna dan melakukan tindakan sesuai dengan peran tersebut
+//     const { role } = userInfoResponse.data;
+    
+//     // Simpan informasi sesi jika diperlukan
+//     sessionStorage.setItem('token', token);
+//     sessionStorage.setItem('role', role);
+
+//     console.log("Token and role saved to sessionStorage:", token, role);
+
+//     return role;
+//   } catch (error) {
+//     console.error('Error during Google callback:', error);
+//     return null;
+//   }
+// };
+
+// export { handleGoogleLogin, handleGoogleCallback };
+
+
+// Mengambil URL API dari environment variables
+const apiUrl = import.meta.env.VITE_API_URL;
+
+// Fungsi untuk mengarahkan pengguna ke URL otorisasi Google
+const googleAuth = (): void => {
+  if (apiUrl) {
+    redirectToUserCatalog();
+  } else {
+    console.error('API URL is not defined');
+  }
+};
+
+// Fungsi untuk melakukan redirect ke halaman autentikasi Google
+const redirectToUserCatalog = async (): Promise<void> => {
+  const response = await axios.get(`${apiUrl}/auth/google/`, { withCredentials: true });
+  const authUrl = response.data.url;
+  window.location.href = authUrl;
+    
+};
+
+// Fungsi untuk memeriksa token setelah redirect
+const checkToken = async (): Promise<void> => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get('token');
+
+  if (token) {
+      try {
+        // Decode token
+        const decodedToken:CustomJwtPayload = jwtDecode(token);
+        console.log('Decoded Token:', decodedToken);
+
+        // Simpan token ke local storage
+        localStorage.setItem('token', token);
+
+        // Check role and redirect accordingly
+        const userRole = decodedToken.role;
+        if (userRole === 'USER') {
+          router.push('/UserCatalog');
+        } else if (userRole === 'ADMIN') {
+          router.push('/Dashboard');
+        } else {
+          console.error('Unknown role:', userRole);
+        }
+      } catch (error) {
+        console.error('Failed to decode token:', error);
+      }
+    } else {
+      console.error('No token found in URL');
+    }
+};
+
+interface User {
+  name: string;
+  email: string;
+}
+
+// const user = ref<User | null>(null);
+
+//     const getUser = async () => {
+//       try {
+//         const url = `${apiUrl}/auth/login/`;
+//         const { data } = await axios.get(url, { withCredentials: true });
+//         user.value = data.user._json;
+//       } catch (err) {
+//         console.log(err);
+//       }
+//     };
+
+
+//Jika menggunakan Vue.js, panggil checkToken setelah komponen dimuat
+onMounted(() => {
+  checkToken();
+});
+
+
+
+
 
 const login = async () => {
   try {
-    console.log('Username:', username.value);
+    console.log('Email:', email.value);
     console.log('Password:', password.value);
-    const response = await axios.post('https://vjk2k0f5-5000.asse.devtunnels.ms/login', { username: username.value, password: password.value });
+    const response = await axios.post(`${apiUrl}/login`, { email: email.value, password: password.value });
     console.log('Response:', response.data);
-    // Lakukan penanganan respons sesuai kebutuhan
-    // Tambahkan pemberitahuan bahwa login berhasil
+
+    // Dekode token JWT untuk mendapatkan informasi peran pengguna
+    const decodedToken: CustomJwtPayload = jwtDecode(response.data.token);
+    console.log('Decoded Token:', decodedToken); // Debugging statement
+    if (!decodedToken || !decodedToken.role) {
+      console.error('Token does not contain role information.');
+      return; // Exit the function
+    }
+
+    const userRole = decodedToken.role;
+    console.log('User Role:', userRole); // Debugging statement
+
+    // Redirect user based on role after successful login
+    if (userRole === 'USER') {
+      router.push('/UserCatalog');
+    } else if (userRole === 'ADMIN') {
+      router.push('/Dashboard');
+    }
+    // Arahkan pengguna sesuai peran setelah login berhasil
+    if (userRole  === 'USER') {
+      router.push('/UserCatalog');
+    } else if (userRole  === 'ADMIN') {
+      router.push('/Dashboard');
+    }
+
+    // Simpan token ke local storage untuk digunakan pada permintaan berikutnya
+    localStorage.setItem('token', response.data.token);
+    // Cek apakah token sudah tersimpan di local storage
+    const token = localStorage.getItem('token');
+    if (token) {
+      // Token sudah tersimpan di local storage
+      console.log('Token sudah tersimpan:', token);
+      // Lakukan penanganan sesuai kebutuhan, misalnya, lanjutkan ke halaman berikutnya
+    } else {
+      // Token belum tersimpan di local storage
+      console.log('Token belum tersimpan.');
+    }
+    
+
+    
+    // Set header otorisasi untuk permintaan selanjutnya
+    axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+
+    // Verifikasi bahwa token telah diset di header
+    console.log('Header Authorization telah diset:', axios.defaults.headers.common['Authorization']);
+
+
     alert('Login berhasil!');
   } catch (error) {
     console.error('Error:', error);
@@ -25,20 +356,24 @@ const login = async () => {
   <div class="bg-gray-100 flex items-center justify-center h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-80">
       <h2 class="text-2xl font-semibold mb-4">Klinik Inventory System</h2>
-      <h3 class="text-lg text-gray-600 mb-6">Login</h3>
+      <h3 class="text-lg text-gray-600 mb-6 text-center ">Login</h3>
       <form @submit.prevent="login">
         <div class="mb-4">
-          <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
-          <input type="text" id="username" v-model="username" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+          <label for="username" class="block text-sm font-medium text-gray-700">Email</label>
+          <input type="text" id="email" v-model="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
         </div>
         <div class="mb-4">
           <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
           <input type="password" id="password" v-model="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
         </div>
-        <div class="flex items-center justify-between">
-          <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded focus:outline-none focus:bg-blue-600 hover:bg-blue-600">Login</button>
+        <div  class="mt-4 text-gray-600 text-center">Belum Punya Account Silahkan <router-link to="/register" class="underline">Register</router-link>.</div>
+        <div class="flex flex-col items-center justify-between">
+          <button type="submit" class="mt-5 bg-blue-500 text-white py-2 px-4 rounded focus:outline-none focus:bg-blue-600 hover:bg-blue-600">Login</button>
         </div>
       </form>
+      <div>
+        <button @click="googleAuth">Login with Google</button>
+      </div>
     </div>
   </div>
 </template>
