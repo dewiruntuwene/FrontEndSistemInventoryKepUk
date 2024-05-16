@@ -36,7 +36,7 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
-              <tr v-for="(keranjang, index) in keranjangs" :key="keranjang.barangs.id_barang" class="bg-white">
+              <tr v-for="(keranjang, index) in keranjangs" :key="keranjang.barangs.kode_barang" class="bg-white">
                 <td class="px-6 py-4 whitespace-nowrap">{{ index + 1 }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <img
@@ -45,12 +45,12 @@
                     alt="Product"
                   />
                 </td>
-                <td v-if="keranjang.barangs && keranjang.barangs" class="px-6 py-4 whitespace-nowrap text-gray"><strong>{{ keranjang.barangs.id_barang }}</strong></td>
+                <td v-if="keranjang.barangs && keranjang.barangs" class="px-6 py-4 whitespace-nowrap text-gray"><strong>{{ keranjang.barangs.kode_barang }}</strong></td>
                 <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangs.nama_barang }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangs.jenis_barang }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <input type="number" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="pesan_keranjang.jumlah_barang[index]"  :class="{ 
-    'border-red-500': isFormIncomplete && (!pesan_keranjang.jumlah_barang[index] || pesan_keranjang.jumlah_barang[index] <= 0) 
+    'border-red-500': isFormIncomplete && (!pesan_keranjang.jumlah_barang[index].valueOf() || pesan_keranjang.jumlah_barang[index].valueOf() <= 0) 
   }"/> 
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-red-500 cursor-pointer">
@@ -66,12 +66,6 @@
       <div class="mt-8 flex justify-end">
           <div class="w-full md:w-1/3">
               <form @submit.prevent="checkout" class="bg-white shadow-md rounded-md p-6">
-                  <div class="mb-4">
-                      <label for="namaDosen" class="text-gray-600">Nama Dosen :</label>
-                      <input type="text" class="form-input mt-1 block w-full border rounded border-gray-300"
-                           v-model="pesan.nama_dosen" :class="{ 'border-red-500': isFormIncomplete && !pesan.nama_dosen }" />
-                      
-                  </div>
                   <div class="mb-4">
                     <label for="namaMatakuliah" class="text-gray-600">Nama Matakuliah :</label>
                     <select v-model="pesan.nama_matakuliah" class="form-select mt-1 block w-full border rounded border-gray-300" :class="{ 'border-red-500': isFormIncomplete && !pesan.nama_matakuliah }">
@@ -140,7 +134,7 @@ import { useRouter } from 'vue-router';
 import Navbar from "@components/Navbar.vue";
 import { Barang, Keranjang } from "../pages/UserCatalog.vue";
 
-
+const apiUrl = import.meta.env.VITE_API_URL;
 // const useSubmit = () => {
 //   const isSubmitOpen = ref(false);
 
@@ -186,7 +180,7 @@ interface PesanKeranjang {
 }
 
 const pesan_keranjang = ref({
-  jumlah_barang: Array(keranjangs.value.length).fill(0), 
+  jumlah_barang: keranjangs.value.map(item => item.jumlah_barang), 
 });
 
 const setKeranjangs = (data: Keranjang[]) => {
@@ -257,14 +251,13 @@ const updateKeranjang = async (id_keranjang: number) => {
 
 const checkout = async () => {
     try {
-      
+      const token = localStorage.getItem('token');
       // Update items from the keranjang 
       await Promise.all(keranjangs.value.map(async (item: any) => {
         await updateKeranjang(item.id_keranjang);
       }));
 
       const requestData = {
-        nama_dosen: pesan.value.nama_dosen,
         nama_matakuliah: pesan.value.nama_matakuliah,
         prasat: pesan.value.prasat,
         jam_praktek: pesan.value.jam_praktek,
@@ -274,8 +267,13 @@ const checkout = async () => {
         // }
       };
 
+      const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
 
-      await axios.post("https://vjk2k0f5-5000.asse.devtunnels.ms/peminjamBarang", requestData);
+      await axios.post(`${apiUrl}/peminjamBarang`, requestData, config);
      
       isSubmitOpen.value = true;
     } catch (err) {
@@ -296,7 +294,8 @@ onMounted(async () => {
 
 const toggleSubmitModal = () => {
     // Check if all fields in the form are filled
-  isFormIncomplete.value = !pesan.value.nama_dosen || !pesan.value.nama_matakuliah || !pesan.value.prasat || !pesan.value.jam_praktek || !pesan.value.tanggal_praktek || !pesan_keranjang.value.jumlah_barang.some((jumlah: number) => jumlah > 0);
+    isFormIncomplete.value = !pesan.value.nama_matakuliah || !pesan.value.prasat || !pesan.value.jam_praktek || !pesan.value.tanggal_praktek || !pesan_keranjang.value.jumlah_barang;
+
 
   if (isFormIncomplete.value) {
     showError.value = true;
