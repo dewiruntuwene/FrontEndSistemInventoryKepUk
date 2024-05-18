@@ -236,68 +236,48 @@ const searchBarang = async () => {
 
 <template>
   <Navbar :updateKeranjang="barang" />
-
-
-    <!-- <div class="row mt-3">
-      <div class="col">
-        <div class="input-group mb-3">
-          <input
-            v-model="searchQuery"
-            type="text"
-            class="form-control"
-            placeholder="Cari Barang..."
-            aria-label="Cari"
-            aria-describedby="basic-addon1"
-            @input="searchBarang"
-          />
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">
-              <b-icon-search></b-icon-search>
-            </span>
-          </div>
+    <!-- Input Search -->
+    <div class="row mt-3">
+    <div class="col">
+      <div class="input-group mb-3">
+        <input
+          v-model="searchQuery"
+          type="text"
+          class="form-control"
+          placeholder="Cari Barang..."
+          aria-label="Cari"
+          aria-describedby="basic-addon1"
+          @input="searchBarang"
+        />
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">
+            <b-icon-search></b-icon-search>
+          </span>
         </div>
       </div>
-    </div> -->
-
-    
-    <div class="mt-20 sm:ml-5 h-full px-12 "> 
-      
-      
-
-      <div class="w-128 md:w-128 h-40 md:h-48 mx-4 my-4 md:mx-12 text-left bg-black bg-opacity-80 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:bg-opacity-70 dark:border-gray-700 items-center relative justify-center overflow-hidden">
-          
-          <div class="relative z-10 p-4 md:p-8">
-            <h5 class="mb-2 text-xl md:text-5xl font-bold text-gray-900 dark:text-white">Central Supply</h5>
-            <p class="mb-3 mr-10 text-sm md:text-4xl font-bold text-white-500 sm:text-lg dark:text-black-700">Fakultas Keperawatan Universitas Klabat</p>    
-          </div>
-        
-          <img src="../assets/gambar2.jpg" alt="" class="absolute inset-0 w-full h-full object-cover opacity-50">
+    </div>
+  </div>
+    <!-- breadcrumb -->
+    <div class="mt-4">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-white p-2 rounded-md shadow-md">
+            <li class="breadcrumb-item">
+              <router-link to="/UserCatalog" class="text-blue-500">User Catalog</router-link>
+            </li>
+            <li class="breadcrumb-item">
+              <router-link to="/UserCatalog" class="text-blue-500">Account</router-link>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Keranjang</li>
+          </ol>
+        </nav>
       </div>
-        
-        <!-- Input Search -->
-        <form class="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
-          <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-          <div class="relative">
-              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                  </svg>
-              </div>
-              <input @input="searchBarang" v-model="searchQuery" type="text" id="default-search" class="block w-full p-4 pl-10 text-sm md:text-base lg:text-lg text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Barang..." required />
-              <!-- <button type="submit" class="form-control text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button> -->
-          </div>
-      </form>
-
-
-    
-    
+    <div class="mt-20 sm:ml-5 h-full ">   
         <!-- Card -->
-      <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-4 items-center justify-between p-6">
-        <div class="md:container md:mx-auto" v-for="item in filteredBarangs" :key="item.kode_barang">
-          <CardBarang :barang="item" @tambahKeKeranjang="tambahKeKeranjang" /> 
-        </div> 
-      </div>
-
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-4 mb-4 items-center justify-between p-6 ">
+          <div class="md:container md:mx-auto columns-xs sticky mt-2" v-for="item in filteredBarangs" :key="item.id_barang" >
+            <CardBarang :barang= "item"  @tambahKeKeranjang="tambahKeKeranjang" /> 
+          </div> 
+        </div>
       
     </div>
   <RouterView />
