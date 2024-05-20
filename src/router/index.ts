@@ -3,11 +3,12 @@ import {jwtDecode} from "jwt-decode";
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
+import Vue from 'vue';
+import VueToast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-default.css';
 
 const user = ref(null);
-
-
-
+// Vue.use(VueToast);
 
 // Definisikan tipe untuk data token yang didekode
 interface DecodedToken {
@@ -74,7 +75,6 @@ const routes = [
         path: '/Login',
         component: () => import('../pages/Login.vue'),
       },
-      
       {
         path: '/UserCatalog',
         component: () => import('../pages/UserCatalog.vue'),
@@ -84,6 +84,10 @@ const routes = [
         component: () => import('../pages/UserOrder.vue'),
       },
       {
+        path: '/UserTransaction',
+        component: () => import('../pages/UserTransaction.vue'),
+      },
+      {
         path: '/CardBarang',
         component: () => import('../components/CardBarang.vue')
       },
@@ -91,10 +95,7 @@ const routes = [
         path: '/Layout',
         component: () => import('../components/Layout.vue')
       },
-      {
-        path: '/NavBar',
-        component: () => import('../components/NavBar.vue')
-      },
+
     ]
   }
   
