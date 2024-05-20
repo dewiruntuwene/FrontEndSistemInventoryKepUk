@@ -15,6 +15,8 @@ import Navbar from "@components/Navbar.vue";
 //     required: true
 //   }
 // });
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const router = useRouter();
 const toast = useToast();
 
@@ -22,7 +24,7 @@ const searchQuery = ref('');
 
 
 export interface Barang {
-  id_barang: string,
+  kode_barang: string,
   nama_barang: string,
   jenis_barang: string,
   total_stock: string,
@@ -69,11 +71,11 @@ const normalizeResponseToBarang = (response: any): Barang[] => {
   const baseUrl = 'http://localhost:5000';
   return response.map((item: any) => ({
     path: `${baseUrl}/uploads/${item.gambar_barang}`,
-    id_barang: item.id_barang,
     nama_barang: item.nama_barang,
     jenis_barang: item.jenis_barang,
     total_stock: item.total_stock,
     gambar_barang: item.gambar_barang,
+    kode_barang: item.kode_barang
   }));
 };
 
@@ -89,7 +91,7 @@ onMounted(async () => {
     // Pastikan bahwa barangs sudah terisi dengan nilai yang valid sebelum mengaksesnya
     if (barang.value) {
       barang.value.forEach((barang) => {
-        console.log(barang.id_barang);
+        console.log(barang.kode_barang);
       });
     } else {
       console.error("Data barang belum tersedia");
@@ -114,11 +116,17 @@ onMounted(async () => {
 
 // Fungsi untuk menambahkan barang ke keranjang
 const tambahKeKeranjang = async (barang: Barang) => {
+  const token = localStorage.getItem('token');
+  console.log(token)
+  if (!token) {
+    console.error('No token found');
+    return;
+  }
   const baseUrl = 'http://localhost:5000';
     try {
        // Pastikan barang adalah objek yang valid
          // Pastikan barang adalah objek yang valid dan memiliki properti 'id_barang'
-         if (!barang || typeof barang !== 'object' || !barang.id_barang) {
+         if (!barang || typeof barang !== 'object' || !barang.kode_barang) {
             console.error('Barang tidak valid atau tidak memiliki id_barang');
             return;
         } else{
@@ -126,7 +134,7 @@ const tambahKeKeranjang = async (barang: Barang) => {
         }
 
         // Pastikan id_barang pada barang yang akan ditambahkan tidak kosong
-        if (!barang.id_barang) {
+        if (!barang.kode_barang) {
             console.error('id_barang tidak valid');
             return;
         } else {
@@ -135,18 +143,22 @@ const tambahKeKeranjang = async (barang: Barang) => {
 
        
         console.log('Data Barang', barang);
-        const response = await axios.post('https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang', {
+        const response = await axios.post(`${apiUrl}/keranjang`, {
             jumlah_barang: pesan.value.jumlah_barang,
-            barangId: barang.id_barang,
             barang: {
-                id_barang: barang.id_barang,
+                kode_barang: barang.kode_barang,
                 nama_barang: barang.nama_barang,
                 total_stock: barang.total_stock,
                 jenis_barang: barang.jenis_barang,
                 gambar_barang: `http://localhost:5000/uploads/${barang.gambar_barang}`,
                 harga_barang: barang.harga_barang,
-            },   
-        });
+            }, 
+          }, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+      });
+          
         router.push({path: "/UserOrder"})
         toast.success("Sukses Masuk Keranjang", {
           type: "success",
@@ -177,7 +189,6 @@ const searchBarang = async () => {
   }
 };
   
-
 
 // export interface CartItem {
 //     nama: string;
@@ -214,24 +225,30 @@ const searchBarang = async () => {
       </div>
     </div>
   </div>
-    <!-- breadcrumb -->
-    <div class="mt-4">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb bg-white p-2 rounded-md shadow-md">
-            <li class="breadcrumb-item">
-              <router-link to="/UserCatalog" class="text-blue-500">User Catalog</router-link>
-            </li>
-            <li class="breadcrumb-item">
-              <router-link to="/UserCatalog" class="text-blue-500">Account</router-link>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">Keranjang</li>
-          </ol>
-        </nav>
-      </div>
-    <div class="mt-20 sm:ml-5 h-full ">   
+
+    
+    <div class="mt-20 sm:ml-5 h-full "> 
+      
+      <section id="hero" class="relative">
+        <div class="container h-full mx-auto">
+          <div class="flex h-full items-center">
+            <div class="w-full md:w-1/2 my-auto">
+              <h1 class="text-4xl font-bold">Cara Tepat Jual Cepat</h1>
+              <p class="mt-4 text-lg">Memberikan kemudahan dan Kecepatan Penjual dan Pembeli</p>
+              
+              <button class="mt-6 bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 transition">Temukan Barang</button>
+              <a href="" class="inline-block mt-4">
+                <img src="" alt="">
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    
+    
         <!-- Card -->
-        <div class="grid grid-cols-1 md:grid-cols-6 gap-4 mb-4 items-center justify-between p-6 ">
-          <div class="md:container md:mx-auto columns-xs sticky mt-2" v-for="item in filteredBarangs" :key="item.id_barang" >
+        <div class="grid grid-cols-1 md:grid-cols-8  mb-4 items-center justify-between p-6 ">
+          <div class="md:container md:mx-auto columns-xs sticky mt-2" v-for="item in filteredBarangs" :key="item.kode_barang" >
             <CardBarang :barang= "item"  @tambahKeKeranjang="tambahKeKeranjang" /> 
           </div> 
         </div>
