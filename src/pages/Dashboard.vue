@@ -1,42 +1,122 @@
-<script setup lang="ts">
-import { ref } from 'vue';
+<script>
+import { ref } from "vue";
+import axios from "axios";
+import Layout from "../components/Layout.vue";
 
-// Dummy data, you should replace this with your actual data
-const itemList = ref([
-  { tanggalMasuk: '2024-02-20', idBarang: 1, namaBarang: 'Barang 1', totalStok: 10, kodeBarang: 'ABC123' },
-  { tanggalMasuk: '2024-02-21', idBarang: 2, namaBarang: 'Barang 2', totalStok: 15, kodeBarang: 'DEF456' },
-  { tanggalMasuk: '2024-02-22', idBarang: 3, namaBarang: 'Barang 3', totalStok: 20, kodeBarang: 'GHI789' },
-]);
+export default {
+  components: {
+    Layout, // Menambahkan Layout sebagai komponen yang digunakan
+  },
+  data() {
+    return {
+      data: [],
+    };
+  },
+  methods: {
+    async updateItem() {
+      try {
+        const response = await axios.get(
+          "https://vjk2k0f5-5000.asse.devtunnels.ms/dashboardNotif"
+        );
+        this.data = response.data;
+        this.clearTable();
+        this.addRowsToTable();
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    },
+    clearTable() {
+      const tableBody = this.$refs.tableBody;
+      tableBody.innerHTML = "";
+    },
+    addRowsToTable() {
+      const tableBody = this.$refs.tableBody;
+      this.data.forEach((item) => {
+        const row = document.createElement("tr");
+        Object.values(item).forEach((value) => {
+          const cell = document.createElement("td");
+          const text = document.createTextNode(value);
+          cell.appendChild(text);
+          row.appendChild(cell);
+        });
+        tableBody.appendChild(row);
+      });
+    },
+    printTable() {
+      window.print();
+    },
+  },
+};
 </script>
 
 <template>
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-2xl font-semibold mb-4">Daftar Barang</h2>
-      <table class="min-w-full bg-white border rounded-lg overflow-hidden">
-        <thead class="bg-gray-100 text-gray-800 uppercase text-sm font-semibold text-left">
-          <tr>
-            <th class="px-6 py-3">Tanggal Masuk</th>
-            <th class="px-6 py-3">ID Barang</th>
-            <th class="px-6 py-3">Nama Barang</th>
-            <th class="px-6 py-3">Total Stok</th>
-            <th class="px-6 py-3">Kode Barang</th>
-          </tr>
-        </thead>
-        <tbody class="text-gray-700">
-          <!-- Dummy data, you should replace this with dynamic data -->
-          <tr v-for="(item, index) in itemList" :key="index">
-            <td class="px-6 py-4">{{ item.tanggalMasuk }}</td>
-            <td class="px-6 py-4">{{ item.idBarang }}</td>
-            <td class="px-6 py-4">{{ item.namaBarang }}</td>
-            <td class="px-6 py-4">{{ item.totalStok }}</td>
-            <td class="px-6 py-4">{{ item.kodeBarang }}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <router-link to="/addcoursematerial">
-        <button type="button" class="text-white mt-10 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 ml-50 ">Add</button>
-      </router-link>
+  <Layout />
+  <div class="mt-16 pl-[15rem]">
+    <div class="max-w-6xl mr-16">
+      <!-- Tabel kosong -->
+      <div class="bg-white max-w-5xl ml-30 pl-28 pe-8">
+        <table class="min-w-max w-full table-auto px-1">
+          <thead>
+            <tr
+              class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal"
+            >
+              <th class="py-3 px-2 text-left border" style="text-align: center">
+                Id Barang
+              </th>
+              <th class="py-3 px-2 text-left border" style="text-align: center">
+                Nama Barang
+              </th>
+              <th class="py-3 px-2 text-left border" style="text-align: center">
+                Jenis Stok
+              </th>
+              <th class="py-3 px-2 text-left border" style="text-align: center">
+                Jumlah Barang
+              </th>
+              <th
+                class="py-3 px-2 text-left border"
+                style="text-align: center"
+              ></th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-600 text-sm font-light" ref="tableBody">
+            <!-- Data dari array -->
+            <tr v-for="(item, index) in data" :key="index">
+              <td class="py-3 px-2 text-left border">
+                <span>{{ item.id }}</span>
+              </td>
+              <td class="py-3 px-2 text-left border">
+                <span>{{ item.nama }}</span>
+              </td>
+              <td class="py-3 px-2 text-left border">
+                <span>{{ item.jenisBarang }}</span>
+              </td>
+              <td class="py-3 px-2 text-left border">
+                <span>{{ item.kode }}</span>
+              </td>
+              <td class="py-3 px-2 text-left border"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <RouterView />
-  </template>
+
+    <!-- Kolom baru di bagian bawah -->
+    <div class="max-w-5xl ml-10 pl-28 mt-4 flex justify-end">
+      <div class="flex flex-col">
+        <button
+          @click="updateItem()"
+          class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded mt-2"
+        >
+          Update
+        </button>
+        <button
+          @click="printTable()"
+          class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mt-2"
+        >
+          Print
+        </button>
+      </div>
+    </div>
+  </div>
+  <RouterView />
+</template>
