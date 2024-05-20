@@ -1,4 +1,6 @@
 <template>
+
+
     <div class="keranjang bg-gray-100 min-h-screen">
       <Navbar :updateKeranjang="keranjangs" />
       <div class="container mx-auto py-8">
@@ -307,3 +309,4 @@
   };
   </script>
   
+

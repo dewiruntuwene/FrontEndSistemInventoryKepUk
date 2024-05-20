@@ -1,4 +1,5 @@
 <template>
+
     <Layout/>
     <div class="mt-14 pl-[15rem]">
       <div class="border-y-2 border-b-3 border-black flex flex-row justify-between items-center p-5">
@@ -132,5 +133,4 @@
 import { defineComponent } from 'vue';
 export default defineComponent({});
 </script>
-  
- 
+
