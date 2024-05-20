@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { onMounted, ref, Ref, computed,ComputedRef, defineProps } from 'vue';
-import CardBarang  from '@components/CardBarang.vue';
-import layout  from '@components/layout.vue';
+import CardBarang  from '../components/CardBarang.vue';
+import Layout  from '../components/Layout.vue';
 import axios from 'axios';
 import {useToast} from 'vue-toast-notification';
-import Navbar from "@components/Navbar.vue";
+import Navbar from "../components/Navbar.vue";
+
 
 
 // Definisikan props dengan tipe Barang
@@ -14,6 +15,7 @@ import Navbar from "@components/Navbar.vue";
 //     type: Array as () => Barang[],
 //     required: true
 //   }
+
 // });
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -233,10 +235,10 @@ const searchBarang = async () => {
         <div class="container h-full mx-auto">
           <div class="flex h-full items-center">
             <div class="w-full md:w-1/2 my-auto">
-              <h1 class="text-4xl font-bold">Cara Tepat Jual Cepat</h1>
-              <p class="mt-4 text-lg">Memberikan kemudahan dan Kecepatan Penjual dan Pembeli</p>
+              <h1 class="text-4xl font-bold"> Sistem Inventory Fakultas Keperawatan</h1>
+              <p class="mt-4 text-4xl">Universitas Klabat</p>
               
-              <button class="mt-6 bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 transition">Temukan Barang</button>
+           
               <a href="" class="inline-block mt-4">
                 <img src="" alt="">
               </a>
