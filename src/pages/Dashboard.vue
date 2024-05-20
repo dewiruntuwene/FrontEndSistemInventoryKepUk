@@ -1,7 +1,7 @@
 <script>
 import { ref } from "vue";
 import axios from "axios";
-import Layout from "../components/Layout.vue";
+import Layout from "../components/layout.vue";
 
 export default {
   components: {
