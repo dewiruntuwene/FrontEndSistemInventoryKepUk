@@ -23,7 +23,10 @@
               <nav aria-label="breadcrumb">
                 <ol class="bg-white p-2 rounded-md shadow-md flex flex-col space-y-2">
                   <li>
-                    <router-link to="/user-catalog" class="text-blue-500 hover:underline">User Catalog</router-link>
+                    <router-link to="/UserTransaction" class="text-blue-500 hover:underline">Transaksi</router-link>
+                  </li>
+                  <li>
+                    <router-link to="/UserCatalog" class="text-blue-500 hover:underline">User Catalog</router-link>
                   </li>
                   <li>
                     <router-link to="/account" class="text-blue-500 hover:underline">Account</router-link>
@@ -40,6 +43,7 @@
         
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
+              <router-link to="/UserTransaction" class="text-gray-800 hover:text-gray-600">Transaksi</router-link>
               <router-link to="/UserCatalog" class="text-gray-800 hover:text-gray-600">Catalog Barang</router-link>
               
               <div class="flex-row relative">
