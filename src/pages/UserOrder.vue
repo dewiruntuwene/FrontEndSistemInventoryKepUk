@@ -11,16 +11,13 @@
               <li class="breadcrumb-item">
                 <router-link to="/UserCatalog" class="text-blue-500">User Catalog</router-link>
               </li>
-              <li class="breadcrumb-item">
+              <li class="breadcrumb-item  ">
                 <router-link to="/UserCatalog" class="text-blue-500">Account</router-link>
               </li>
               <li class="breadcrumb-item active" aria-current="page">Keranjang</li>
             </ol>
           </nav>
-  
-          
         </div>
-  
   
         <div class="mt-8">
           <h2 class="text-3xl font-bold mb-4">Keranjang <span class="font-semibold">Saya</span></h2>
@@ -51,12 +48,10 @@
                   <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangs.nama_barang }}</td>
                   <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangs.jenis_barang }}</td>
                   <td class="px-6 py-4 whitespace-nowrap">
-                    <input type="number" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="pesan_keranjang.jumlah_barang[index]"  :class="{ 
-      'border-red-500': isFormIncomplete && (!pesan_keranjang.jumlah_barang[index].valueOf() || pesan_keranjang.jumlah_barang[index].valueOf() <= 0) 
-    }"/> 
+                    <input type="number" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="keranjang.jumlah_barang" @change="updateKeranjang(Number(keranjang.id_keranjang), Number(keranjang.jumlah_barang))"/> 
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-red-500 cursor-pointer">
-                    <button @click="removeItemFromKeranjang(index)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded">Delete</button>
+                    <button @click="removeItemFromKeranjang(Number(keranjang.id_keranjang))" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded">Delete</button>
                   </td>
                 </tr>    
               </tbody>
@@ -177,7 +172,7 @@
   
   
   interface PesanKeranjang {
-    jumlah_barang: number;
+    jumlah_barang: number[];
     // Properti lain yang mungkin ada
   }
   
@@ -186,7 +181,10 @@
   });
   
   const setKeranjangs = (data: Keranjang[]) => {
-    keranjangs.value = data.map((item) => ({ ...item, jumlah_barang: 0 })); // Initialize quantity to 0 for each item;
+    keranjangs.value = data.map(item => ({
+      ...item,
+      id_keranjang: Number(item.id_keranjang), // Pastikan id_keranjang adalah number
+    }));
   };
   
   const pesan = ref({
@@ -195,33 +193,33 @@
     prasat: '', 
     jam_praktek: '',
     tanggal_praktek: '',
-    jumlah_barang: 0,
+    jumlah_barang: '',
     keranjangs: []
   });
   
   
   
-  const hapusKeranjang = async (id_keranjang: number) => {
-    try {
-      await axios.delete(`https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang/${id_keranjang}`);
-      toast.error("Sukses Hapus Keranjang", {
-        type: "error",
-        position: "top-right",
-        duration: 3000,
-        dismissible: true,
-      });
-      const response = await axios.get("https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang");
-      setKeranjangs(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const hapusKeranjang = async (id_keranjang: number) => {
+  //   try {
+  //     await axios.delete(`https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang/${id_keranjang}`);
+  //     toast.error("Sukses Hapus Keranjang", {
+  //       type: "error",
+  //       position: "top-right",
+  //       duration: 3000,
+  //       dismissible: true,
+  //     });
+  //     const response = await axios.get("https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang");
+  //     setKeranjangs(response.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   
   
   const removeItemFromKeranjang = async (id_keranjang: number) => {
     try {
-      await axios.delete(`https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang/${id_keranjang}`);
-      keranjangs.value = keranjangs.value.filter((item: any) => item.id_keranjang !== id_keranjang);
+      await axios.delete(`${apiUrl}/keranjang/${id_keranjang}`);
+      keranjangs.value = keranjangs.value.filter(item => item.id_keranjang !== id_keranjang);
     } catch (error) {
       console.log(error);
     }
@@ -231,23 +229,15 @@
   //   pesan.value.jumlah_barang = newValue;
   // };
   
-  const updateKeranjang = async (id_keranjang: number) => {
-          try {
-            // find the index of the item in keranjangs.value that matches the id_keranjang
-            const itemIndex = keranjangs.value.findIndex(item => item.id_keranjang === id_keranjang);
-            
-            // If the item exists (findIndex doesn't return -1), we create an update data object containing the specific jumlah_barang
-            // from pesan_keranjang.value.jumlah_barang at the corresponding index.
-            if (itemIndex !== -1) {
-              const updateData = {
-                jumlah_barang: pesan_keranjang.value.jumlah_barang[itemIndex]
-              };
-              await axios.patch(`https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang/${id_keranjang}`, updateData);
-            }
-          } catch (error) {
-            console.log(error);
-          }
-  };
+  const updateKeranjang = async (id_keranjang: number, jumlah_barang: number) => {
+  try {
+    const updateData = { jumlah_barang };
+    await axios.patch(`${apiUrl}/keranjang/${id_keranjang}`, updateData);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
   
   
   
@@ -256,7 +246,7 @@
         const token = localStorage.getItem('token');
         // Update items from the keranjang 
         await Promise.all(keranjangs.value.map(async (item: any) => {
-          await updateKeranjang(item.id_keranjang);
+          await updateKeranjang(item.id_keranjang, item.jumlah_barang);
         }));
   
         const requestData = {
@@ -264,9 +254,10 @@
           prasat: pesan.value.prasat,
           jam_praktek: pesan.value.jam_praktek,
           tanggal_praktek: pesan.value.tanggal_praktek,
-          // keranjangs: {
-          //   // pesan_keranjang.value.jumlah_barang
-          // }
+          keranjangs: keranjangs.value.map(item => ({ 
+            id_keranjang: item.id_keranjang, 
+            jumlah_barang: item.jumlah_barang 
+          }))
         };
   
         const config = {
@@ -285,14 +276,14 @@
   
   onMounted(async () => {
     try {
-      const response = await axios.get("https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang");
+      const response = await axios.get(`${apiUrl}/keranjang`);
       setKeranjangs(response.data);
       console.log(keranjangs.value);
     } catch (error) {
       console.log(error);
     }
   });
-  
+
   
   const toggleSubmitModal = () => {
       // Check if all fields in the form are filled

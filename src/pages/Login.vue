@@ -14,8 +14,6 @@ interface CustomJwtPayload extends JwtPayload {
   role: string;
 }
 
-
-
 // Mengambil URL API dari environment variables
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -89,8 +87,6 @@ interface User {
 onMounted(() => {
   checkToken();
 });
-
-
 
 
 
