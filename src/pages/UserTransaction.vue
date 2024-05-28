@@ -22,7 +22,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import Navbar from "../components/Navbar.vue";
@@ -51,11 +51,20 @@ interface Transaction {
 const transactions = ref<Transaction[]>([]);
 
 const fetchTransactions = async () => {
+  const token = localStorage.getItem('token');
   try {
-    const response = await axios.get(`${apiUrl}/peminjamBarang`);
+    const response = await axios.get(`${apiUrl}/peminjamBarang`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
     const data = response.data.map((transaction: any) => {
       if (transaction.type === 'BarangKeluar') {
         transaction.status = 'sukses';
+      } else if (transaction.type === 'PENDING') {
+        transaction.status = 'pending';
+      }else if (transaction.type === 'CANCEL') {
+        transaction.status = 'dibatalkan';
       }
       // Anda bisa menambahkan logika serupa untuk mengubah type lain ke status yang sesuai
       return transaction;
