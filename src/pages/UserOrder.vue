@@ -19,104 +19,109 @@
           </nav>
         </div>
   
-        <div class="mt-8">
-          <h2 class="text-3xl font-bold mb-4">Keranjang <span class="font-semibold">Saya</span></h2>
-          <div class="overflow-x-auto">
-            <table class="min-w-full bg-white shadow-md rounded-md overflow-hidden">
-              <thead class="bg-gray-200">
-                <tr>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Foto</th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID BARANG</th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NAMA BARANG</th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">JENIS BARANG</th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">JUMLAH BARANG</th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hapus</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-200">
-                <tr v-for="(keranjang, index) in keranjangs" :key="keranjang.barangs.kode_barang" class="bg-white">
-                  <td class="px-6 py-4 whitespace-nowrap">{{ index + 1 }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <img
-                      :src="`http://localhost:5000/uploads/${keranjang.barangs.gambar_barang}`"
-                      class="w-24 h-24 object-cover rounded-md shadow-md"
-                      alt="Product"
-                    />
-                  </td>
-                  <td v-if="keranjang.barangs && keranjang.barangs" class="px-6 py-4 whitespace-nowrap text-gray"><strong>{{ keranjang.barangs.kode_barang }}</strong></td>
-                  <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangs.nama_barang }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangs.jenis_barang }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <input type="number" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="keranjang.jumlah_barang" @change="updateKeranjang(Number(keranjang.id_keranjang), Number(keranjang.jumlah_barang))"/> 
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-red-500 cursor-pointer">
-                    <button @click="removeItemFromKeranjang(Number(keranjang.id_keranjang))" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded">Delete</button>
-                  </td>
-                </tr>    
-              </tbody>
-            </table>
+        <div class="flex flex-col md:flex-row">
+          <!-- Tabel Keranjang -->
+          <div class="mt-8 md:mr-4 md:w-2/3">
+            <h2 class="text-3xl font-bold mb-4">Keranjang <span class="font-semibold">Saya</span></h2>
+            <div class="overflow-x-auto">
+              <table class="min-w-full bg-white shadow-md rounded-md overflow-hidden">
+                <!-- Table Header -->
+                <thead class="bg-gray-200">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Foto</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID BARANG</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NAMA BARANG</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">JENIS BARANG</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">JUMLAH BARANG</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hapus</th>
+                  </tr>
+                </thead>
+                <!-- Table Body -->
+                <tbody class="divide-y divide-gray-200">
+                  <tr v-for="(keranjang, index) in keranjangs" :key="keranjang.barangs.kode_barang" class="bg-white">
+                    <td class="px-6 py-4 whitespace-nowrap">{{ index + 1 }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <img :src="`http://localhost:5000/uploads/${keranjang.barangs.gambar_barang}`" class="w-24 h-24 object-cover rounded-md shadow-md" alt="Product" />
+                    </td>
+                    <td v-if="keranjang.barangs && keranjang.barangs" class="px-6 py-4 whitespace-nowrap text-gray"><strong>{{ keranjang.barangs.kode_barang }}</strong></td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangs.nama_barang }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ keranjang.barangs.jenis_barang }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <input type="number" class="form-input mt-1 block w-full border border-gray-300 rounded" v-model="keranjang.jumlah_barang" @change="updateKeranjang(Number(keranjang.id_keranjang), Number(keranjang.jumlah_barang))"/> 
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-red-500 cursor-pointer">
+                      <button @click="removeItemFromKeranjang(Number(keranjang.id_keranjang))" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded">Delete</button>
+                    </td>
+                  </tr>    
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+          <!-- Form Checkout -->
+          <div class="mt-8 md:w-1/2">
+              <div class="w-full md:w-1/3">
+                  <form @submit.prevent="checkout" class="bg-white shadow-md rounded-md p-6">
+                      <div class="mb-4">
+                        <label for="namaMatakuliah" class="text-gray-600">Nama Matakuliah :</label>
+                        <select v-model="pesan.nama_matakuliah" class="form-select mt-1 block w-full border rounded border-gray-300" :class="{ 'border-red-500': isFormIncomplete && !pesan.nama_matakuliah }">
+                          <option value="" disabled selected>Pilih Matakuliah</option>
+                          <option v-for="mk in matakuliah" :key="mk" :value="mk">{{ mk }}</option>
+                        </select>
+                      </div>
+    
+                      <div class="mb-4">
+                          <label for="prasat" class="text-gray-600">Prasat :</label>
+                          <input type="text" class="form-input mt-1 block w-full border rounded border-gray-300" v-model="pesan.prasat" 
+                          :class="{ 'border-red-500': isFormIncomplete && !pesan.prasat }" />
+                      </div>
+                      <div class="mb-4">
+                          <label for="jamPraktek" class="text-gray-600">Jam Praktek :</label>
+                          <input type="text" class="form-input mt-1 block w-full border rounded border-gray-300" v-model="pesan.jam_praktek" 
+                          :class="{ 'border-red-500': isFormIncomplete && !pesan.jam_praktek }"/>
+                        
+                      </div>
+                      <div class="mb-4">
+                          <label type="Date" for="tanggalPraktek" class="text-gray-600">Tanggal Praktek :</label>
+                          <input datepicker type="Date" class="form-input mt-1 block w-full border rounded border-gray-300" v-model="pesan.tanggal_praktek" 
+                          :class="{ 'border-red-500': isFormIncomplete && !pesan.tanggal_praktek }"/>
+                      </div>        
+    
+                      <!-- Error message for incomplete form -->
+                      <div>
+                        <p v-show="showError" class="text-red-500 text-xs italic mb-4">
+                          Mohon lengkapi semua field sebelum melakukan checkout
+                        </p>
+                      </div>
+    
+                      <!-- Button "Pesan" -->
+                    <button 
+                          @click="toggleSubmitModal" 
+                          type="submit"
+                          class="btn btn-success w-full bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded mt-2"
+                        >
+                          Pesan
+                        </button>
+    
+                      <!-- Modal for submission confirmation -->
+                    <div v-if="isSubmitOpen && !isFormIncomplete" class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
+                      <div class="bg-white p-8 rounded-lg">
+                        <p>Pesanan Anda Akan di Proses</p>
+                        <button @click="toggleSubmitModal"
+                          class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                          Close
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+              </div>
           </div>
         </div>
+        
   
-        <!-- Form Checkout -->
-        <div class="mt-8 flex justify-end">
-            <div class="w-full md:w-1/3">
-                <form @submit.prevent="checkout" class="bg-white shadow-md rounded-md p-6">
-                    <div class="mb-4">
-                      <label for="namaMatakuliah" class="text-gray-600">Nama Matakuliah :</label>
-                      <select v-model="pesan.nama_matakuliah" class="form-select mt-1 block w-full border rounded border-gray-300" :class="{ 'border-red-500': isFormIncomplete && !pesan.nama_matakuliah }">
-                        <option value="" disabled selected>Pilih Matakuliah</option>
-                        <option v-for="mk in matakuliah" :key="mk" :value="mk">{{ mk }}</option>
-                      </select>
-                    </div>
-  
-                    <div class="mb-4">
-                        <label for="prasat" class="text-gray-600">Prasat :</label>
-                        <input type="text" class="form-input mt-1 block w-full border rounded border-gray-300" v-model="pesan.prasat" 
-                        :class="{ 'border-red-500': isFormIncomplete && !pesan.prasat }" />
-                    </div>
-                    <div class="mb-4">
-                        <label for="jamPraktek" class="text-gray-600">Jam Praktek :</label>
-                        <input type="text" class="form-input mt-1 block w-full border rounded border-gray-300" v-model="pesan.jam_praktek" 
-                        :class="{ 'border-red-500': isFormIncomplete && !pesan.jam_praktek }"/>
-                       
-                    </div>
-                    <div class="mb-4">
-                        <label type="Date" for="tanggalPraktek" class="text-gray-600">Tanggal Praktek :</label>
-                        <input datepicker type="Date" class="form-input mt-1 block w-full border rounded border-gray-300" v-model="pesan.tanggal_praktek" 
-                        :class="{ 'border-red-500': isFormIncomplete && !pesan.tanggal_praktek }"/>
-                    </div>        
-  
-                    <!-- Error message for incomplete form -->
-                    <div>
-                      <p v-show="showError" class="text-red-500 text-xs italic mb-4">
-                        Mohon lengkapi semua field sebelum melakukan checkout
-                      </p>
-                    </div>
-  
-                    <!-- Button "Pesan" -->
-                   <button 
-                        @click="toggleSubmitModal" 
-                        type="submit"
-                        class="btn btn-success w-full bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded mt-2"
-                      >
-                        Pesan
-                      </button>
-  
-                    <!-- Modal for submission confirmation -->
-                  <div v-if="isSubmitOpen && !isFormIncomplete" class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
-                    <div class="bg-white p-8 rounded-lg">
-                      <p>Pesanan Anda Akan di Proses</p>
-                      <button @click="toggleSubmitModal"
-                        class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Close
-                      </button>
-                    </div>
-                  </div>
-                </form>
-            </div>
-        </div>
+        
   
       </div>
     </div>
@@ -275,8 +280,13 @@
   };
   
   onMounted(async () => {
+    const token = localStorage.getItem('token')
     try {
-      const response = await axios.get(`${apiUrl}/keranjang`);
+      const response = await axios.get(`${apiUrl}/keranjang`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       setKeranjangs(response.data);
       console.log(keranjangs.value);
     } catch (error) {
