@@ -95,6 +95,10 @@ const routes = [
         path: '/Layout',
         component: () => import('../components/Layout.vue')
       },
+      {
+        path: '/Navbar',
+        component: () => import('../components/Navbar.vue')
+      },
 
     ]
   }
