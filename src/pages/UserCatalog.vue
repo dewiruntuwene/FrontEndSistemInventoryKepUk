@@ -6,7 +6,7 @@ import Layout  from '../components/Layout.vue';
 import axios from 'axios';
 import {useToast} from 'vue-toast-notification';
 import Navbar from "../components/Navbar.vue";
-
+import { jwtDecode,JwtPayload } from 'jwt-decode';
 
 
 // Definisikan props dengan tipe Barang
@@ -23,7 +23,9 @@ const router = useRouter();
 const toast = useToast();
 
 const searchQuery = ref('');
-
+interface CustomJwtPayload extends JwtPayload {
+  role: string;
+}
 
 export interface Barang {
   kode_barang: string,
@@ -55,6 +57,38 @@ const barang = ref<Barang[]>();
 
 console.log(barang)
 
+
+
+// Handle token in URL
+onMounted(() => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get('token');
+  
+
+  if (token) {
+    try {
+      localStorage.setItem('token', token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const decodedToken : CustomJwtPayload = jwtDecode(token);
+     
+      const userRole = decodedToken.role;
+      console.log(decodedToken)
+
+      if (userRole === 'USER') {
+        // Already on UserCatalog page
+      } else if (userRole === 'ADMIN') {
+        router.push('/Dashboard');
+      } else {
+        console.error('Unknown role:', userRole);
+      }
+    } catch (error) {
+      console.error('Failed to decode token:', error);
+    }
+  } else {
+    console.error('No token found in URL');
+  }
+});
+
 // Filtered barangs based on search query
 const filteredBarangs = computed(() => {
   // Check if barang.value is defined before accessing its value
@@ -85,7 +119,7 @@ const normalizeResponseToBarang = (response: any): Barang[] => {
 // Langkah 4: Panggil fungsi normalizeResponseToBarang dengan respons yang diterima
 onMounted(async () => {
   try {
-    const response = await axios.get('https://vjk2k0f5-5000.asse.devtunnels.ms/barang');
+    const response = await axios.get(`${apiUrl}/barang`);
     barang.value = normalizeResponseToBarang(response.data);
 
     // console.log(response)
@@ -104,15 +138,6 @@ onMounted(async () => {
 
 });
 
-
-
-// if (barangs.value) {
-//     barangs.value.forEach((barang) => {
-//         console.log(barang.id_barang);
-//     });
-// } else {
-//     console.error("Data barang belum tersedia");
-// }
 
 
 
@@ -184,7 +209,7 @@ const tambahKeKeranjang = async (barang: Barang) => {
 
 const searchBarang = async () => {
   try {
-    const response = await axios.get("https://vjk2k0f5-5000.asse.devtunnels.ms/barang?q=" + searchQuery.value);
+    const response = await axios.get(`${apiUrl}/barang?q=` + searchQuery.value);
     barang.value = normalizeResponseToBarang(response.data);
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -202,13 +227,15 @@ const searchBarang = async () => {
 // const router = useRouter();
 
 
+
+
+
+
+
 </script>
 
 <template>
   <Navbar :updateKeranjang="barang" />
-  
-
-
 
 
     <!-- <div class="row mt-3">
