@@ -5,7 +5,7 @@ import CardBarang  from '../components/CardBarang.vue';
 import Layout  from '../components/Layout.vue';
 import axios from 'axios';
 import {useToast} from 'vue-toast-notification';
-import Navbar from "../components/Navbar.vue";
+import Navbar from "../components/NavBar.vue";
 import { jwtDecode,JwtPayload } from 'jwt-decode';
 
 
