@@ -1,6 +1,6 @@
 <template>
   <Navbar/>
-  <div class="min-h-screen bg-gray-100 p-4">
+  <div class="daftar min-h-screen bg-gray-100 p-4">
     <h1 class="text-3xl font-bold mb-6 text-center">Daftar Transaksi</h1>
     <div class="flex justify-center mb-4">
       <button @click="filterStatus('all')" :class="buttonClass('all')" class="mx-2 px-4 py-2 rounded">Semua</button>
@@ -113,5 +113,44 @@ const statusClass = (status: 'sukses' | 'pending' | 'dibatalkan') => {
 <style scoped>
 button {
   @apply px-4 py-2 rounded;
+}
+
+/* Default styles */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+
+
+
+/* Styles for mobile */
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  button {
+      font-size: 0.5rem;
+      padding: 0.5rem 1rem;
+    }
+
+   .daftar {
+    font-size: 0.5rem;
+      padding: 0.5rem 1rem;
+   }
+}
+
+/* Styles for tablet */
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  button {
+      font-size: 0.8rem;
+      padding: 0.5rem 1rem;
+    }
+
 }
 </style>
