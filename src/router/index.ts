@@ -38,7 +38,7 @@ const routes = [
   },
   {
     path: '/Register',
-    component: () => import('../pages/Register.vue'),
+    component: () => import('../pages/register.vue'),
   },
   {
     children: [
