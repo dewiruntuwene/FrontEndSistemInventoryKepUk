@@ -221,7 +221,7 @@
   import axios from "axios";
   import { useToast } from 'vue-toast-notification';
   import { useRouter } from 'vue-router';
-  import Navbar from "../components/Navbar.vue";
+  import Navbar from "../components/NavBar.vue";
   import { Barang, Keranjang } from "../pages/UserCatalog.vue";
   
   const apiUrl = import.meta.env.VITE_API_URL;
