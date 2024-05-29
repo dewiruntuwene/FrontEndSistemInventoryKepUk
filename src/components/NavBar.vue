@@ -23,6 +23,37 @@
               <nav aria-label="breadcrumb">
                 <ol class="bg-white p-2 rounded-md shadow-md flex flex-col space-y-2">
                   <li>
+                    <router-link to="/user-catalog" class="text-blue-500 hover:underline">User Catalog</router-link>
+                  </li>
+                  <li>
+                    <router-link to="/account" class="text-blue-500 hover:underline">Account</router-link>
+                  </li>
+                  <li class="text-gray-500" aria-current="page">My Order</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+          
+          <!-- Hamburger Button -->
+          <div class="p-4 sm:hidden">
+              <button @click="toggleSidebar" id="hamburgerButton" class="text-blue-500 focus:outline-none">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                  </svg>
+              </button>
+          </div>
+
+          <!-- Sidebar -->
+          <div :class="['fixed top-0 left-0 h-full w-64 bg-white  transform transition-transform', isSidebarOpen ? 'translate-x-0' : '-translate-x-full']">
+            <div class="p-4">
+              <button @click="toggleSidebar" class="text-red-500 focus:outline-none mb-4">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+              <nav aria-label="breadcrumb">
+                <ol class="bg-white p-2 rounded-md shadow-md flex flex-col space-y-2">
+                  <li>
                     <router-link to="/UserTransaction" class="text-blue-500 hover:underline">Transaksi</router-link>
                   </li>
                   <li>

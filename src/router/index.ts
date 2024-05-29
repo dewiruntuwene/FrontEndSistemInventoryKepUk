@@ -91,6 +91,11 @@ const routes = [
         path: '/CardBarang',
         component: () => import('../components/CardBarang.vue')
       },
+
+      {
+        path: '/NavBar',
+        component: () => import('../components/NavBar.vue')
+      },
       {
         path: '/Layout',
         component: () => import('../components/Layout.vue')
