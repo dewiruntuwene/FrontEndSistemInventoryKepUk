@@ -1,8 +1,8 @@
 <template>
     <Layout/>
-    <div class="mt-14 pl-[15rem]">
-      <div class="border-y-2 border-b-3 border-black flex flex-row justify-between items-center p-5">
-        <h1 class="pa-3 text-2xl font-bold ">Data Barang Keluar</h1>
+    <div class="mt-0 pl-60 sticky top-0 z-50">
+      <div class="border-b-2 border-black flex flex-row justify-between items-center p-3">
+        <h4 class="pa-3 text-2xl font-bold">Data Barang Masuk</h4>
         <div class="relative md:flex">
           <input
             v-model="searchQuery"
@@ -10,7 +10,8 @@
             type="text"
             class="border border-gray-300 rounded px-2 py-1 mb-2 md:mb-0 md:mr-2"
             placeholder="Search..."
-          >
+            id="search"
+          />
           <button @click="searchItems" class="bg-gray-300 hover:bg-gray-400 rounded px-3 py-1">Search</button>
         </div>
       </div>
