@@ -111,7 +111,7 @@
   </template>
   
   <script setup lang="ts">
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, computed } from 'vue';
   import axios from 'axios';
   import { Keranjang, Barang } from "../pages/UserCatalog.vue";
   
@@ -127,14 +127,19 @@
 
   const apiUrl = import.meta.env.VITE_API_URL;
 
-  const keranjangs = ref<Keranjang[]>([]);
+  const keranjangs = ref<Array<{ jumlah_barang: number }>>([]);
   
   const updateKeranjang = ref([]);
-  
+  const isSidebarOpen = ref(false)
+
+
   const setJumlah = (data: any[]) => {
-    keranjangs.value = data;
-    
+    keranjangs.value = data;  
   };
+
+  // const totalJumlahBarang = computed(() => {
+  //   return keranjangs.value.reduce((total, item) => total + item.jumlah_barang, 0);
+  // });
   
   onMounted(() => {
     axios
@@ -143,7 +148,9 @@
       .catch((error) => console.log(error));
   });
   
-  const isSidebarOpen = ref(false)
+
+
+
   
   const toggleSidebar = () => {
     isSidebarOpen.value = !isSidebarOpen.value
