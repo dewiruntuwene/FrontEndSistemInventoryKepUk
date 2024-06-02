@@ -235,7 +235,7 @@ const searchBarang = async () => {
 </script>
 
 <template>
-  <Navbar :updateKeranjang="barang" />
+  <Navbar />
 
 
     <!-- <div class="row mt-3">
