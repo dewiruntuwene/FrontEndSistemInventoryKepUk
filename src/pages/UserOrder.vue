@@ -173,7 +173,7 @@
                       </div>
                       <div class="mb-4">
                           <label for="jamPraktek" class="text-gray-600">Jam Praktek :</label>
-                          <input type="text" class="form-input mt-1 block w-full border rounded border-gray-300" v-model="pesan.jam_praktek" 
+                          <input type="time" id="time" class=" border  border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:focus:border-blue-500   form-input mt-1 block w-full border rounded border-gray-300" min="09:00" max="18:00" value="00:00" required v-model="pesan.jam_praktek" 
                           :class="{ 'border-red-500': isFormIncomplete && !pesan.jam_praktek }"/>
                         
                       </div>
@@ -311,6 +311,12 @@
     try {
       await axios.delete(`${apiUrl}/keranjang/${id_keranjang}`);
       keranjangs.value = keranjangs.value.filter(item => item.id_keranjang !== id_keranjang);
+      toast.error("Sukses Hapus Keranjang", {
+        type: "error",
+        position: "top-right",
+        duration: 3000,
+        dismissible: true,
+      });
     } catch (error) {
       console.log(error);
     }
