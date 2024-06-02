@@ -8,15 +8,21 @@
       <button @click="filterStatus('pending')" :class="buttonClass('pending')" class="mx-2 px-4 py-2 rounded">Pending</button>
       <button @click="filterStatus('dibatalkan')" :class="buttonClass('dibatalkan')" class="mx-2 px-4 py-2 rounded">Dibatalkan</button>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <div v-for="transaction in filteredTransactions" :key="transaction.tanggal_pengambilan" class="bg-white p-4 rounded-lg shadow-md">
-        <h2 class="text-xl font-bold mb-2">{{ transaction.nama_matakuliah }}</h2>
-        <p class="text-gray-700 mb-4">Jam Praktek: {{ transaction.jam_praktek }}</p>
-        <p class="text-gray-700 mb-4">Tanggal Praktek: {{ transaction.tanggal_praktek }}</p>
-        <p :class="statusClass(transaction.status)">{{ transaction.status }}</p>
-        <div v-for="item in transaction.barangPinjam" :key="item.kode_barang" class="mt-2">
-          <p class="text-gray-600">{{ item.nama_barang }} - Jumlah: {{ item.jumlah_barang }}</p>
-        </div>
+        <div>
+          <div class="flex justify-between items-center">
+            <h2 class="text-xl font-bold mb-2">{{ transaction.nama_matakuliah }}</h2>
+            <p :class="statusClass(transaction.status)">{{ transaction.status }}</p>
+          </div>
+          
+          <p class="text-gray-700 mb-4">Jam Praktek: {{ transaction.jam_praktek }}</p>
+          <p class="text-gray-700 mb-4">Tanggal Praktek: {{ transaction.tanggal_praktek }}</p>
+          <div v-for="item in transaction.barangPinjam" :key="item.kode_barang" class="mt-2">
+            <p class="text-gray-600">{{ item.nama_barang }} - Jumlah: {{ item.jumlah_barang }}</p>
+          </div>
+        </div> 
+        
       </div>
     </div>
   </div>
@@ -111,6 +117,8 @@ const statusClass = (status: 'sukses' | 'pending' | 'dibatalkan') => {
 </script>
 
 <style scoped>
+
+
 button {
   @apply px-4 py-2 rounded;
 }
@@ -120,6 +128,7 @@ button {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 1rem;
+  
 }
 
 
@@ -128,11 +137,14 @@ button {
 @media (min-width: 768px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
+    @apply grid-cols-2;
+    @apply px-4 py-2 rounded m-2;
   }
 
   button {
       font-size: 0.5rem;
       padding: 0.5rem 1rem;
+      @apply text-sm;
     }
 
    .daftar {
@@ -145,11 +157,13 @@ button {
 @media (min-width: 1024px) {
   .grid {
     grid-template-columns: repeat(3, 1fr);
+    @apply grid-cols-3;
   }
 
   button {
       font-size: 0.8rem;
       padding: 0.5rem 1rem;
+      @apply px-4 py-2 rounded;
     }
 
 }
