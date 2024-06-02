@@ -60,7 +60,9 @@
   <script setup lang="ts">
   import { ref, onMounted } from 'vue';
   import axios from 'axios';
-  import Layout from "../components/Layout.vue";
+  import Layout from "../components/layout.vue";
+
+  const apiUrl = import.meta.env.VITE_API_URL;
   
   interface BarangKeluar {
     id_transaksi_barang: number;
@@ -88,7 +90,7 @@
   
   async function fetchData() {
     try {
-      const response = await axios.get<BarangKeluar[]>('https://vjk2k0f5-5000.asse.devtunnels.ms/barangKeluar');
+      const response = await axios.get<BarangKeluar[]>(`${apiUrl}/barangKeluar`);
       data.value = response.data;
       filteredData.value = response.data;
     } catch (error) {

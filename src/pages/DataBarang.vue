@@ -65,7 +65,8 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import axios from 'axios';
-import Layout from "../components/Layout.vue";
+import Layout from "../components/layout.vue";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 interface Barang {
   kode_barang: number;
@@ -94,7 +95,7 @@ export default defineComponent({
 
     const loadDataFromAPI = async () => {
       try {
-        const response = await axios.get('https://vjk2k0f5-5000.asse.devtunnels.ms/barang');
+        const response = await axios.get(`${apiUrl}/barang`);
         barangs.value = response.data;
       } catch (error) {
         console.error('Error loading data:', error);
@@ -122,7 +123,7 @@ export default defineComponent({
       formData.append('gambar_barang', newItem.value.image);
 
       try {
-        await axios.post('https://vjk2k0f5-5000.asse.devtunnels.ms/barang', formData);
+        await axios.post(`${apiUrl}/barang`, formData);
         newItem.value = { kode: '', nama: '', totalStok: '', harga: '', jenis: '', image: null };
         await loadDataFromAPI();
       } catch (error) {
