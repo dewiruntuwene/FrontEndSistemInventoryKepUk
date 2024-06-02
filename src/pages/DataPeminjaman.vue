@@ -94,7 +94,7 @@
 <script setup lang = "ts">
 import{ref,computed, onMounted} from 'vue';
 import axios from 'axios';
-import Layout from "../components/Layout.vue";
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 interface BarangPinjam {

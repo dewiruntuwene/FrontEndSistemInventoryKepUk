@@ -1,7 +1,7 @@
 <script>
 import { ref } from "vue";
 import axios from "axios";
-import Layout from "../components/Layout.vue";
+
 
 export default {
   components: {
@@ -16,7 +16,7 @@ export default {
     async updateItem() {
       try {
         const response = await axios.get(
-          "https://vjk2k0f5-5000.asse.devtunnels.ms/dashboardNotif"
+          `${apiUrl}/dashboardNotif`
         );
         this.data = response.data;
         this.clearTable();

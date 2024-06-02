@@ -1,18 +1,5 @@
 <template>
-  <Layout/>
-  <div class="mt-0 pl-60 sticky top-0 z-50">
-    <div class="border-b-2 border-black flex flex-row justify-between items-center p-3">
-      <h4 class="pa-3 text-2xl font-bold">Data Barang Masuk</h4>
-      <div class="relative md:flex">
-        <input
-          v-model="searchQuery"
-          @keydown.enter="searchItems"
-          type="text"
-          class="border border-gray-300 rounded px-2 py-1 mb-2 md:mb-0 md:mr-2"
-          placeholder="Search..."
-          id="search"
-        />
-        <button @click="searchItems" class="bg-gray-300 hover:bg-gray-400 rounded px-3 py-1">Search</button>
+
       </div>
     </div>
   </div>
@@ -54,45 +41,7 @@
         </tbody>
       </table>
     </div>
-  </div>
-</template>
 
-<script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
-import Layout from "../components/Layout.vue";
-
-interface BarangKeluar {
-  id_transaksi_barang: number;
-  jumlah_barang: number;
-  barangk_kode: string;
-  type: string;
-  peminjamId: number;
-  tanggal_keluar: string;
-  tanggal_masuk: string | null;
-  nama_matakuliah: string;
-  nama_barang: string;
-  barangs: {
-    kode_barang: string;
-    nama_barang: string;
-    total_stock: number;
-    jenis_barang: string;
-    harga_barang: number;
-    gambar_barang: string;
-  };
-}
-
-const data = ref<BarangKeluar[]>([]);
-const searchQuery = ref('');
-const filteredData = ref<BarangKeluar[]>([]);
-
-async function fetchData() {
-  try {
-    const response = await axios.get<BarangKeluar[]>('https://vjk2k0f5-5000.asse.devtunnels.ms/barangKeluar');
-    data.value = response.data;
-    filteredData.value = response.data;
-  } catch (error) {
-    console.error('Error fetching data:', error);
   }
 }
 

@@ -68,6 +68,10 @@ const routes = [
         component: () => import('../pages/Dashboard.vue'),
       },
       {
+        path: '/Profile',
+        component: () => import('../pages/Profile.vue'),
+      },
+      {
         path: '/LandingPage',
         component: () => import('../pages/LandingPage.vue'),
       },
@@ -99,6 +103,10 @@ const routes = [
       {
         path: '/Layout',
         component: () => import('../components/Layout.vue')
+      },
+      {
+        path: '/Navbar',
+        component: () => import('../components/Navbar.vue')
       },
 
     ]

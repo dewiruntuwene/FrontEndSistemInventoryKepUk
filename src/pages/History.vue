@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import Layout from "../components/Layout.vue";
-import axios from 'axios';
+
 
 interface Sum {
   jumlah_barang: number
@@ -20,7 +19,7 @@ const selectedBarang = ref<string>('');
 
 async function fetchData() {
   try {
-    const response = await axios.get('https://vjk2k0f5-5000.asse.devtunnels.ms/history');
+
     itemList.value = response.data.map((item: any) => ({
       kode_barang: item.kode_barang,
       nama_barang: item.nama_barang,
