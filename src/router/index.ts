@@ -68,6 +68,10 @@ const routes = [
         component: () => import('../pages/Dashboard.vue'),
       },
       {
+        path: '/Profile',
+        component: () => import('../pages/Profile.vue'),
+      },
+      {
         path: '/LandingPage',
         component: () => import('../pages/LandingPage.vue'),
       },
