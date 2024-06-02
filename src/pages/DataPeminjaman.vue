@@ -1,9 +1,11 @@
 <template>
   <Layout/>
-  <div class="mt-0 pb-5 pl-[15rem]">
-    <div class="flex flex-row justify-between items-center p-5">
-      <h1 class="text-4xl font-bold pa-3">Data Peminjam</h1>
+  <div class="mt-0 pl-60 sticky top-0 z-50">
+      <div class="border-b-2 border-black flex flex-row justify-between items-center p-3">
+        <h4 class="pa-3 text-2xl font-bold">Data Peminjaman</h4>
+      </div>
     </div>
+  <div class="mt-0 pb-5 pl-[15rem]">
 
     <!-- Tabel -->
     <div class="container max-w-4xl mx-auto mr-xs mt-4 flex justify-left mb-4 overflow-x-auto ">
@@ -151,6 +153,7 @@ const updateTransaction = async (id_peminjam: number) => {
         'Authorization': `Bearer ${token}`
       }
     });
+    alert('Sukses Masuk Barang Keluar!');
     // Update local state after successful patch
     // const updatedTransaction = transactions.value.find(t => t.id_peminjam === id_peminjam);
     // if (updatedTransaction) {
