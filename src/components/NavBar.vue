@@ -173,7 +173,7 @@ try {
   if (response.status === 200) { // Memeriksa respons status
     localStorage.removeItem('token');
     // Redirect to login page or perform any other action
-    window.location.href = '/login';
+    window.location.href = '/Login';
   } else {
     console.error('Logout failed', response.data);
     // Handle logout failure
@@ -194,5 +194,4 @@ try {
 };
 
 </script>
-
 
