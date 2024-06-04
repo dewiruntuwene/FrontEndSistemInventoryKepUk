@@ -105,7 +105,20 @@
             </div>
           </div>
         </div>
+      </div>
+    </nav>
+  </div>
+</template>
 
+<script setup lang="ts">
+import { ref, onMounted, computed } from 'vue';
+import axios from 'axios';
+import { Keranjang, Barang } from "../pages/UserCatalog.vue";
+
+const props = defineProps({
+  barang: {
+      type: Object as () => Barang,
+      required: true
   }
 });
 
@@ -160,7 +173,7 @@ try {
   if (response.status === 200) { // Memeriksa respons status
     localStorage.removeItem('token');
     // Redirect to login page or perform any other action
-    window.location.href = '/login';
+    window.location.href = '/Login';
   } else {
     console.error('Logout failed', response.data);
     // Handle logout failure
@@ -181,5 +194,4 @@ try {
 };
 
 </script>
-
 
