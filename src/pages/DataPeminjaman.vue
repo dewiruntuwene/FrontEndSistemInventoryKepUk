@@ -94,6 +94,7 @@
 <script setup lang = "ts">
 import{ref,computed, onMounted} from 'vue';
 import axios from 'axios';
+import Layout from "../components/layout.vue";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -145,7 +146,7 @@ const fetchTransactions = async () => {
   }
 };
 
-const updateTransaction = async (id_peminjam: number) => {
+const updateTransaction = async (id_peminjam: any) => {
   const token = localStorage.getItem('token');
   try {
     const response = await axios.patch(`${apiUrl}/peminjamBarang/${id_peminjam}`, { status }, {
