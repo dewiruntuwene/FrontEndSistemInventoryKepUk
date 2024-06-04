@@ -226,12 +226,8 @@ const searchBarang = async () => {
 // const router = useRouter();
 
 
-
-
-
-
-
 </script>
+
 
 <template>
   <Navbar />
