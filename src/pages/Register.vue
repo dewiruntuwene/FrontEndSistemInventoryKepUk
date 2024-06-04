@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import axios from 'axios';
-const apiUrl = import.meta.env.VITE_API_URL;
 
 const username = ref('');
 const email = ref('');
@@ -20,7 +19,7 @@ const register = async () => {
     };
 
     // Kirim permintaan pendaftaran ke server
-    const response = await axios.post(`${apiUrl}/register`, data);
+    const response = await axios.post('https://vjk2k0f5-5000.asse.devtunnels.ms/register', data);
     console.log('Response:', response.data);
 
     // Tampilkan pemberitahuan bahwa registrasi berhasil
