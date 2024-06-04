@@ -121,7 +121,7 @@
   <script setup lang="ts">
   import { ref, onMounted } from 'vue';
   import axios from 'axios';
-  import Layout from "../components/Layout.vue";
+  import Layout from "../components/layout.vue";
   
   const isFormIncomplete = ref(false);
   
