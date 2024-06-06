@@ -39,12 +39,12 @@
           </tr>
           <tr v-for="(item, index) in filteredData" :key="index">
             <td class="py-3 px-2 text-left border">{{ index + 1 }}</td>
-            <td class="py-3 px-2 text-left border">{{ formatDate(item.tanggal_keluar) }}</td>
-            <td class="py-3 px-2 text-left border">{{ item.nama_barang }}</td>
+            <td class="py-3 px-2 text-left border">{{ formatDate(item.tanggal_masuk) }}</td>
+            <td class="py-3 px-2 text-left border">{{ item.barangs.nama_barang }}</td>
             <td class="py-3 px-2 text-left border">{{ item.barangs.kode_barang }}</td>
             <td class="py-3 px-2 text-left border">{{ item.barangs.total_stock }}</td>
             <td class="py-3 px-2 text-left border">{{ item.barangs.jenis_barang }}</td>
-            <td class="py-3 px-2 text-left border">{{ item.barangs.harga_barang }}</td>
+            <td class="py-3 px-2 text-left border">{{ item.harga_barang }}</td>
             <td class="py-3 px-2 text-left border">
               <img :src="`http://localhost:5000/uploads/${item.barangs.gambar_barang}`"
               alt="Gambar Barang"
@@ -127,8 +127,7 @@ const currentItemIndex = ref<number | null>(null);
 const showForm = ref<boolean>(false);
 
 const newItem = ref<any>({
-    tanggal_masuk: '',
-    tanggal_keluar: null,
+    tanggal_keluar: '',
     jumlah_barang:0,
     kode_barang:'',
     nama_barang:'',
@@ -139,13 +138,14 @@ const newItem = ref<any>({
 interface BarangKeluar {
   id_transaksi_barang: number;
   jumlah_barang: number;
-  barangk_kode: string;
+  kode_barang: string;
   type: string;
   peminjamId: number;
-  tanggal_keluar: string;
-  tanggal_masuk: string | null;
+  tanggal_keluar: string | null;
+  tanggal_masuk: string;
   nama_matakuliah: string;
   nama_barang: string;
+  harga_barang: number;
   barangs: {
     kode_barang: string;
     nama_barang: string;
