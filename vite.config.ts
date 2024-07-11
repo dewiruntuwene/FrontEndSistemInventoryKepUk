@@ -11,4 +11,13 @@ export default defineConfig({
       "@components": "/src/components",
     },
   },
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://inventory-order-kep-cehrxcprk-dewiruntuwenes-projects.vercel.app/",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 });
