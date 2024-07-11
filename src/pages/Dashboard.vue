@@ -1,50 +1,49 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import axios from "axios";
+import Layout from "../components/layout.vue"; // Sesuaikan dengan path komponen Layout
 
-export default {
-  components: {
-    Layout, // Menambahkan Layout sebagai komponen yang digunakan
-  },
-  data() {
-    return {
-      data: [],
-    };
-  },
-  methods: {
-    async updateItem() {
-      try {
-        const response = await axios.get(`${apiUrl}/dashboardNotif`);
-        this.data = response.data;
-        this.clearTable();
-        this.addRowsToTable();
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    },
-    clearTable() {
-      const tableBody = this.$refs.tableBody;
-      tableBody.innerHTML = "";
-    },
-    addRowsToTable() {
-      const tableBody = this.$refs.tableBody;
-      this.data.forEach((item) => {
-        const row = document.createElement("tr");
-        Object.values(item).forEach((value) => {
-          const cell = document.createElement("td");
-          const text = document.createTextNode(value);
-          cell.appendChild(text);
-          row.appendChild(cell);
-        });
-        tableBody.appendChild(row);
-      });
-    },
-    printTable() {
-      window.print();
-    },
-  },
+const data = ref<Array<Record<string, any>>>([]);
+
+const updateItem = async () => {
+  try {
+    const response = await axios.get(`${apiUrl}/dashboardNotif`);
+    data.value = response.data;
+    clearTable();
+    addRowsToTable();
+  } catch (error) {
+    console.error("Error:", error);
+  }
 };
+
+const clearTable = () => {
+  const tableBody = tableBodyRef.value;
+  if (tableBody) tableBody.innerHTML = "";
+};
+
+const addRowsToTable = () => {
+  const tableBody = tableBodyRef.value;
+  if (!tableBody) return;
+
+  data.value.forEach((item) => {
+    const row = document.createElement("tr");
+    Object.values(item).forEach((value) => {
+      const cell = document.createElement("td");
+      const text = document.createTextNode(String(value));
+      cell.appendChild(text);
+      row.appendChild(cell);
+    });
+    tableBody.appendChild(row);
+  });
+};
+
+const printTable = () => {
+  window.print();
+};
+
+const tableBodyRef = ref<HTMLElement | null>(null);
 </script>
+
 
 <template>
   <Layout />
