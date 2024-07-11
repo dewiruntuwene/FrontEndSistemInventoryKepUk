@@ -77,10 +77,6 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../pages/Profile.vue'),
       },
       {
-        path: 'LandingPage',
-        component: () => import('../pages/LandingPage.vue'),
-      },
-      {
         path: 'UserCatalog',
         component: () => import('../pages/UserCatalog.vue'),
       },
