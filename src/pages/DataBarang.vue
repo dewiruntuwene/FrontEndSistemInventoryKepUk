@@ -137,7 +137,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import axios from "axios";
-import Layout from "../components/Layout.vue";
+import Layout from "../components/layout.vue";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 

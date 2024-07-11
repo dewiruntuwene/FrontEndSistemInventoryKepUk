@@ -28,7 +28,7 @@
 import { defineComponent, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { jwtDecode } from "jwt-decode";
-import Layout from "../components/Layout.vue";
+import Layout from "../components/layout.vue";
 
 interface DecodedToken {
   name: string;

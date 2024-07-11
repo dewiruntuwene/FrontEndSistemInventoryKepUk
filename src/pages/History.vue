@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import Layout from "../components/Layout.vue";
+import Layout from "../components/layout.vue";
 import axios from 'axios';
 
 const apiUrl = import.meta.env.VITE_API_URL;

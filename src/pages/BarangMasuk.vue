@@ -121,7 +121,7 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useToast } from 'vue-toast-notification';
-import Layout from "../components/Layout.vue";
+import Layout from "../components/layout.vue";
 
 const toast = useToast();
 const apiUrl = import.meta.env.VITE_API_URL;
