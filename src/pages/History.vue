@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
+import Layout from "../components/layout.vue";
+import axios from 'axios';
 
+const apiUrl = import.meta.env.VITE_API_URL;
 
 interface Sum {
   jumlah_barang: number
@@ -19,7 +22,7 @@ const selectedBarang = ref<string>('');
 
 async function fetchData() {
   try {
-
+    const response = await axios.get(`${apiUrl}/history`);
     itemList.value = response.data.map((item: any) => ({
       kode_barang: item.kode_barang,
       nama_barang: item.nama_barang,
