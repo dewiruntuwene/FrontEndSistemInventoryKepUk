@@ -2,7 +2,6 @@
 import { ref } from "vue";
 import axios from "axios";
 
-
 export default {
   components: {
     Layout, // Menambahkan Layout sebagai komponen yang digunakan
@@ -15,9 +14,7 @@ export default {
   methods: {
     async updateItem() {
       try {
-        const response = await axios.get(
-          `${apiUrl}/dashboardNotif`
-        );
+        const response = await axios.get(`${apiUrl}/dashboardNotif`);
         this.data = response.data;
         this.clearTable();
         this.addRowsToTable();
@@ -52,11 +49,12 @@ export default {
 <template>
   <Layout />
   <div class="mt-0 pl-60 sticky top-0 z-50">
-      <div class="border-b-2 border-black flex flex-row justify-between items-center p-3">
-        <h4 class="pa-3 text-2xl font-bold">Dashboard</h4>
-        
-      </div>
+    <div
+      class="border-b-2 border-black flex flex-row justify-between items-center p-3"
+    >
+      <h4 class="pa-3 text-2xl font-bold">Dashboard</h4>
     </div>
+  </div>
   <div class="mt-16 pl-[15rem]">
     <div class="max-w-6xl mr-16">
       <!-- Tabel kosong -->
