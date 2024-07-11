@@ -38,7 +38,7 @@ const routes = [
   },
   {
     path: "/Register",
-    component: () => import("../pages/register.vue"),
+    component: () => import("../pages/Register.vue"),
   },
   {
     children: [
@@ -106,7 +106,7 @@ const routes = [
       },
       {
         path: "/Layout",
-        component: () => import("../components/Layout.vue"),
+        component: () => import("../components/layout.vue"),
       },
       {
         path: "/Navbar",
