@@ -1,6 +1,5 @@
-
 export interface CartItem {
-nama: string;
-kode: string;
-jumlah: number;
+  nama: string;
+  kode: string;
+  jumlah: number;
 }
