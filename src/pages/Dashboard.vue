@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import axios from "axios";
-import Layout from "../components/layout.vue"; // Sesuaikan dengan path komponen Layout
+import Layout from "../components/Layout.vue"; // Sesuaikan dengan path komponen Layout
 
 const apiUrl = import.meta.env.VITE_API_URL;
 

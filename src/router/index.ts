@@ -106,7 +106,7 @@ const routes = [
       },
       {
         path: "/Layout",
-        component: () => import("../components/layout.vue"),
+        component: () => import("../components/Layout.vue"),
       },
       {
         path: "/Navbar",
