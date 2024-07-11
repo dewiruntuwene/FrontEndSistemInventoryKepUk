@@ -3,6 +3,8 @@ import { ref } from "vue";
 import axios from "axios";
 import Layout from "../components/layout.vue"; // Sesuaikan dengan path komponen Layout
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const data = ref<Array<Record<string, any>>>([]);
 
 const updateItem = async () => {
