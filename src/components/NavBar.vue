@@ -204,12 +204,7 @@ import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 import { Keranjang, Barang } from "../pages/UserCatalog.vue";
 
-const props = defineProps({
-  barang: {
-    type: Object as () => Barang,
-    required: true,
-  },
-});
+const barang = ref<Barang[]>();
 
 const searchQuery = ref("");
 const searchResults = ref<Barang[]>([]);
