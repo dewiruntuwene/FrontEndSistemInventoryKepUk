@@ -35,6 +35,10 @@ export interface Barang {
   path: string;
 }
 
+const props = defineProps<{
+  barang: Barang;
+}>();
+
 export interface Keranjang {
   id_keranjang: Number;
   barangs: Barang;
@@ -216,7 +220,7 @@ const searchBarang = async () => {
 </script>
 
 <template>
-  <Navbar />
+  <Navbar :barang="barang" />
 
   <!-- <div class="row mt-3">
       <div class="col">
