@@ -4,7 +4,7 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/lmsfrontend",
+  base: "./",
   plugins: [vue()],
   resolve: {
     alias: {
