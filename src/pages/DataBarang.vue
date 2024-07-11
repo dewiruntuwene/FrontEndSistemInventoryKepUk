@@ -162,7 +162,7 @@ export default defineComponent({
       totalStok: "",
       harga: "",
       jenis: "",
-      image: null,
+      image: "",
     });
     const errorMessage = ref("");
 
@@ -215,7 +215,7 @@ export default defineComponent({
           totalStok: "",
           harga: "",
           jenis: "",
-          image: null,
+          image: "",
         };
         await loadDataFromAPI();
       } catch (error) {
