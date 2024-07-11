@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { useRouter } from "vue-router";
@@ -27,94 +27,83 @@ function decodeToken(token: string): DecodedToken {
   }
 }
 
-const routes = [
+const routes: Array<RouteRecordRaw> = [
   {
-    path: "/",
-    redirect: "/Login",
+    path: '/',
+    redirect: '/Login',
   },
   {
-    path: "/Login",
-    component: () => import("../pages/Login.vue"),
+    path: '/Login',
+    component: () => import('../pages/Login.vue'),
   },
   {
-    path: "/Register",
-    component: () => import("../pages/Register.vue"),
+    path: '/Register',
+    component: () => import('../pages/Register.vue'),
   },
   {
+    path: '/',
+    component: () => import('../components/layout.vue'),
     children: [
       {
-        path: "/BarangKeluar",
-        component: () => import("../pages/BarangKeluar.vue"),
-      },
-
-      {
-        path: "/BarangMasuk",
-        component: () => import("../pages/BarangMasuk.vue"),
+        path: 'BarangKeluar',
+        component: () => import('../pages/BarangKeluar.vue'),
       },
       {
-        path: "/BarangPinjam",
-        component: () => import("../pages/BarangPinjam.vue"),
+        path: 'BarangMasuk',
+        component: () => import('../pages/BarangMasuk.vue'),
       },
       {
-        path: "/DataBarang",
-        component: () => import("../pages/DataBarang.vue"),
+        path: 'BarangPinjam',
+        component: () => import('../pages/BarangPinjam.vue'),
       },
       {
-        path: "/DataPeminjaman",
-        component: () => import("../pages/DataPeminjaman.vue"),
+        path: 'DataBarang',
+        component: () => import('../pages/DataBarang.vue'),
       },
       {
-        path: "/History",
-        component: () => import("../pages/History.vue"),
+        path: 'DataPeminjaman',
+        component: () => import('../pages/DataPeminjaman.vue'),
       },
       {
-        path: "/Dashboard",
-        component: () => import("../pages/Dashboard.vue"),
+        path: 'History',
+        component: () => import('../pages/History.vue'),
       },
       {
-        path: "/Profile",
-        component: () => import("../pages/Profile.vue"),
+        path: 'Dashboard',
+        component: () => import('../pages/Dashboard.vue'),
       },
       {
-        path: "/LandingPage",
-        component: () => import("../pages/LandingPage.vue"),
+        path: 'Profile',
+        component: () => import('../pages/Profile.vue'),
       },
       {
-        path: "/Login",
-        component: () => import("../pages/Login.vue"),
+        path: 'LandingPage',
+        component: () => import('../pages/LandingPage.vue'),
       },
       {
-        path: "/UserCatalog",
-        component: () => import("../pages/UserCatalog.vue"),
+        path: 'UserCatalog',
+        component: () => import('../pages/UserCatalog.vue'),
       },
       {
-        path: "/UserOrder",
-        component: () => import("../pages/UserOrder.vue"),
+        path: 'UserOrder',
+        component: () => import('../pages/UserOrder.vue'),
       },
       {
-        path: "/UserTransaction",
-        component: () => import("../pages/UserTransaction.vue"),
-      },
-      {
-        path: "/CardBarang",
-        component: () => import("../components/CardBarang.vue"),
-      },
-
-      {
-        path: "/Navbar",
-        component: () => import("../components/Navbar.vue"),
-      },
-      {
-        path: "/Layout",
-        component: () => import("../components/layout.vue"),
-      },
-      {
-        path: "/Navbar",
-        component: () => import("../components/Navbar.vue"),
+        path: 'UserTransaction',
+        component: () => import('../pages/UserTransaction.vue'),
       },
     ],
   },
+  {
+    path: '/CardBarang',
+    component: () => import('../components/CardBarang.vue'),
+  },
+  {
+    path: '/Navbar',
+    component: () => import('../components/Navbar.vue'),
+  },
 ];
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
