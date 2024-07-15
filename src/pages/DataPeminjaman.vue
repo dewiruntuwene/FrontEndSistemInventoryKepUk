@@ -199,7 +199,7 @@ const transactions = ref<Transaction[]>([]);
 const fetchTransactions = async () => {
   const token = localStorage.getItem("token");
   try {
-    const response = await axios.get(`${apiUrl}/orderBarang`, {
+    const response = await axios.get(`${apiUrl}/dataOrderBarang`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
