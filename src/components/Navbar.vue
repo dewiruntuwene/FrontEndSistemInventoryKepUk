@@ -253,7 +253,7 @@ const logout = async () => {
       // Memeriksa respons status
       localStorage.removeItem("token");
       // Redirect to login page or perform any other action
-      window.location.href = "/Login";
+      window.location.href = "/";
     } else {
       console.error("Logout failed", response.data);
       // Handle logout failure
