@@ -66,7 +66,7 @@
             <td class="py-3 px-2 text-left border">{{ item.harga_barang }}</td>
             <td class="py-3 px-2 text-left border">
               <img
-                :src="`/api/uploads/${item.barangs.gambar_barang}`"
+                :src="`https://inventory-order-kep-uk.vercel.app/uploads/${item.barangs.gambar_barang}`"
                 alt="Gambar Barang"
                 class="h-10 w-25 object-cover rounded-md shadow-md"
               />
