@@ -485,7 +485,7 @@ const checkout = async () => {
       },
     };
 
-    await axios.post(`${apiUrl}/peminjamBarang`, requestData, config);
+    await axios.post(`${apiUrl}/orderBarang`, requestData, config);
     alert("Barang akan di proses!");
 
     // isSubmitOpen.value = true;
