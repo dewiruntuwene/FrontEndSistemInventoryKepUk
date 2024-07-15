@@ -121,18 +121,23 @@
                 <td class="px-2 py-2 whitespace-nowrap text-center">
                   <template v-if="transaction.status === 'pending'">
                     <button
-                      @click="
-                        updateTransaction(Number(transaction.id_peminjam))
-                      "
+                      v-if="transaction.barangHabisPakai[0].jenis_barang === 'Barang Habis Pakai'"
+                      @click="updateTransactionOrder(Number(transaction.id_peminjam))"
                       type="button"
                       class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                     >
                       Selesai
                     </button>
                     <button
-                      @click="
-                        updateTransaction(Number(transaction.id_peminjam))
-                      "
+                      v-if="transaction.barangHabisPakai[0].jenis_barang === 'Barang Pinjam'"
+                      @click="updateTransactionPinjam(Number(transaction.id_peminjam))"
+                      type="button"
+                      class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                    >
+                      Selesai
+                    </button>
+                    <button
+                      @click="updateTransactionOrder(Number(transaction.id_peminjam))"
                       type="button"
                       class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                     >
@@ -146,10 +151,10 @@
                         'text-red-500': transaction.status === 'dibatalkan',
                       }"
                       class="font-semibold"
-                      >{{ transaction.status }}</span
-                    >
+                    >{{ transaction.status }}</span>
                   </template>
                 </td>
+
               </tr>
             </tbody>
           </table>
@@ -187,12 +192,14 @@ interface Transaction {
   barangHabisPakai: BarangHabisPakai[];
 }
 
+
+
 const transactions = ref<Transaction[]>([]);
 
 const fetchTransactions = async () => {
   const token = localStorage.getItem("token");
   try {
-    const response = await axios.get(`${apiUrl}/peminjamBarang`, {
+    const response = await axios.get(`${apiUrl}/orderBarang`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -200,7 +207,9 @@ const fetchTransactions = async () => {
     const data = response.data.map((transaction: any) => {
       if (transaction.type === "BarangKeluar") {
         transaction.status = "sukses";
-      } else if (transaction.type === "PENDING") {
+      }else if (transaction.type === "BarangPinjam") {
+        transaction.status = "sukses";
+      }else if (transaction.type === "PENDING") {
         transaction.status = "pending";
       } else if (transaction.type === "CANCEL") {
         transaction.status = "dibatalkan";
@@ -214,11 +223,11 @@ const fetchTransactions = async () => {
   }
 };
 
-const updateTransaction = async (id_peminjam: any) => {
+const updateTransactionOrder = async (id_peminjam: any) => {
   const token = localStorage.getItem("token");
   try {
     const response = await axios.patch(
-      `${apiUrl}/peminjamBarang/${id_peminjam}`,
+      `${apiUrl}/orderBarang/${id_peminjam}`,
       { status },
       {
         headers: {
@@ -227,6 +236,29 @@ const updateTransaction = async (id_peminjam: any) => {
       },
     );
     alert("Sukses Masuk Barang Keluar!");
+    // Update local state after successful patch
+    // const updatedTransaction = transactions.value.find(t => t.id_peminjam === id_peminjam);
+    // if (updatedTransaction) {
+    //   updatedTransaction.status = status;
+    // }
+  } catch (error) {
+    console.error("Error updating transaction:", error);
+  }
+};
+
+const updateTransactionPinjam = async (id_peminjam: any) => {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await axios.patch(
+      `${apiUrl}/pinjamBarang/${id_peminjam}`,
+      { status },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    alert("Sukses Masuk Barang Pinjam!");
     // Update local state after successful patch
     // const updatedTransaction = transactions.value.find(t => t.id_peminjam === id_peminjam);
     // if (updatedTransaction) {
