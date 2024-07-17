@@ -32,10 +32,10 @@
             class="bg-slate-400 text-gray-900 uppercase text-sm leading-normal"
           >
             <th class="py-3 px-2 text-left border">No</th>
-            <th class="py-3 px-2 text-left border">Tanggal Barang Keluar</th>
+            <th class="py-3 px-2 text-left border">Tanggal Barang Pinjam</th>
             <th class="py-3 px-2 text-left border">Nama Barang</th>
             <th class="py-3 px-2 text-left border">Kode Barang</th>
-            <th class="py-3 px-2 text-left border">Total Stok</th>
+            <th class="py-3 px-2 text-left border">Jumlah Barang</th>
             <th class="py-3 px-2 text-left border">Jenis Barang</th>
             <th class="py-3 px-2 text-left border">Harga Barang</th>
             <th class="py-3 px-2 text-left border">Gambar Barang</th>
@@ -49,7 +49,7 @@
           <tr v-for="(item, index) in filteredData" :key="index">
             <td class="py-3 px-2 text-left border">{{ index + 1 }}</td>
             <td class="py-3 px-2 text-left border">
-              {{ formatDate(item.tanggal_masuk) }}
+              {{ formatDate(item.tanggal_pinjam) }}
             </td>
             <td class="py-3 px-2 text-left border">
               {{ item.barangs.nama_barang }}
@@ -58,7 +58,7 @@
               {{ item.barangs.kode_barang }}
             </td>
             <td class="py-3 px-2 text-left border">
-              {{ item.barangs.total_stock }}
+              {{ item.jumlah_barang }}
             </td>
             <td class="py-3 px-2 text-left border">
               {{ item.barangs.jenis_barang }}
@@ -91,10 +91,10 @@
           <div class="grid grid-cols-1 gap-4">
             <div>
               <label for="tanggal_masuk" class="block text-sm font-bold mb-2"
-                >Tanggal Barang Masuk:</label
+                >Tanggal Barang Pinjam:</label
               >
               <input
-                v-model="newItem.tanggal_masuk"
+                v-model="newItem.tanggal_pinjam"
                 type="date"
                 class="border rounded px-2 py-1 w-full"
                 id="tanggal_masuk"
@@ -166,8 +166,8 @@
             <div v-if="isFormIncomplete" class="text-red-500 mt-2">
               Harap isi semua data!
               <ul>
-                <li v-if="!newItem.tanggal_masuk">
-                  Tanggal Barang Masuk harus diisi
+                <li v-if="!newItem.tanggal_pinjam">
+                  Tanggal Barang Pinjam harus diisi
                 </li>
                 <li v-if="!newItem.nama_barang">Nama Barang harus diisi</li>
                 <li v-if="!newItem.kode_barang">Kode Barang harus diisi</li>
@@ -186,10 +186,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import axios from "axios";
+import { useToast } from 'vue-toast-notification';
 import Layout from "../components/layout.vue";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
+const toast = useToast();
 const data = ref<any[]>([]);
 const searchQuery = ref("");
 const filteredData = ref<BarangPinjam[]>([]);
@@ -215,6 +217,7 @@ interface BarangPinjam {
   peminjamId: number;
   tanggal_keluar: string | null;
   tanggal_masuk: string;
+  tanggal_pinjam: string;
   nama_matakuliah: string;
   nama_barang: string;
   harga_barang: number;
@@ -233,7 +236,7 @@ const addItem = async () => {
     const newTransaksi = {
       jumlah_barang: newItem.value.jumlah_barang,
       // type: 'BarangMasuk',
-      tanggal_masuk: newItem.value.tanggal_masuk,
+      tanggal_pinjam: newItem.value.tanggal_pinjam,
       nama_barang: newItem.value.nama_barang,
       jenis_barang: newItem.value.jenis_barang,
       harga_barang: newItem.value.harga_barang,
@@ -249,10 +252,13 @@ const addItem = async () => {
     };
 
     const response = await axios.post(`${apiUrl}/peminjam`, newTransaksi);
-    data.value.push(response.data);
+    toast.success('Item added successfully');
+    fetchData();
+    resetForm();
+    showForm.value = false;
   } catch (error) {
     console.error("Error adding item:", error);
-    alert("Gagal menambahkan barang. Silakan coba lagi.");
+    toast.error('Failed to add item');
   }
 };
 
@@ -277,7 +283,7 @@ const editItem = (index: number) => {
     jumlah_barang: item.jumlah_barang,
     jenis_barang: item.barangs.jenis_barang,
     harga_barang: item.barangs.harga_barang,
-    tanggal_masuk: item.tanggal_masuk,
+    tanggal_pinjam: item.tanggal_pinjam,
   };
   isEditing.value = true;
   showForm.value = true;
@@ -287,7 +293,7 @@ const updateItem = async (index: number) => {
   try {
     const updatedTransaksi = {
       ...data.value[index],
-      tanggal_masuk: newItem.value.tanggal_masuk,
+      tanggal_pinjam: newItem.value.tanggal_pinjam,
       jumlah_barang: newItem.value.jumlah_barang,
       barangs: {
         ...data.value[index].barangs,
@@ -339,7 +345,7 @@ const resetForm = () => {
     jumlah_barang: 0,
     jenis_barang: "",
     harga_barang: 0,
-    tanggal_masuk: "",
+    tanggal_pinjam: "",
   };
   isEditing.value = false;
   currentItemIndex.value = null;
@@ -347,7 +353,7 @@ const resetForm = () => {
 
 const validateForm = () => {
   const requiredFields: (keyof any)[] = [
-    "tanggal_masuk",
+    "tanggal_pinjam",
     "nama_barang",
     "kode_barang",
     "jumlah_barang",
