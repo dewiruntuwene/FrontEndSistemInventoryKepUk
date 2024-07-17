@@ -52,7 +52,7 @@
           <input type="number" v-model="newItem.harga" class="border border-gray-300 rounded px-2 py-1 mb-2" placeholder="Harga">
           <select v-model="newItem.jenis" class="border border-gray-300 rounded px-2 py-1 mb-2">
             <option value="" disabled selected>Pilih Jenis Barang</option>
-            <option value="BHP">Barang Habis Pakai</option>
+            <option value="Barang Habis Pakai">Barang Habis Pakai</option>
             <option value="Barang pinjam">Barang Pinjam</option>
           </select>
           <input type="file" @change="handleImageUpload" class="border border-gray-300 rounded px-2 py-1 mb-2" accept="image/*">
