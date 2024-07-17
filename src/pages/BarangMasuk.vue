@@ -44,7 +44,7 @@
             <td class="py-3 px-2 text-center border">{{ item.barangs.jenis_barang }}</td>
             <td class="py-3 px-2 text-center border">{{ item.harga_barang }}</td>
             <td class="py-3 px-2 text-center border">
-              <img v-if="item.barangs.gambar_barang" :src="`http://localhost:5000/Get/${item.barangs.gambar_barang}`" alt="gambar barang" class="h-10 w-25 object-cover rounded-md shadow-md">
+              <img v-if="item.barangs.gambar_barang" :src="`https://inventory-order-kep-uk.vercel.app/uploads/${item.barangs.gambar_barang}`" alt="gambar barang" class="h-10 w-25 object-cover rounded-md shadow-md">
               <span v-else>Tidak ada gambar</span>
             </td>
             <td class="py-3 px-2 text-left border flex space-x-2">
