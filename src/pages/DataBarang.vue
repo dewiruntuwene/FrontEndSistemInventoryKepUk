@@ -93,7 +93,7 @@ export default defineComponent({
       totalStok: '',
       harga: '',
       jenis: '',
-      image: null
+      image: ''
     });
     const errorMessage = ref('');
 
@@ -124,11 +124,12 @@ export default defineComponent({
       formData.append('total_stock', newItem.value.totalStok);
       formData.append('harga_barang', newItem.value.harga);
       formData.append('jenis_barang', newItem.value.jenis);
+      formData.append('gambar_barang', newItem.value.image);
       // formData.append('gambar_barang', newItem.value.image);
 
       try {
         await axios.post('https://vjk2k0f5-5000.asse.devtunnels.ms/barang', formData);
-        newItem.value = { kode: '', nama: '', totalStok: '', harga: '', jenis: '', image: null };
+        newItem.value = { kode: '', nama: '', totalStok: '', harga: '', jenis: '', image: '' };
         await loadDataFromAPI();
       } catch (error) {
         console.error('Error adding item:', error);
