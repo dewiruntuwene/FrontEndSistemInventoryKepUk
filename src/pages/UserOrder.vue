@@ -261,6 +261,17 @@
                 />
               </div>
               <div class="mb-4">
+                <label for="prasat" class="text-gray-600">Ruangan Lab :</label>
+                <input
+                  type="text"
+                  class="form-input mt-1 block w-full border rounded border-gray-300"
+                  v-model="pesan.ruangan_lab"
+                  :class="{
+                    'border-red-500': isFormIncomplete && !pesan.ruangan_lab,
+                  }"
+                />
+              </div>
+              <div class="mb-4">
                 <label for="jamPraktek" class="text-gray-600"
                   >Jam Praktek :</label
                 >
@@ -291,6 +302,17 @@
                     'border-red-500':
                       isFormIncomplete && !pesan.tanggal_praktek,
                   }"
+                />
+              </div>
+              <div class="mb-4">
+                <label type="Date" for="tanggalPraktek" class="text-gray-600"
+                  >Tanggal Kembali Alat (Khusus BHP) :</label
+                >
+                <input
+                  datepicker
+                  type="Date"
+                  class="form-input mt-1 block w-full border rounded border-gray-300"
+                  v-model="pesan.tanggal_kembali_alat"
                 />
               </div>
 
@@ -381,7 +403,20 @@ const matakuliah = [
   "Fisiologi",
   "Patologi",
   "Farmakologi",
+  "Null",
 ];
+
+const pesan = ref({
+  nama_dosen: "",
+  nama_matakuliah: "",
+  prasat: "",
+  jam_praktek: "",
+  tanggal_praktek: "",
+  jumlah_barang: "",
+  tanggal_kembali_alat: "",
+  ruangan_lab: "",
+  keranjangs: [],
+});
 
 const keranjangs = ref<Keranjang[]>([]);
 console.log(keranjangs);
@@ -402,15 +437,7 @@ const setKeranjangs = (data: Keranjang[]) => {
   }));
 };
 
-const pesan = ref({
-  nama_dosen: "",
-  nama_matakuliah: "",
-  prasat: "",
-  jam_praktek: "",
-  tanggal_praktek: "",
-  jumlah_barang: "",
-  keranjangs: [],
-});
+
 
 // const hapusKeranjang = async (id_keranjang: number) => {
 //   try {
@@ -473,6 +500,8 @@ const checkout = async () => {
       prasat: pesan.value.prasat,
       jam_praktek: pesan.value.jam_praktek,
       tanggal_praktek: pesan.value.tanggal_praktek,
+      tanggal_kembali_alat: pesan.value.tanggal_kembali_alat,
+      ruangan_lab: pesan.value.ruangan_lab,
       keranjangs: keranjangs.value.map((item) => ({
         id_keranjang: item.id_keranjang,
         jumlah_barang: item.jumlah_barang,
