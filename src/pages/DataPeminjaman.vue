@@ -54,7 +54,19 @@
                   scope="col"
                   class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                 >
+                  Ruangan Lab
+                </th>
+                <th
+                  scope="col"
+                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                >
                   Tanggal Pengambilan
+                </th>
+                <th
+                  scope="col"
+                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                >
+                  Tanggal Pengembalian
                 </th>
                 <th
                   scope="col"
@@ -102,7 +114,17 @@
                 </td>
                 <td class="px-2 py-2 whitespace-nowrap">
                   <div class="text-xs text-gray-900">
+                    {{ transaction.ruangan_lab }}
+                  </div>
+                </td>
+                <td class="px-2 py-2 whitespace-nowrap">
+                  <div class="text-xs text-gray-900">
                     {{ transaction.tanggal_pengambilan }}
+                  </div>
+                </td>
+                <td class="px-2 py-2 whitespace-nowrap">
+                  <div class="text-xs text-gray-900">
+                    {{ transaction.tanggal_kembali_alat }}
                   </div>
                 </td>
                 <td class="px-2 py-2 whitespace-nowrap">
@@ -185,6 +207,8 @@ interface Transaction {
   jam_praktek: string;
   tanggal_praktek: string;
   tanggal_pengambilan: string;
+  tanggal_kembali_alat: string;
+  ruangan_lab: string;
   status: "sukses" | "pending" | "dibatalkan";
   users: {
     username: string;
