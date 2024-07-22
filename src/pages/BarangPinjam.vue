@@ -39,6 +39,7 @@
             <th class="py-3 px-2 text-left border">Jenis Barang</th>
             <th class="py-3 px-2 text-left border">Harga Barang</th>
             <th class="py-3 px-2 text-left border">Gambar Barang</th>
+            <th class="py-3 px-2 text-left border">Keterangan</th>
             <th class="py-3 px-2 text-left border"></th>
           </tr>
         </thead>
@@ -71,6 +72,7 @@
                 class="h-10 w-25 object-cover rounded-md shadow-md"
               />
             </td>
+            <td class="py-3 px-2 text-left border">{{ item.keterangan }}</td>
           </tr>
         </tbody>
       </table>
@@ -207,6 +209,7 @@ const newItem = ref<any>({
   nama_barang: "",
   jenis_barang: "",
   harga_barang: 0,
+  keterangan: ""
 });
 
 interface BarangPinjam {
@@ -221,6 +224,7 @@ interface BarangPinjam {
   nama_matakuliah: string;
   nama_barang: string;
   harga_barang: number;
+  keterangan: string;
   barangs: {
     kode_barang: string;
     nama_barang: string;
