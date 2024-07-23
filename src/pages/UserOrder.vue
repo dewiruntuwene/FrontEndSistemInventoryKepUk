@@ -175,7 +175,7 @@
                   <td class="px-6 py-4 whitespace-nowrap">{{ index + 1 }}</td>
                   <td class="px-6 py-4 whitespace-nowrap">
                     <img
-                      :src="`http://localhost:5000/uploads/${keranjang.barangs.gambar_barang}`"
+                      :src="`https://inventory-order-kep-uk.vercel.app/uploads/${keranjang.barangs.gambar_barang}`"
                       class="w-24 h-24 object-cover rounded-md shadow-md"
                       alt="Product"
                     />
