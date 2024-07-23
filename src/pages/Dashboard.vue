@@ -95,6 +95,9 @@ const tableBodyRef = ref<HTMLElement | null>(null);
               <td class="py-3 px-2 text-left border">
                 <span>{{ item.jenis_barang }}</span>
               </td>
+              <td class="py-3 px-2 text-left border">
+                <span>{{ item.total_stock }}</span>
+              </td>
               <td class="py-3 px-2 text-left border"></td>
             </tr>
           </tbody>
