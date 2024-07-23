@@ -139,7 +139,7 @@ const tambahKeKeranjang = async (barang: Barang) => {
     console.error("No token found");
     return;
   }
-  const baseUrl = "http://localhost:5000";
+  // const baseUrl = "http://localhost:5000";
   try {
     // Pastikan barang adalah objek yang valid
     // Pastikan barang adalah objek yang valid dan memiliki properti 'id_barang'
@@ -168,7 +168,7 @@ const tambahKeKeranjang = async (barang: Barang) => {
           nama_barang: barang.nama_barang,
           total_stock: barang.total_stock,
           jenis_barang: barang.jenis_barang,
-          gambar_barang: `http://localhost:5000/uploads/${barang.gambar_barang}`,
+          gambar_barang: `https://inventory-order-kep-uk.vercel.app/uploads/${barang.gambar_barang}`,
           harga_barang: barang.harga_barang,
         },
       },
