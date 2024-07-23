@@ -17,8 +17,9 @@
     </div>
   </div>
 
+
   <div class="max-w-6xl mx-auto">
-    <div class="bg-white mt-5 ml-20 pl-28 relative">
+    <div class="bg-white mt-5 ml-30 pl-28 relative overflow-y-auto max-h-96">
       <table class="min-w-max w-full table-auto">
         <thead>
           <tr class="bg-slate-400 text-gray-900 uppercase text-sm leading-normal">
@@ -43,10 +44,12 @@
             <td class="py-3 px-2 text-center border">{{ item.jumlah_barang }}</td>
             <td class="py-3 px-2 text-center border">{{ item.barangs.jenis_barang }}</td>
             <td class="py-3 px-2 text-center border">{{ item.harga_barang }}</td>
-            <td class="py-3 px-2 text-center border">
-              <img v-if="item.barangs.gambar_barang" :src="`https://inventory-order-kep-uk.vercel.app/uploads/${item.barangs.gambar_barang}`" alt="gambar barang" class="h-10 w-25 object-cover rounded-md shadow-md">
-              <span v-else>Tidak ada gambar</span>
+            <td class="py-3 px-2 text-center border" v-if="item.barangs.gambar_barang">
+              <div class="flex justify-center">
+              <img :src="`https://inventory-order-kep-uk.vercel.app/uploads/${item.barangs.gambar_barang}`" alt="gambar barang" class="h-8 w-18 object-cover rounded-md shadow-md transition transform hover:scale-110"/>
+              </div>
             </td>
+
             <td class="py-3 px-2 text-left border flex space-x-2">
               <button @click="editItemFromBarangMasuk(Number(item.id_transaksi_barang))" type="button" class="focus:outline-none" aria-label="Edit Item">
                 <img src="/edit.png" alt="Edit" class="h-6 w-6">
