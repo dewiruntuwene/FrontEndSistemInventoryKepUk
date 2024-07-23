@@ -68,8 +68,7 @@
               <img
                 :src="`https://inventory-order-kep-uk.vercel.app/uploads/${item.barangs.gambar_barang}`"
                 alt="Gambar Barang"
-                class="h-10 w-25 object-cover rounded-md shadow-md"
-              />
+                class="h-10 w-25 object-cover rounded-md shadow-md transition transform hover:scale-110"/>
             </td>
           </tr>
         </tbody>
