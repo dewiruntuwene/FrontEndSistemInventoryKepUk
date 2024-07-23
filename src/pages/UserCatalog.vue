@@ -251,10 +251,10 @@ const searchBarang = async () => {
         <h5
           class="mb-2 text-xl md:text-5xl font-bold text-gray-900 dark:text-white"
         >
-          Central Supply
+          Central Supply Laboratorium
         </h5>
         <p
-          class="mb-3 mr-10 text-sm md:text-4xl font-bold text-white-500 sm:text-lg dark:text-black-700"
+          class="mb-3 mr-10 text-sm md:text-4xl font-bold text-white-500 sm:text-lg dark:text-white"
         >
           Fakultas Keperawatan Universitas Klabat
         </p>
