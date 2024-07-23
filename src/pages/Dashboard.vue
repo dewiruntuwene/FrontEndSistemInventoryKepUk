@@ -87,16 +87,13 @@ const tableBodyRef = ref<HTMLElement | null>(null);
             <!-- Data dari array -->
             <tr v-for="(item, index) in data" :key="index">
               <td class="py-3 px-2 text-left border">
-                <span>{{ item.id }}</span>
+                <span>{{ item.kode_barang }}</span>
               </td>
               <td class="py-3 px-2 text-left border">
-                <span>{{ item.nama }}</span>
+                <span>{{ item.nama_barang }}</span>
               </td>
               <td class="py-3 px-2 text-left border">
-                <span>{{ item.jenisBarang }}</span>
-              </td>
-              <td class="py-3 px-2 text-left border">
-                <span>{{ item.kode }}</span>
+                <span>{{ item.jenis_barang }}</span>
               </td>
               <td class="py-3 px-2 text-left border"></td>
             </tr>
