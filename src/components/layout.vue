@@ -1,7 +1,55 @@
-<script setup lang="ts">
-function Open() {
-  document.querySelector(".sidebar")?.classList.toggle("left-[-200px]");
+<script  lang="ts">
+import { defineComponent, ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { jwtDecode } from "jwt-decode";
+
+interface DecodedToken {
+  name: string;
+  email: string;
+  role: string; 
 }
+
+export default defineComponent({
+  name: "UserProfile",
+  setup() {
+    const userName = ref("");
+    const userRole = ref("");
+
+    const router = useRouter();
+
+    const decodeToken = () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const decoded: DecodedToken = jwtDecode(token);
+          userName.value = decoded.name;
+          userRole.value = decoded.role;
+        } catch (error) {
+          console.error("Error decoding token:", error);
+        }
+      }
+    };
+
+    const onFileChange = (event: Event) => {
+      // kode untuk mengubah gambar profil dari file yang diunggah
+    };
+
+    const logout = () => {
+      localStorage.removeItem("token");
+      router.push("/login");
+    };
+
+    onMounted(() => {
+      decodeToken();
+    });
+
+    return {
+      userRole,
+      userName,
+      onFileChange,
+    };
+  },
+});
 </script>
 
 <template>
@@ -59,8 +107,8 @@ function Open() {
             </div>
 
             <div class="">
-              <span>John Doe</span>
-              <p class="text-xs text-slate-500">Instructor</p>
+              <span>{{ userName }}</span>
+              <p class="text-xs text-slate-500">{{ userRole }}</p>
             </div>
 
             <div class="active:shadow-lg hidden" onclick="Open()">
