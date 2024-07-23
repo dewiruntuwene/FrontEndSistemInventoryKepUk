@@ -25,7 +25,7 @@
   </div>
 
   <div class="max-w-6xl mx-auto">
-    <div class="bg-white max-w-5xl mt-7 ml-20 pl-28">
+    <div class="bg-white max-w-5xl mt-7 ml-0 pl-28">
       <table class="min-w-max w-full table-auto">
         <thead>
           <tr
@@ -73,6 +73,14 @@
               />
             </td>
             <td class="py-3 px-2 text-left border">{{ item.keterangan }}</td>
+            <td class="py-3 px-2 text-left border flex space-x-2">
+              <button @click="editItemFromBarangMasuk(Number(item.id_transaksi_barang))" type="button" class="focus:outline-none" aria-label="Edit Item">
+                <img src="/edit.png" alt="Edit" class="h-6 w-6">
+              </button>
+              <button @click="deleteBarangMasuk(Number(item.id_transaksi_barang))" type="button" class="focus:outline-none" aria-label="remove Item">
+                <img src="/delete.png" alt="remove" class="h-6 w-6">
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -155,6 +163,17 @@
                 type="number"
                 class="border rounded px-2 py-1 w-full"
                 id="harga_barang"
+              />
+            </div>
+            <div>
+              <label for="keterangan" class="block text-sm font-bold mb-2"
+                >Keterangan:</label
+              >
+              <input
+                v-model="newItem.keterangan"
+                type="text"
+                class="border rounded px-2 py-1 w-full"
+                id="jenis_barang"
               />
             </div>
             <div class="flex justify-end space-x-4">
@@ -293,47 +312,59 @@ const editItem = (index: number) => {
   showForm.value = true;
 };
 
-const updateItem = async (index: number) => {
-  try {
-    const updatedTransaksi = {
-      ...data.value[index],
-      tanggal_pinjam: newItem.value.tanggal_pinjam,
-      jumlah_barang: newItem.value.jumlah_barang,
-      barangs: {
-        ...data.value[index].barangs,
+const editItemFromBarangMasuk = (id: number) => {
+  const itemToEdit = data.value.find((item) => item.id_transaksi_barang === id);
+  if (itemToEdit) {
+    newItem.value = {
+      tanggal_pinjam: itemToEdit.tanggal_pinjam,
+      jumlah_barang: itemToEdit.jumlah_barang,
+      kode_barang: itemToEdit.barangs.kode_barang,
+      nama_barang: itemToEdit.barangs.nama_barang,
+      jenis_barang: itemToEdit.barangs.jenis_barang,
+      harga_barang: itemToEdit.harga_barang,
+      id_barang: itemToEdit.barangs.id_barang, 
+      keterangan: itemToEdit.barangs.keterangan, 
+    };
+    isEditing.value = true;
+    currentItemIndex.value = id;
+    showForm.value = true;
+  }
+};
+
+const updateItem = async () => {
+  if (currentItemIndex.value !== null) {
+    try {
+      const updatedTransaksi = {
+        jumlah_barang: newItem.value.jumlah_barang,
+        tanggal_pinajm: newItem.value.tanggal_pinjam,
         nama_barang: newItem.value.nama_barang,
         kode_barang: newItem.value.kode_barang,
         jenis_barang: newItem.value.jenis_barang,
         harga_barang: newItem.value.harga_barang,
-      },
-    };
+        id_barang: newItem.value.id_barang,
+        keterangan: newItem.value.keterangan
+      };
 
-    const response = await axios.put(
-      `${apiUrl}/${updatedTransaksi.id_transaksi_barang}`,
-      updatedTransaksi,
-    );
-    data.value.splice(index, 1, response.data);
-    resetForm();
-    showForm.value = false;
-  } catch (error) {
-    console.error("Error updating item:", error);
-    alert("Gagal memperbarui barang. Silakan coba lagi.");
+      await axios.patch(`${apiUrl}/peminjam/${currentItemIndex.value}`, updatedTransaksi);
+      toast.success('Item updated successfully');
+      fetchData();
+      resetForm();
+      showForm.value = false;
+    } catch (error) {
+      console.error('Error updating item:', error);
+      toast.error('Failed to update item');
+    }
   }
 };
 
-const deleteItem = async (index: number) => {
-  const item = data.value[index];
-  const confirmDelete = confirm(
-    `Apakah Anda yakin ingin menghapus ${item.barangs.nama_barang}?`,
-  );
-  if (confirmDelete) {
-    try {
-      await axios.delete(`${apiUrl}/${item.id_transaksi_barang}`);
-      data.value.splice(index, 1);
-    } catch (error) {
-      console.error("Error deleting item:", error);
-      alert("Gagal menghapus barang. Silakan coba lagi.");
-    }
+const deleteBarangMasuk = async (id: number) => {
+  try {
+    await axios.delete(`${apiUrl}/pinjam/${id}`);
+    toast.success('Item deleted successfully');
+    fetchData();
+  } catch (error) {
+    console.error('Error deleting item:', error);
+    toast.error('Failed to delete item');
   }
 };
 
@@ -356,19 +387,15 @@ const resetForm = () => {
 };
 
 const validateForm = () => {
-  const requiredFields: (keyof any)[] = [
-    "tanggal_pinjam",
-    "nama_barang",
-    "kode_barang",
-    "jumlah_barang",
-    "jenis_barang",
-    "harga_barang",
-  ];
-  if (requiredFields.some((field) => !newItem.value[field])) {
-    isFormIncomplete.value = true;
-    return;
+  isFormIncomplete.value = !newItem.value.tanggal_pinjam || !newItem.value.jumlah_barang || !newItem.value.kode_barang || !newItem.value.nama_barang || !newItem.value.jenis_barang || !newItem.value.harga_barang;
+
+  if (!isFormIncomplete.value) {
+    if (isEditing.value) {
+      updateItem();
+    } else {
+      addItem();
+    }
   }
-  isEditing.value ? updateItem(currentItemIndex.value!) : addItem();
 };
 
 const searchItems = async () => {
