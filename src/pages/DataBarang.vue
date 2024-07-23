@@ -1,10 +1,12 @@
 <template>
   <Layout />
-  <div class="mt-0 pl-[15rem] pr-4">
-    <div class="border-y-0 border-b-0 bg-white-200 bg-slate-300 flex flex-row justify-between items-center p-5 pl-5">
-      <h1 class="text-4xl font-bold pa-3">Data Barang</h1>
+  <div class="mt-0 pl-60 sticky top-0 z-50">
+    <div class="border-b-2 border-black flex flex-row justify-between items-center p-3">
+      <h4 class="pa-3 text-2xl font-bold">Data Barang</h4>
     </div>
+  </div>
 
+  <div class="mt-0 pl-[15rem] pr-4">
     <div class="flex flex-row mt-4">
       <!-- Tabel dengan data dari API -->
       <div class="max-w-4xl mr-8 bg-white border-y-2 border-b-4 p-5 overflow-x-auto">
