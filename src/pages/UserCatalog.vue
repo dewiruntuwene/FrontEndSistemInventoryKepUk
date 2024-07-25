@@ -179,7 +179,7 @@ const tambahKeKeranjang = async (barang: Barang) => {
       },
     );
 
-    router.push({ path: "/UserOrder" });
+    // router.push({ path: "/UserOrder" });
     toast.success("Sukses Masuk Keranjang", {
       type: "success",
       position: "top-right",
