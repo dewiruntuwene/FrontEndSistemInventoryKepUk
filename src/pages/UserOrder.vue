@@ -337,7 +337,7 @@
                 v-if="isSubmitOpen && !isFormIncomplete"
                 class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50"
               >
-                <div class="bg-white p-8 rounded-lg">
+                <!-- <div class="bg-white p-8 rounded-lg">
                   <p>Pesanan Anda Akan di Proses</p>
                   <button
                     @click="toggleSubmitModal"
@@ -345,7 +345,7 @@
                   >
                     Close
                   </button>
-                </div>
+                </div> -->
               </div>
             </form>
           </div>
@@ -461,14 +461,20 @@ const removeItemFromKeranjang = async (id_keranjang: number) => {
     keranjangs.value = keranjangs.value.filter(
       (item) => item.id_keranjang !== id_keranjang,
     );
-    toast.error("Sukses Hapus Keranjang", {
-      type: "error",
+    toast.success("Sukses Hapus Keranjang", {
+      type: "success",
       position: "top-right",
       duration: 3000,
       dismissible: true,
     });
   } catch (error) {
     console.log(error);
+    toast.error("Gagal Hapus Keranjang", {
+      type: "error",
+      position: "top-right",
+      duration: 3000,
+      dismissible: true,
+    });
   }
 };
 
@@ -480,6 +486,7 @@ const updateKeranjang = async (id_keranjang: number, jumlah_barang: number) => {
   try {
     const updateData = { jumlah_barang };
     await axios.patch(`${apiUrl}/keranjang/${id_keranjang}`, updateData);
+   
   } catch (error) {
     console.log(error);
   }
@@ -516,11 +523,18 @@ const checkout = async () => {
 
     await axios.post(`${apiUrl}/orderBarang`, requestData, config);
     alert("Barang akan di proses!");
+    reloadPage();
 
+    
     // isSubmitOpen.value = true;
   } catch (err) {
     console.log(err);
+    alert("Terjadi Kesalahan Ketika Di Proses")
   }
+};
+
+const reloadPage = () => {
+  location.reload();
 };
 
 onMounted(async () => {
