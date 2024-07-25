@@ -119,19 +119,24 @@
                 type="text"
                 class="border rounded px-2 py-1 w-full"
                 id="nama_barang"
+                :disabled="isAutofill"
               />
             </div>
             <div>
-              <label for="kode_barang" class="block text-sm font-bold mb-2"
-                >Kode Barang:</label
-              >
-              <input
+              <label for="kode_barang" class="block text-sm font-bold mb-2">Kode Barang:</label>
+              <select
                 v-model="newItem.kode_barang"
-                type="text"
                 class="border rounded px-2 py-1 w-full"
                 id="kode_barang"
-              />
+                @change="onKodeBarangChange"
+              >
+                <option value="" disabled>Pilih Kode Barang</option>
+                <option v-for="barang in barangOptions" :key="barang.kode_barang" :value="barang.kode_barang">
+                  {{ barang.kode_barang }} - {{ barang.nama_barang }}
+                </option>
+              </select>
             </div>
+
             <div>
               <label for="jumlah_barang" class="block text-sm font-bold mb-2"
                 >Jumlah Barang:</label
@@ -152,6 +157,7 @@
                 type="text"
                 class="border rounded px-2 py-1 w-full"
                 id="jenis_barang"
+                :disabled="isAutofill"
               />
             </div>
             <div>
@@ -163,6 +169,7 @@
                 type="number"
                 class="border rounded px-2 py-1 w-full"
                 id="harga_barang"
+                :disabled="isAutofill"
               />
             </div>
             <div>
@@ -209,6 +216,7 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useToast } from 'vue-toast-notification';
 import Layout from "../components/layout.vue";
+import { Barang } from "../pages/UserCatalog.vue";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -220,6 +228,16 @@ const isFormIncomplete = ref(false);
 const isEditing = ref<boolean>(false);
 const currentItemIndex = ref<number | null>(null);
 const showForm = ref<boolean>(false);
+const isAutofill = ref<boolean>(false);
+const barangOptions = ref<any[]>([]);
+
+
+const props = defineProps({
+  barang: {
+    type: Object as () => Barang,
+    required: true,
+  },
+});
 
 const newItem = ref<any>({
   tanggal_keluar: "",
@@ -253,6 +271,34 @@ interface BarangPinjam {
     gambar_barang: string;
   };
 }
+
+const fetchBarangOptions = async () => {
+  try {
+    const response = await axios.get(`${apiUrl}/barang`); // Ganti dengan endpoint API yang sesuai
+    barangOptions.value = response.data;
+  } catch (error) {
+    console.error("Error fetching barang options:", error);
+  }
+};
+
+const onKodeBarangChange = async (event: Event) => {
+  const kodeBarang = (event.target as HTMLSelectElement).value;
+  if (kodeBarang) {
+    const selectedBarang = barangOptions.value.find(barang => barang.kode_barang === kodeBarang);
+    if (selectedBarang) {
+      newItem.value = {
+        ...newItem.value,
+        nama_barang: selectedBarang.nama_barang,
+        jenis_barang: selectedBarang.jenis_barang,
+        harga_barang: selectedBarang.harga_barang,
+        // Misalkan Anda juga ingin memperbarui jumlah_barang jika ada data default
+        jumlah_barang: 1, // Default jumlah_barang jika diperlukan
+      };
+    }
+  }
+};
+
+
 
 const addItem = async () => {
   try {
@@ -414,8 +460,11 @@ function formatDate(dateString: string): string {
   return `${year}-${month}-${day}`;
 }
 
+
+
 onMounted(() => {
   fetchData();
+  fetchBarangOptions();
 });
 </script>
 
