@@ -73,6 +73,9 @@
 import { defineComponent, ref } from 'vue';
 import axios from 'axios';
 import Layout from "../components/layout.vue";
+import { useToast } from "vue-toast-notification";
+
+const toast = useToast();
 
 interface Barang {
   kode_barang: number;
@@ -133,8 +136,20 @@ export default defineComponent({
         await axios.post('https://vjk2k0f5-5000.asse.devtunnels.ms/barang', formData);
         newItem.value = { kode: '', nama: '', totalStok: '', harga: '', jenis: '', image: '' };
         await loadDataFromAPI();
+        toast.success("Barang Berhasil Ditambahkan", {
+          type: "success",
+          position: "top-right",
+          duration: 3000,
+          dismissible: true,
+        });
       } catch (error) {
         console.error('Error adding item:', error);
+        toast.error("Barang Sudah Ada", {
+          type: "error",
+          position: "top-right",
+          duration: 3000,
+          dismissible: true,
+        });
       }
     };
 
