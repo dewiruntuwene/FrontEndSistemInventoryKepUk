@@ -70,6 +70,14 @@
                 alt="Gambar Barang"
                 class="h-10 w-25 object-cover rounded-md shadow-md transition transform hover:scale-110"/>
             </td>
+            <td class="py-3 px-2 text-left border flex space-x-2">
+              <button @click="editItemFromBarangKeluar(Number(item.id_transaksi_barang))" type="button" class="focus:outline-none" aria-label="Edit Item">
+                <img src="/edit.png" alt="Edit" class="h-6 w-6">
+              </button>
+              <button @click="deleteBarangKeluar(Number(item.id_transaksi_barang))" type="button" class="focus:outline-none" aria-label="remove Item">
+                <img src="/delete.png" alt="remove" class="h-6 w-6">
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -108,18 +116,22 @@
                 type="text"
                 class="border rounded px-2 py-1 w-full"
                 id="nama_barang"
+                :disabled="isAutofill"
               />
             </div>
             <div>
-              <label for="kode_barang" class="block text-sm font-bold mb-2"
-                >Kode Barang:</label
-              >
-              <input
+              <label for="kode_barang" class="block text-sm font-bold mb-2">Kode Barang:</label>
+              <select
                 v-model="newItem.kode_barang"
-                type="text"
                 class="border rounded px-2 py-1 w-full"
                 id="kode_barang"
-              />
+                @change="onKodeBarangChange"
+              >
+                <option value="" disabled>Pilih Kode Barang</option>
+                <option v-for="barang in barangOptions" :key="barang.kode_barang" :value="barang.kode_barang">
+                  {{ barang.kode_barang }} - {{ barang.nama_barang }}
+                </option>
+              </select>
             </div>
             <div>
               <label for="jumlah_barang" class="block text-sm font-bold mb-2"
@@ -141,6 +153,7 @@
                 type="text"
                 class="border rounded px-2 py-1 w-full"
                 id="jenis_barang"
+                :disabled="isAutofill"
               />
             </div>
             <div>
@@ -152,6 +165,7 @@
                 type="number"
                 class="border rounded px-2 py-1 w-full"
                 id="harga_barang"
+                :disabled="isAutofill"
               />
             </div>
             <div class="flex justify-end space-x-4">
@@ -187,6 +201,7 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useToast } from 'vue-toast-notification';
 import Layout from "../components/layout.vue";
+import { Barang } from "../pages/UserCatalog.vue";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -198,6 +213,15 @@ const isFormIncomplete = ref(false);
 const isEditing = ref<boolean>(false);
 const currentItemIndex = ref<number | null>(null);
 const showForm = ref<boolean>(false);
+const isAutofill = ref<boolean>(false);
+const barangOptions = ref<any[]>([]);
+
+const props = defineProps({
+  barang: {
+    type: Object as () => Barang,
+    required: true,
+  },
+});
 
 const newItem = ref<any>({
   tanggal_keluar: "",
@@ -229,6 +253,32 @@ interface BarangKeluar {
     gambar_barang: string;
   };
 }
+
+const fetchBarangOptions = async () => {
+  try {
+    const response = await axios.get(`${apiUrl}/barang`); // Ganti dengan endpoint API yang sesuai
+    barangOptions.value = response.data;
+  } catch (error) {
+    console.error("Error fetching barang options:", error);
+  }
+};
+
+const onKodeBarangChange = async (event: Event) => {
+  const kodeBarang = (event.target as HTMLSelectElement).value;
+  if (kodeBarang) {
+    const selectedBarang = barangOptions.value.find(barang => barang.kode_barang === kodeBarang);
+    if (selectedBarang) {
+      newItem.value = {
+        ...newItem.value,
+        nama_barang: selectedBarang.nama_barang,
+        jenis_barang: selectedBarang.jenis_barang,
+        harga_barang: selectedBarang.harga_barang,
+        // Misalkan Anda juga ingin memperbarui jumlah_barang jika ada data default
+        jumlah_barang: 1, // Default jumlah_barang jika diperlukan
+      };
+    }
+  }
+};
 
 const addItem = async () => {
   try {
@@ -273,19 +323,33 @@ async function fetchData() {
   }
 }
 
-const editItem = (index: number) => {
-  currentItemIndex.value = index;
-  const item = data.value[index];
-  newItem.value = {
-    nama_barang: item.barangs.nama_barang,
-    kode_barang: item.barangs.kode_barang,
-    jumlah_barang: item.jumlah_barang,
-    jenis_barang: item.barangs.jenis_barang,
-    harga_barang: item.barangs.harga_barang,
-    tanggal_keluar: item.tanggal_keluar,
-  };
-  isEditing.value = true;
-  showForm.value = true;
+const editItemFromBarangKeluar = (id: number) => {
+  const itemToEdit = data.value.find((item) => item.id_transaksi_barang === id);
+  if (itemToEdit) {
+    newItem.value = {
+      tanggal_masuk: itemToEdit.tanggal_masuk,
+      jumlah_barang: itemToEdit.jumlah_barang,
+      kode_barang: itemToEdit.barangs.kode_barang,
+      nama_barang: itemToEdit.barangs.nama_barang,
+      jenis_barang: itemToEdit.barangs.jenis_barang,
+      harga_barang: itemToEdit.harga_barang,
+      id_barang: itemToEdit.barangs.id_barang, // Add this line to store id_barang
+    };
+    isEditing.value = true;
+    currentItemIndex.value = id;
+    showForm.value = true;
+  }
+};
+
+const deleteBarangKeluar = async (id: number) => {
+  try {
+    await axios.delete(`${apiUrl}/barangMasuk/${id}`);
+    toast.success('Item deleted successfully');
+    fetchData();
+  } catch (error) {
+    console.error('Error deleting item:', error);
+    toast.error('Failed to delete item');
+  }
 };
 
 const updateItem = async (index: number) => {
