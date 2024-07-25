@@ -139,13 +139,17 @@ const login = async () => {
       const status = error.response.status;
       if (status === 401) {
         errorMessage.value = "Email atau password salah.";
+        alert("Email atau password salah");
       } else if (status === 404) {
         errorMessage.value = "Username tidak ditemukan.";
+        alert("Username tidak ditemukan");
       } else {
         errorMessage.value = "Terjadi kesalahan pada server.";
+        alert("Terjadi kesalahan pada server");
       }
     } else {
       errorMessage.value = "Terjadi kesalahan pada server.";
+      alert("Terjadi kesalahan pada server");
     }
   }
 };
