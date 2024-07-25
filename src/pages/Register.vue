@@ -33,6 +33,7 @@ const register = async () => {
     alert("Registrasi berhasil! Silakan login.");
   } catch (error) {
     console.error("Error:", error);
+    alert("Tejadi Kesalahan Saat Registrasi")
   }
 };
 </script>
