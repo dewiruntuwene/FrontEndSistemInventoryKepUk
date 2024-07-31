@@ -19,11 +19,11 @@
     </div>
     <!-- Tabel -->
     <div
-      class="container max-w-4xl mx-auto mr-xs mt-4 flex justify-left mb-4 overflow-x-auto"
+      class="container max-w-6xl mx-auto mr-xs mt-4 flex justify-left mb-4 overflow-x-auto"
     >
       <div class="bg-white shadow bg-blue-500 overflow-hidden sm:rounded-lg">
         <div
-          class="overflow-x-auto mx-auto max-w-4xl mr-10 min-w-3.5 h-fit pt-2"
+          class="overflow-x-auto mx-auto max-w-7xl mr-10 min-w-3.5 h-fit pt-2"
         >
           <table class="min-w-full divide-y divide-gray-200 justify-center">
             <!-- Tabel Header -->
@@ -171,7 +171,6 @@
                     </button>
                   </template>
                   <template v-else>
-                    <span :class="{'text-green-500': transaction.status === 'sukses', 'text-red-500': transaction.status === 'dibatalkan'}" class="font-semibold">{{ transaction.status }}</span>
                     <span
                       :class="{
                         'text-green-500': transaction.status === 'sukses',
