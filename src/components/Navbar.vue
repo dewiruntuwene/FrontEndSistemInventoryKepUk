@@ -151,13 +151,12 @@
                 >Catalog Barang</router-link
               >
 
-              <li>
-                <router-link
-                  to="/Profile"
-                  class="text-blue-500 hover:underline"
-                  >Account</router-link
-                >
-              </li>
+              <router-link
+                to="/Profile"
+                class="text-gray-800 hover:text-gray-600"
+                >Account</router-link
+              >
+              
               <div class="flex-row relative">
                 <a
                   href="#"
