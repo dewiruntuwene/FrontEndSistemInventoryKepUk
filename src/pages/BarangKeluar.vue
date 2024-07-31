@@ -448,6 +448,7 @@ function formatDate(dateString: string): string {
 
 onMounted(() => {
   fetchData();
+  fetchBarangOptions();
 });
 </script>
 
