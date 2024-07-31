@@ -156,7 +156,7 @@
                 class="text-gray-800 hover:text-gray-600"
                 >Account</router-link
               >
-              
+
               <div class="flex-row relative">
                 <a
                   href="#"
@@ -206,7 +206,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed,  } from "vue";
 import axios from "axios";
 import { Keranjang, Barang } from "../pages/UserCatalog.vue";
 
@@ -216,6 +216,13 @@ interface BarangHabisPakai {
   nama_barang: string;
   jenis_barang: string;
 }
+
+// const props = defineProps({
+//   keranjang: {
+//     type: Object as () => Keranjang,
+//     required: true,
+//   },
+// });
 
 
 const barang = ref<Barang[]>();
@@ -235,28 +242,36 @@ const setJumlah = (data: any[]) => {
   keranjangs.value = data;
 };
 
-const totalJumlahBarang = computed(() => {
-  return keranjangs.value.reduce((total, item) => total + item.jumlah_barang, 0);
-});
-
 // const totalJumlahBarang = computed(() => {
 //   return keranjangs.value.reduce((total, item) => total + item.jumlah_barang, 0);
 // });
 
 onMounted(() => {
-  const storedKeranjang = localStorage.getItem('keranjang');
-  if (storedKeranjang) {
-    keranjangs.value = JSON.parse(storedKeranjang);
-  } else {
-    axios
-      .get("https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang")
-      .then((response) => {
-        keranjangs.value = response.data;
-        localStorage.setItem('keranjang', JSON.stringify(keranjangs.value));
-      })
-      .catch((error) => console.log(error));
-  }
+  const token = localStorage.getItem("token");
+  axios
+    .get(`${apiUrl}/keranjang`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {
+      keranjangs.value = response.data;
+      // Update totalJumlahBarang when data is loaded
+      totalJumlahBarang.value = keranjangs.value.reduce((total, item) => total + item.jumlah_barang, 0);
+    })
+    .catch((error) => console.log(error));
 });
+
+const totalJumlahBarang = ref(0);
+
+// Update totalJumlahBarang whenever keranjangs changes
+keranjangs.value.forEach((item) => {
+  totalJumlahBarang.value += item.jumlah_barang;
+});
+
+// watch(keranjangs, (newKeranjangs) => {
+//   totalJumlahBarang.value = newKeranjangs.reduce((total, item) => total + item.jumlah_barang, 0);
+// });
 
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value;
