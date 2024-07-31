@@ -169,7 +169,7 @@
                 <p
                   class="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white"
                 >
-                  {{ keranjangs.length }}
+                  {{ totalJumlahBarang }}
                 </p>
               </div>
               <router-link
@@ -204,6 +204,14 @@ import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 import { Keranjang, Barang } from "../pages/UserCatalog.vue";
 
+interface BarangHabisPakai {
+  kode_barang: string;
+  jumlah_barang: number;
+  nama_barang: string;
+  jenis_barang: string;
+}
+
+
 const barang = ref<Barang[]>();
 
 const searchQuery = ref("");
@@ -216,19 +224,32 @@ const keranjangs = ref<Array<{ jumlah_barang: number }>>([]);
 const updateKeranjang = ref([]);
 const isSidebarOpen = ref(false);
 
+
 const setJumlah = (data: any[]) => {
   keranjangs.value = data;
 };
+
+const totalJumlahBarang = computed(() => {
+  return keranjangs.value.reduce((total, item) => total + item.jumlah_barang, 0);
+});
 
 // const totalJumlahBarang = computed(() => {
 //   return keranjangs.value.reduce((total, item) => total + item.jumlah_barang, 0);
 // });
 
 onMounted(() => {
-  axios
-    .get("https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang")
-    .then((response) => setJumlah(response.data))
-    .catch((error) => console.log(error));
+  const storedKeranjang = localStorage.getItem('keranjang');
+  if (storedKeranjang) {
+    keranjangs.value = JSON.parse(storedKeranjang);
+  } else {
+    axios
+      .get("https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang")
+      .then((response) => {
+        keranjangs.value = response.data;
+        localStorage.setItem('keranjang', JSON.stringify(keranjangs.value));
+      })
+      .catch((error) => console.log(error));
+  }
 });
 
 const toggleSidebar = () => {
@@ -271,4 +292,5 @@ const searchBarang = async () => {
     console.error("Error fetching data:", error);
   }
 };
+
 </script>
