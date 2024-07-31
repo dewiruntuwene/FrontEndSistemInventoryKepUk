@@ -69,7 +69,7 @@
                   scope="col"
                   class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                 >
-                  Tanggal Pengambilan
+                  Tanggal Order
                 </th>
                 <th
                   scope="col"
@@ -128,7 +128,7 @@
                 </td>
                 <td class="px-2 py-2 whitespace-nowrap">
                   <div class="text-xs text-gray-900">
-                    {{ transaction.tanggal_pengambilan }}
+                    {{ transaction.tanggal_order }}
                   </div>
                 </td>
                 <td class="px-2 py-2 whitespace-nowrap">
@@ -211,6 +211,7 @@ interface Transaction {
   jam_praktek: string;
   tanggal_praktek: string;
   tanggal_pengambilan: string;
+  tanggal_order: string;
   tanggal_kembali_alat: string;
   ruangan_lab: string;
   status: "sukses" | "pending" | "dibatalkan";
