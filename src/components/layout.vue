@@ -378,9 +378,6 @@ export default defineComponent({
                   </svg>
                   <!-- Akhir dari Icon SVG yang ditambahkan -->
                 </span>
-                <span>
-                  <router-link to="/Profile"> Profile </router-link>
-                </span>
               </a>
             </li>
           </ul>
