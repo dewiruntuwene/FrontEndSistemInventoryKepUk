@@ -24,106 +24,53 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted } from "vue";
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { jwtDecode } from "jwt-decode";
+import { JwtPayload, jwtDecode } from "jwt-decode";
 import Navbar from "../components/Navbar.vue";
 
-interface DecodedToken {
+interface DecodedToken extends JwtPayload {
   name: string;
   email: string;
   picture: string; // tambahkan properti untuk gambar profil
 }
 
-export default defineComponent({
-  name: "UserProfile",
-  setup() {
-    const profilePicture = ref(""); // inisialisasi dengan string kosong
-    const userName = ref("");
-    const email = ref("");
+const profilePicture = ref<string>(""); // inisialisasi dengan string kosong
+const userName = ref<string>("");
+const email = ref<string>("");
 
-    const router = useRouter();
+const router = useRouter();
 
-    const decodeToken = () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        try {
-          const decoded: DecodedToken = jwtDecode(token);
-          userName.value = decoded.name;
-          email.value = decoded.email;
-          profilePicture.value = decoded.picture; // atur gambar profil
-        } catch (error) {
-          console.error("Error decoding token:", error);
-        }
-      }
-    };
+const decodeToken = () => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    try {
+      const decoded: DecodedToken = jwtDecode(token);
+      userName.value = decoded.name;
+      email.value = decoded.email;
+      profilePicture.value = decoded.picture; // atur gambar profil
+    } catch (error) {
+      console.error("Error decoding token:", error);
+    }
+  }
+};
 
-    const onFileChange = (event: Event) => {
-      // kode untuk mengubah gambar profil dari file yang diunggah
-    };
+const onFileChange = (event: Event) => {
+  // kode untuk mengubah gambar profil dari file yang diunggah
+};
 
-    const logout = () => {
-      localStorage.removeItem("token");
-      router.push("/login");
-    };
+const logout = () => {
+  localStorage.removeItem("token");
+  router.push("/login");
+};
 
-    onMounted(() => {
-      decodeToken();
-    });
-
-    return {
-      profilePicture,
-      userName,
-      email,
-      onFileChange,
-      logout,
-      Navbar
-    };
-  },
+onMounted(() => {
+  decodeToken();
 });
 </script>
 
 <style scoped>
-/* .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 20px;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  } */
-
-/* .nav-icons {
-    display: flex;
-  }
-  
-  .nav-icon {
-    position: relative;
-    margin-right: 20px;
-  }
-  
-  .nav-icon img {
-    width: 30px;
-    height: 30px;
-  } */
-
-/* .badge {
-    position: absolute;
-    top: -5px;
-    right: -10px;
-    background-color: red;
-    color: white;
-    border-radius: 50%;
-    padding: 2px 5px;
-    font-size: 10px;
-  } */
-
-/* .nav-profile {
-    display: flex;
-    align-items: center;
-  } */
-
 .profile-avatar {
   width: 35px;
   height: 35px;
