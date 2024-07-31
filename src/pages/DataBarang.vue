@@ -55,7 +55,7 @@
           <select v-model="newItem.jenis" class="border border-gray-300 rounded px-2 py-1 mb-2">
             <option value="" disabled selected>Pilih Jenis Barang</option>
             <option value="Barang Habis Pakai">Barang Habis Pakai</option>
-            <option value="Barang pinjam">Barang Pinjam</option>
+            <option value="Alat Kesehatan">Alat Kesehatan</option>
           </select>
           <input type="file" @change="handleImageUpload" class="border border-gray-300 rounded px-2 py-1 mb-2" accept="image/*">
           <button @click="validateAndAddItem" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 rounded">Add</button>
