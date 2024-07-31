@@ -1,5 +1,5 @@
 <template>
-  <Layout />
+  <Navbar />
   <div>
     <div class="profile-container">
       <div class="profile-picture">
@@ -28,7 +28,7 @@
 import { defineComponent, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { jwtDecode } from "jwt-decode";
-import Layout from "../components/layout.vue";
+import Navbar from "../components/Navbar.vue";
 
 interface DecodedToken {
   name: string;
@@ -78,7 +78,7 @@ export default defineComponent({
       email,
       onFileChange,
       logout,
-      Layout
+      Navbar
     };
   },
 });
