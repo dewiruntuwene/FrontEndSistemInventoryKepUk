@@ -37,7 +37,7 @@
             <th class="py-3 px-2 text-left border">Kode Barang</th>
             <th class="py-3 px-2 text-left border">Jumlah Barang</th>
             <th class="py-3 px-2 text-left border">Jenis Barang</th>
-            <th class="py-3 px-2 text-left border">Harga Barang</th>
+            <!-- <th class="py-3 px-2 text-left border">Harga Barang</th> -->
             <th class="py-3 px-2 text-left border">Gambar Barang</th>
             <th class="py-3 px-2 text-left border">Keterangan</th>
             <th class="py-3 px-2 text-left border"></th>
@@ -64,7 +64,7 @@
             <td class="py-3 px-2 text-left border">
               {{ item.barangs.jenis_barang }}
             </td>
-            <td class="py-3 px-2 text-left border">{{ item.harga_barang }}</td>
+            <!-- <td class="py-3 px-2 text-left border">{{ item.harga_barang }}</td> -->
             <td class="py-3 px-2 text-left border">
               <img
                 :src="`http://localhost:5000/uploads/${item.barangs.gambar_barang}`"
@@ -160,7 +160,7 @@
                 :disabled="isAutofill"
               />
             </div>
-            <div>
+            <!-- <div>
               <label for="harga_barang" class="block text-sm font-bold mb-2"
                 >Harga Barang:</label
               >
@@ -171,7 +171,7 @@
                 id="harga_barang"
                 :disabled="isAutofill"
               />
-            </div>
+            </div> -->
             <div>
               <label for="keterangan" class="block text-sm font-bold mb-2"
                 >Keterangan:</label
@@ -201,7 +201,7 @@
                 <li v-if="!newItem.kode_barang">Kode Barang harus diisi</li>
                 <li v-if="!newItem.jumlah_barang">Jumlah Barang harus diisi</li>
                 <li v-if="!newItem.jenis_barang">Jenis Barang harus diisi</li>
-                <li v-if="!newItem.harga_barang">Harga Barang harus diisi</li>
+                <!-- <li v-if="!newItem.harga_barang">Harga Barang harus diisi</li> -->
               </ul>
             </div>
           </div>
@@ -290,7 +290,6 @@ const onKodeBarangChange = async (event: Event) => {
         ...newItem.value,
         nama_barang: selectedBarang.nama_barang,
         jenis_barang: selectedBarang.jenis_barang,
-        harga_barang: selectedBarang.harga_barang,
         // Misalkan Anda juga ingin memperbarui jumlah_barang jika ada data default
         jumlah_barang: 1, // Default jumlah_barang jika diperlukan
       };
@@ -308,7 +307,7 @@ const addItem = async () => {
       tanggal_pinjam: newItem.value.tanggal_pinjam,
       nama_barang: newItem.value.nama_barang,
       jenis_barang: newItem.value.jenis_barang,
-      harga_barang: newItem.value.harga_barang,
+      // harga_barang: newItem.value.harga_barang,
       kode_barang: newItem.value.kode_barang,
       // barangs: {
       //   nama_barang: newItem.value.nama_barang,
@@ -351,7 +350,7 @@ const editItem = (index: number) => {
     kode_barang: item.barangs.kode_barang,
     jumlah_barang: item.jumlah_barang,
     jenis_barang: item.barangs.jenis_barang,
-    harga_barang: item.barangs.harga_barang,
+    // harga_barang: item.barangs.harga_barang,
     tanggal_pinjam: item.tanggal_pinjam,
   };
   isEditing.value = true;
@@ -367,7 +366,7 @@ const editItemFromBarangMasuk = (id: number) => {
       kode_barang: itemToEdit.barangs.kode_barang,
       nama_barang: itemToEdit.barangs.nama_barang,
       jenis_barang: itemToEdit.barangs.jenis_barang,
-      harga_barang: itemToEdit.harga_barang,
+      // harga_barang: itemToEdit.harga_barang,
       id_barang: itemToEdit.barangs.id_barang, 
       keterangan: itemToEdit.barangs.keterangan, 
     };
@@ -386,7 +385,7 @@ const updateItem = async () => {
         nama_barang: newItem.value.nama_barang,
         kode_barang: newItem.value.kode_barang,
         jenis_barang: newItem.value.jenis_barang,
-        harga_barang: newItem.value.harga_barang,
+        // harga_barang: newItem.value.harga_barang,
         id_barang: newItem.value.id_barang,
         keterangan: newItem.value.keterangan
       };
@@ -433,7 +432,7 @@ const resetForm = () => {
 };
 
 const validateForm = () => {
-  isFormIncomplete.value = !newItem.value.tanggal_pinjam || !newItem.value.jumlah_barang || !newItem.value.kode_barang || !newItem.value.nama_barang || !newItem.value.jenis_barang || !newItem.value.harga_barang;
+  isFormIncomplete.value = !newItem.value.tanggal_pinjam || !newItem.value.jumlah_barang || !newItem.value.kode_barang || !newItem.value.nama_barang || !newItem.value.jenis_barang
 
   if (!isFormIncomplete.value) {
     if (isEditing.value) {
