@@ -74,7 +74,7 @@
                   </li>
                   <li>
                     <router-link
-                      to="/account"
+                      to="/Profile"
                       class="text-blue-500 hover:underline"
                       >Account</router-link
                     >
@@ -151,6 +151,13 @@
                 >Catalog Barang</router-link
               >
 
+              <li>
+                <router-link
+                  to="/Profile"
+                  class="text-blue-500 hover:underline"
+                  >Account</router-link
+                >
+              </li>
               <div class="flex-row relative">
                 <a
                   href="#"
