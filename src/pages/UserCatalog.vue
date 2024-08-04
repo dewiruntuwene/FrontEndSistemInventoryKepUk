@@ -243,9 +243,9 @@ const searchBarang = async () => {
       </div>
     </div> -->
 
-  <div class="mt-20 sm:ml-5 h-full px-12">
+  <div class="mt-8 sm:ml-5 h-full px-12">
     <div
-      class="w-128 md:w-128 h-40 md:h-48 mx-4 my-4 md:mx-12 text-left bg-black bg-opacity-80 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:bg-opacity-70 dark:border-gray-700 items-center relative justify-center overflow-hidden"
+      class="w-128 md:w-128 h-40 md:h-48 mx-4 my-4 md:mx-12 text-left bg-black bg-opacity-80 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:bg-opacity-70 dark:border-gray-700 items-center relative justify-center mt-24"
     >
       <div class="relative z-10 p-4 md:p-8">
         <h5
