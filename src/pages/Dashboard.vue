@@ -75,30 +75,25 @@ const tableBodyRef = ref<HTMLElement | null>(null);
                 Jenis Stok
               </th>
               <th class="py-3 px-2 text-left border" style="text-align: center">
-                Jumlah Barang
+                Total Stok
               </th>
-              <th
-                class="py-3 px-2 text-left border"
-                style="text-align: center"
-              ></th>
             </tr>
           </thead>
           <tbody class="text-gray-600 text-sm font-light" ref="tableBody">
             <!-- Data dari array -->
             <tr v-for="(item, index) in data" :key="index">
-              <td class="py-3 px-2 text-left border">
+              <td class="py-3 px-2 text-left border text-center">
                 <span>{{ item.kode_barang }}</span>
               </td>
-              <td class="py-3 px-2 text-left border">
+              <td class="py-3 px-2 text-left border text-center">
                 <span>{{ item.nama_barang }}</span>
               </td>
-              <td class="py-3 px-2 text-left border">
+              <td class="py-3 px-2 text-left border text-center">
                 <span>{{ item.jenis_barang }}</span>
               </td>
-              <td class="py-3 px-2 text-left border">
+              <td class="py-3 px-2 text-left border text-center">
                 <span>{{ item.total_stock }}</span>
               </td>
-              <td class="py-3 px-2 text-left border"></td>
             </tr>
           </tbody>
         </table>
