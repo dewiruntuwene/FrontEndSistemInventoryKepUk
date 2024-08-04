@@ -1,13 +1,9 @@
 <template>
   <Navbar />
-  <div>
-    <div class="profile-container">
-      <div class="profile-picture">
-        <img :src="profilePicture" alt="" />
-        <input type="file" @change="onFileChange" />
-      </div>
+  <div class="mt-48">
+    <div class="profile-container mt-24">
       <div class="profile-info">
-        <h2>Profil Pengguna</h2>
+        <h2 class="text-center">Profil Pengguna</h2>
         <div class="info-item">
           <span>Nama</span>
           <a href="#">{{ userName }}</a>
