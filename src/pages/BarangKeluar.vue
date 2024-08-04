@@ -4,7 +4,7 @@
     <div
       class="border-b-2 border-black flex flex-row justify-between items-center p-3"
     >
-      <h4 class="pa-3 text-2xl font-bold">Data Barang Keluar</h4>
+      <h4 class="pa-3 text-2xl font-bold">Data Barang Habis Pakai</h4>
       <div class="relative md:flex">
         <input
           v-model="searchQuery"
@@ -25,7 +25,7 @@
   </div>
 
   <div class="max-w-6xl mx-auto">
-    <div class="bg-white max-w-5xl mt-7 ml-20 pl-28">
+    <div class="bg-white max-w-max mt-7 ml-24 pl-28 max-h-xs overflow-y-auto">
       <table class="min-w-max w-full table-auto">
         <thead>
           <tr
