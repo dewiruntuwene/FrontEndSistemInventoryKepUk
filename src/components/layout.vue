@@ -287,7 +287,7 @@ export default defineComponent({
                   <!-- Akhir dari Icon SVG yang ditambahkan -->
                 </span>
                 <span>
-                  <router-link to="/BarangKeluar"> BHP </router-link>
+                  <router-link to="/BarangKeluar"> Barang Habis Pakai (BHP) </router-link>
                 </span>
               </a>
             </li>
@@ -319,7 +319,7 @@ export default defineComponent({
                   <!-- Akhir dari Icon SVG yang ditambahkan -->
                 </span>
                 <span>
-                  <router-link to="/BarangPinjam"> ALKES </router-link>
+                  <router-link to="/BarangPinjam">Alat Kesehatan (ALKES) </router-link>
                 </span>
               </a>
             </li>
