@@ -2,14 +2,14 @@
   <Layout />
   <div class="mt-0 pl-60 sticky top-0 z-50">
     <div
-      class="border-b-2 border-black flex flex-row justify-between items-center p-3"
+      class="border-b-2 border-black flex flex-row justify-between items-center p-3 non-printable"
     >
       <h4 class="pa-3 text-2xl font-bold">Data Peminjaman</h4>
     </div>
   </div>
   <div class="mt-0 pb-5 pl-[15rem]">
      <!-- Filter Username -->
-     <div class="container max-w-4xl mx-auto mr-xs mt-4 flex justify-left mb-4">
+     <div class="container max-w-4xl mx-auto ml-24 mt-8 flex justify-left mb-4">
       <select v-model="selectedUsername" class="border p-2 rounded w-full">
         <option value="">Filter berdasarkan username</option>
         <option v-for="username in uniqueUsernames" :key="username" :value="username">
@@ -18,14 +18,10 @@
       </select>
     </div>
     <!-- Tabel -->
-    <div
-      class="container max-w-6xl mx-auto mr-xs mt-4 flex justify-left mb-4 overflow-x-auto"
-    >
-      <div class="bg-white shadow bg-blue-500 overflow-hidden sm:rounded-lg">
-        <div
-          class="overflow-x-auto mx-auto max-w-7xl mr-10 min-w-3.5 h-fit pt-2"
-        >
-          <table class="min-w-full divide-y divide-gray-200 justify-center">
+    <div class="max-w-6xl mx-auto mr-24">
+      <div class="bg-white mt-5 ml-30 pl-28 relative overflow-y-auto max-h-96">
+
+          <table class="min-w-max w-full table-auto">
             <!-- Tabel Header -->
             <thead class="bg-blue-200">
               <tr>
@@ -41,7 +37,7 @@
                 >
                   Nama Dosen
                 </th>
-                <th
+                <!-- <th
                   scope="col"
                   class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                 >
@@ -64,24 +60,24 @@
                   class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                 >
                   Ruangan Lab
-                </th>
+                </th> -->
                 <th
                   scope="col"
                   class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                 >
                   Tanggal Order
                 </th>
-                <th
+                <!-- <th
                   scope="col"
                   class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                 >
                   Tanggal Pengembalian
-                </th>
+                </th> -->
                 <th
                   scope="col"
                   class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                 >
-                  Barang yang di order
+                  Detail Barang
                 </th>
                 <th
                   scope="col"
@@ -96,17 +92,17 @@
               <!-- Data -->
               <tr v-for="(transaction, index) in filteredTransactions" :key="index">
                 <!-- Isi Tabel -->
-                <td class="px-2 py-2 whitespace-nowrap">
+                <td class="px-2 py-2 whitespace-nowrap text-center">
                   <div class="text-xs text-gray-900">
                     {{ transaction.id_peminjam }}
                   </div>
                 </td>
-                <td class="px-2 py-2 whitespace-nowrap">
+                <td class="px-2 py-2 whitespace-nowrap text-center">
                   <div class="text-xs text-gray-900">
                     {{ transaction.users.username }}
                   </div>
                 </td>
-                <td class="px-2 py-2 whitespace-nowrap">
+                <!-- <td class="px-2 py-2 whitespace-nowrap">
                   <div class="text-xs text-gray-900">
                     {{ transaction.nama_matakuliah }}
                   </div>
@@ -125,28 +121,139 @@
                   <div class="text-xs text-gray-900">
                     {{ transaction.ruangan_lab }}
                   </div>
-                </td>
-                <td class="px-2 py-2 whitespace-nowrap">
+                </td> -->
+                <td class="px-2 py-2 whitespace-nowrap text-center">
                   <div class="text-xs text-gray-900">
                     {{ transaction.tanggal_order }}
                   </div>
                 </td>
-                <td class="px-2 py-2 whitespace-nowrap">
+                <!-- <td class="px-2 py-2 whitespace-nowrap">
                   <div class="text-xs text-gray-900">
                     {{ transaction.tanggal_kembali_alat }}
                   </div>
-                </td>
-                <td class="px-2 py-2 whitespace-nowrap">
+                </td> -->
+                <td class="px-2 py-2 whitespace-nowrap text-center">
                   <div class="text-xs text-gray-900">
-                    <ul>
-                      <li
-                        v-for="(item, index) in transaction.barangHabisPakai"
-                        :key="index"
-                      >
-                        {{ item.nama_barang }} ({{ item.jenis_barang }}) -
-                        {{ item.jumlah_barang }}
-                      </li>
-                    </ul>
+                    <!-- Tampilkan Detail Barang -->
+                    <button
+                      @click="showDetailBarang(index)"
+                      class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >
+                      Detail
+                    </button>
+                    <!-- Modal untuk detail barang -->
+                    <div
+                      v-if="detailBarangIndex === index"
+                      class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50"
+                    >
+                      <div class="bg-white rounded-lg shadow-xl w-1/2 p-6 printable">
+                        <h2 class="text-xl font-bold mb-4">Detail Barang</h2>
+                        <div class="flex space-x-24">
+                          <div class="space-y-2">
+                            <h4>Nama Dosen</h4>
+                            <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.users.username }}</div>
+                          </div>
+                          <div class="space-y-2">
+                            <h4>Nama Matakuliah</h4>
+                          <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.nama_matakuliah }}</div>
+                          </div>
+                          <div class="space-y-2">
+                            <h4>Prasat</h4>
+                            <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.prasat }}</div>
+                          </div>
+                          <div class="space-y-2">
+                            <h4>Jam Praktek</h4>
+                            <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.jam_praktek }}</div>
+                          </div>
+                        </div>
+                       
+                        <div class="flex space-x-12 mt-4">
+                          <div class="space-y-2">
+                            <h4>Tanggal Pengembalian</h4>
+                            <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.tanggal_kembali_alat }}</div>
+                          </div>
+                          <div class="space-y-2">
+                            <h4>Ruangan Lab</h4>
+                            <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.ruangan_lab }}</div>
+                          </div>
+                          <div class="space-y-2">
+                            <h4>Tanggal Order</h4>
+                            <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.tanggal_order }}</div>
+                          </div>
+                        </div>
+
+                       
+                        <table class="min-w-full divide-y divide-gray-200 mt-4 overflow-x-auto">
+                          <thead>
+                            <tr>
+                              <th
+                                scope="col"
+                                class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                              >
+                                Nama Barang
+                              </th>
+                              <th
+                                scope="col"
+                                class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                              >
+                                Kode Barang
+                              </th>
+                              <th
+                                scope="col"
+                                class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                              >
+                                Jenis Barang
+                              </th>
+                              <th
+                                scope="col"
+                                class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                              >
+                                Jumlah
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody class="bg-white divide-y divide-gray-200 mr-mx text-let">
+                            <tr
+                              v-for="(item, index) in transaction.barangHabisPakai"
+                              :key="index"
+                            >
+                              <td class="px-2 py-2 whitespace-nowrap">
+                                <div class="text-xs text-gray-900">
+                                  {{ item.nama_barang }}
+                                </div>
+                              </td>
+                              <td class="px-2 py-2 whitespace-nowrap">
+                                <div class="text-xs text-gray-900">
+                                  {{ item.kode_barang }}
+                                </div>
+                              </td>
+                              <td class="px-2 py-2 whitespace-nowrap">
+                                <div class="text-xs text-gray-900">
+                                  {{ item.jenis_barang }}
+                                </div>
+                              </td>
+                              <td class="px-2 py-2 whitespace-nowrap">
+                                <div class="text-xs text-gray-900">
+                                  {{ item.jumlah_barang }}
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <button
+                          @click="closeDetailBarang"
+                          class="non-printable mt-4 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        >
+                          Close
+                        </button>
+                        <button
+                          @click="printTable()"
+                          class="non-printable ml-4 mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        >
+                          Print
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </td>
                 <td class="px-2 py-2 whitespace-nowrap text-center">
@@ -186,7 +293,7 @@
           </table>
         </div>
       </div>
-    </div>
+    
   </div>
 </template>
 
@@ -320,6 +427,19 @@ const filteredTransactions = computed(() => {
   }
 });
 
+// Modal untuk detail barang
+const detailBarangIndex = ref<number | null>(null);
+const showDetailBarang = (index: number) => {
+  detailBarangIndex.value = index;
+};
+const closeDetailBarang = () => {
+  detailBarangIndex.value = null;
+};
+
+const printTable = () => {
+  window.print();
+};
+
 
 onMounted(() => {
   fetchTransactions();
@@ -348,6 +468,29 @@ td {
   /* Sesuaikan lebar tabel dengan layar perangkat */
   .max-w-full {
     width: 100%;
+  }
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .printable, .printable * {
+    visibility: visible;
+  }
+  .printable {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+   /* Sembunyikan elemen lain yang tidak diinginkan */
+   .non-printable {
+    display: none;
   }
 }
 </style>
