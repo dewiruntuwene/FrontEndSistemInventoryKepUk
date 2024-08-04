@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="bg-white shadow-lg">
+    <nav class="bg-white shadow-lg fixed top-0 w-full sticky-navbar z-50">
       <div class="container mx-auto px-4">
         <div class="flex items-center justify-between h-16">
           <!-- Hamburger Button -->
