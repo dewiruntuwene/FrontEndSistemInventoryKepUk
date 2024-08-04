@@ -19,7 +19,7 @@
 
 
   <div class="max-w-6xl mx-auto">
-    <div class="bg-white mt-5 ml-30 pl-28 relative overflow-y-auto max-h-96">
+    <div class="bg-white mt-7 ml-20 pl-28 overflow-y-auto max-h-xs max-w-max">
       <table class="min-w-max w-full table-auto">
         <thead>
           <tr class="bg-slate-400 text-gray-900 uppercase text-sm leading-normal">
