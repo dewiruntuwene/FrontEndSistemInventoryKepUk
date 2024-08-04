@@ -59,7 +59,7 @@ const tableBodyRef = ref<HTMLElement | null>(null);
   <div class="mt-16 pl-[15rem]">
     <div class="max-w-6xl mr-16">
       <!-- Tabel kosong -->
-      <div class="bg-white max-w-5xl ml-30 pl-28 pe-8">
+      <div class="bg-white max-w-5xl ml-30 pl-28 pe-8 printable">
         <table class="min-w-max w-full table-auto px-1">
           <thead>
             <tr
@@ -125,3 +125,30 @@ const tableBodyRef = ref<HTMLElement | null>(null);
   </div>
   <RouterView />
 </template>
+
+<style>
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .printable, .printable * {
+    visibility: visible;
+  }
+  .printable {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+   /* Sembunyikan elemen lain yang tidak diinginkan */
+   h4, .filter-username, .non-printable {
+    display: none;
+  }
+}
+
+</style>
