@@ -148,36 +148,36 @@
                     >
                       <div class="bg-white rounded-lg shadow-xl w-1/2 p-6 printable">
                         <h2 class="text-xl font-bold mb-4">Detail Barang</h2>
-                        <div class="flex space-x-24">
+                        <div class="flex space-x-24 ">
                           <div class="space-y-2">
-                            <h4>Nama Dosen</h4>
+                            <p>Nama Dosen</p>
                             <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.users.username }}</div>
                           </div>
                           <div class="space-y-2">
-                            <h4>Nama Matakuliah</h4>
+                            <p>Nama Matakuliah</p>
                             <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.nama_matakuliah }}</div>
                           </div>
                           <div class="space-y-2">
-                            <h4>Prasat</h4>
+                            <p>Prasat</p>
                             <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.prasat }}</div>
                           </div>
                           <div class="space-y-2">
-                            <h4>Jam Praktek</h4>
+                            <p>Jam Praktek</p>
                             <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.jam_praktek }}</div>
                           </div>
                         </div>
 
                         <div class="flex space-x-12 mt-4">
                           <div class="space-y-2">
-                            <h4>Tanggal Pengembalian</h4>
+                            <p>Tanggal Pengembalian</p>
                             <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.tanggal_kembali_alat }}</div>
                           </div>
                           <div class="space-y-2">
-                            <h4>Ruangan Lab</h4>
+                            <p>Ruangan Lab</p>
                             <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.ruangan_lab }}</div>
                           </div>
                           <div class="space-y-2">
-                            <h4>Tanggal Order</h4>
+                            <p>Tanggal Order</p>
                             <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.tanggal_order }}</div>
                           </div>
                         </div>
