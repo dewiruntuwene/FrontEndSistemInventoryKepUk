@@ -566,6 +566,6 @@ const toggleSubmitModal = () => {
     throw new Error("Mohon lengkapi semua field sebelum melakukan checkout");
   }
 
-  isSubmitOpen.value = !isSubmitOpen.value;
+  // isSubmitOpen.value = !isSubmitOpen.value;
 };
 </script>
