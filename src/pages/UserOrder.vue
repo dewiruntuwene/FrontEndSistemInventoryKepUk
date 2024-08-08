@@ -279,8 +279,8 @@
                   type="time"
                   id="time"
                   class="border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:focus:border-blue-500 form-input mt-1 block w-full border rounded border-gray-300"
-                  min="07:00"
-                  max="19:00"
+                  min="05:00"
+                  max="20:00"
                   value="00:00"
                   required
                   v-model="pesan.jam_praktek"
