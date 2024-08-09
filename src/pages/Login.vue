@@ -137,20 +137,17 @@ const login = async () => {
     console.error("Error:", error);
     if (axios.isAxiosError(error) && error.response) {
       const status = error.response.status;
-      if (status === 401) {
-        errorMessage.value = "Email atau password salah.";
-        alert("Email atau password salah");
+      if (status === 400) {
+        errorMessage.value = "Password salah.";
+        alert("Password salah");
       } else if (status === 404) {
-        errorMessage.value = "Username tidak ditemukan.";
-        alert("Username tidak ditemukan");
+        errorMessage.value = "Email tidak ditemukan.";
+        alert("Email tidak ditemukan");
       } else {
         errorMessage.value = "Terjadi kesalahan pada server.";
         alert("Terjadi kesalahan pada server");
       }
-    } else {
-      errorMessage.value = "Terjadi kesalahan pada server.";
-      alert("Terjadi kesalahan pada server");
-    }
+    } 
   }
 };
 </script>
