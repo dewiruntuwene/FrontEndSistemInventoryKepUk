@@ -14,7 +14,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://inventory-order-kep-cehrxcprk-dewiruntuwenes-projects.vercel.app/",
+        target: "inventoryfkep-46301.portmap.io:46301",
         changeOrigin: true,
         secure: false,
       },
