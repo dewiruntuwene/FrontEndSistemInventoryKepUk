@@ -45,7 +45,7 @@ const token: string = urlParams.get("token") || "";
 // Fungsi untuk mengarahkan pengguna ke Google untuk otentikasi
 const auth = async () => {
   try {
-    const response = await fetch("http://inventoryfkep-46301.portmap.io:46301/auth/google", {
+    const response = await fetch(`${apiUrl}/auth/google`, {
       method: "POST",
     });
 
