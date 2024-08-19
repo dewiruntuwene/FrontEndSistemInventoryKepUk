@@ -14,7 +14,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "inventoryfkep-46301.portmap.io:46301",
+        target: "http://inventoryfkep-46301.portmap.io:46301",
         changeOrigin: true,
         secure: false,
       },
