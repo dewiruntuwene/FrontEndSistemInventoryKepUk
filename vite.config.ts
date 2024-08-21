@@ -16,7 +16,7 @@ export default defineConfig({
       "/api": {
         target: "http://inventoryfkep-46301.portmap.io:46301",
         changeOrigin: true,
-        secure: false,
+        secure: true,
       },
     },
   },
