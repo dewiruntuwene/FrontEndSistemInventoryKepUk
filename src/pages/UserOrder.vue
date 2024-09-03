@@ -200,7 +200,7 @@
                       @change="
                         updateKeranjang(
                           Number(keranjang.id_keranjang),
-                          Number(keranjang.jumlah_barang),
+                          Number(keranjang.jumlah_barang)
                         )
                       "
                     />
@@ -437,8 +437,6 @@ const setKeranjangs = (data: Keranjang[]) => {
   }));
 };
 
-
-
 // const hapusKeranjang = async (id_keranjang: number) => {
 //   try {
 //     await axios.delete(`https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang/${id_keranjang}`);
@@ -457,9 +455,11 @@ const setKeranjangs = (data: Keranjang[]) => {
 
 const removeItemFromKeranjang = async (id_keranjang: number) => {
   try {
-    await axios.delete(`${apiUrl}/keranjang/${id_keranjang}`);
+    await axios.delete(
+      `https://inventory-order-kep-uk.vercel.app/keranjang/${id_keranjang}`
+    );
     keranjangs.value = keranjangs.value.filter(
-      (item) => item.id_keranjang !== id_keranjang,
+      (item) => item.id_keranjang !== id_keranjang
     );
     toast.success("Sukses Hapus Keranjang", {
       type: "success",
@@ -486,7 +486,6 @@ const updateKeranjang = async (id_keranjang: number, jumlah_barang: number) => {
   try {
     const updateData = { jumlah_barang };
     await axios.patch(`${apiUrl}/keranjang/${id_keranjang}`, updateData);
-   
   } catch (error) {
     console.log(error);
   }
@@ -499,7 +498,7 @@ const checkout = async () => {
     await Promise.all(
       keranjangs.value.map(async (item: any) => {
         await updateKeranjang(item.id_keranjang, item.jumlah_barang);
-      }),
+      })
     );
 
     const requestData = {
@@ -525,11 +524,10 @@ const checkout = async () => {
     alert("Barang akan di proses!");
     reloadPage();
 
-    
     // isSubmitOpen.value = true;
   } catch (err) {
     console.log(err);
-    alert("Terjadi Kesalahan Ketika Di Proses")
+    alert("Terjadi Kesalahan Ketika Di Proses");
   }
 };
 
