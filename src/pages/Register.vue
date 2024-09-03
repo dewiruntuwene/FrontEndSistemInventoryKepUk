@@ -9,6 +9,8 @@ const confpassword = ref("");
 const registrationSuccess = ref(false);
 const userExists = ref(false); // Variabel untuk menampilkan pemberitahuan jika pengguna sudah terdaftar
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const register = async () => {
   try {
     const data = {
@@ -19,10 +21,7 @@ const register = async () => {
     };
 
     // Kirim permintaan pendaftaran ke server
-    const response = await axios.post(
-      "https://vjk2k0f5-5000.asse.devtunnels.ms/register",
-      data,
-    );
+    const response = await axios.post(`${apiUrl}/register`, data);
     console.log("Response:", response.data);
 
     // Tampilkan pemberitahuan bahwa registrasi berhasil
@@ -33,7 +32,7 @@ const register = async () => {
     alert("Registrasi berhasil! Silakan login.");
   } catch (error) {
     console.error("Error:", error);
-    alert("Tejadi Kesalahan Saat Registrasi")
+    alert("Tejadi Kesalahan Saat Registrasi");
   }
 };
 </script>
@@ -115,7 +114,7 @@ const register = async () => {
         type="submit"
         class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
-        Login to your account
+        Register
       </button>
       <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
         Have an account?
