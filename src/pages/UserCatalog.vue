@@ -89,7 +89,7 @@ const filteredBarangs = computed(() => {
   // Check if barang.value is defined before accessing its value
   if (barang.value) {
     return barang.value.filter((item) =>
-      item.nama_barang.toLowerCase().includes(searchQuery.value.toLowerCase()),
+      item.nama_barang.toLowerCase().includes(searchQuery.value.toLowerCase())
     );
   } else {
     // Return empty array if barang.value is undefined
@@ -99,7 +99,7 @@ const filteredBarangs = computed(() => {
 
 // Langkah 2 dan 3: Isi objek Barang dengan data respons
 const normalizeResponseToBarang = (response: any): Barang[] => {
-  const baseUrl = "https://inventory-order-kep-uk.vercel.app/";
+  const baseUrl = "https://inventory-order-kep-uk.vercel.app";
   return response.map((item: any) => ({
     path: `${baseUrl}/uploads/${item.gambar_barang}`,
     nama_barang: item.nama_barang,
@@ -176,7 +176,7 @@ const tambahKeKeranjang = async (barang: Barang) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      },
+      }
     );
 
     // router.push({ path: "/UserOrder" });
