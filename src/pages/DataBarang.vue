@@ -68,14 +68,12 @@
                 />
               </td>
               <td class="py-2 px-4 text-left border">
-                <<button
-                  @click="deleteBarang(Number(item.id_barang))"
-                  type="button"
-                  class="focus:outline-none"
-                  aria-label="remove Item"
-                >
-                  <img src="/delete.png" alt="remove" class="h-6 w-6" />
-                </button>
+                <img
+                  v-if="item.gambar_barang"
+                  :src="`https://inventory-order-kep-uk.vercel.app/uploads/${item.gambar_barang}`"
+                  alt="Gambar Barang"
+                  class="h-12 w-12 object-cover"
+                />
               </td>
               <td class="py-2 px-4 text-left border">
                 <<button
@@ -292,6 +290,7 @@ export default defineComponent({
       errorMessage,
       validateAndAddItem,
       handleImageUpload,
+      deleteBarang,
     };
   },
 });
