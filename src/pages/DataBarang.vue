@@ -25,6 +25,7 @@
               <th class="py-2 px-4 text-left border">Jenis Barang</th>
               <th class="py-2 px-4 text-left border">Harga Barang</th>
               <th class="py-2 px-4 text-left border">Gambar</th>
+              <th class="py-2 px-4 text-left border">Action</th>
             </tr>
           </thead>
           <tbody class="text-gray-600 text-sm font-light">
@@ -67,12 +68,24 @@
                 />
               </td>
               <td class="py-2 px-4 text-left border">
-                <img
-                  v-if="item.gambar_barang"
-                  :src="`https://inventory-order-kep-uk.vercel.app/uploads/${item.gambar_barang}`"
-                  alt="Gambar Barang"
-                  class="h-12 w-12 object-cover"
-                />
+                <<button
+                  @click="deleteBarang(Number(item.id_barang))"
+                  type="button"
+                  class="focus:outline-none"
+                  aria-label="remove Item"
+                >
+                  <img src="/delete.png" alt="remove" class="h-6 w-6" />
+                </button>
+              </td>
+              <td class="py-2 px-4 text-left border">
+                <<button
+                  @click="deleteBarang(Number(item.id_barang))"
+                  type="button"
+                  class="focus:outline-none"
+                  aria-label="remove Item"
+                >
+                  <img src="/delete.png" alt="remove" class="h-6 w-6" />
+                </button>
               </td>
             </tr>
           </tbody>
@@ -156,6 +169,7 @@ interface Barang {
   jenis_barang: string;
   harga_barang: number;
   gambar_barang: string;
+  id_barang: number;
 }
 
 export default defineComponent({
@@ -231,6 +245,29 @@ export default defineComponent({
       } catch (error) {
         console.error("Error adding item:", error);
         toast.error("Barang Sudah Ada", {
+          type: "error",
+          position: "top-right",
+          duration: 3000,
+          dismissible: true,
+        });
+      }
+    };
+
+    const deleteBarang = async (id_barang: number) => {
+      try {
+        await axios.delete(`${apiUrl}/barang/${id_barang}`);
+        barangs.value = barangs.value.filter(
+          (item) => item.id_barang !== id_barang
+        );
+        toast.success("Sukses Hapus Keranjang", {
+          type: "success",
+          position: "top-right",
+          duration: 3000,
+          dismissible: true,
+        });
+      } catch (error) {
+        console.log(error);
+        toast.error("Gagal Hapus Keranjang", {
           type: "error",
           position: "top-right",
           duration: 3000,
