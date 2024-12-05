@@ -87,6 +87,30 @@ const routes: Array<RouteRecordRaw> = [
         path: 'UserTransaction',
         component: () => import('../pages/UserTransaction.vue'),
       },
+      {
+        path: 'BuatPrasat',
+        component: () => import('../pages/BuatPrasat.vue'),
+      },
+      {
+        path: 'DataBarangOnly',
+        component: () => import('../pages/DataBarangOnly.vue'),
+      },
+      {
+        path: 'DataPreOrder',
+        component: () => import('../pages/DataPreOrder.vue'),
+      },
+      {
+        path: 'UserCatalogPrasat',
+        component: () => import('../pages/UserCatalogPrasat.vue'),
+      },
+      {
+        path: 'UserPreOrder',
+        component: () => import('../pages/UserPreOrder.vue'),
+      },
+      {
+        path: 'UserTransactionPreOrder',
+        component: () => import('../pages/UserTransactionPreOrder.vue'),
+      },
     ],
   },
   {
@@ -94,8 +118,16 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../components/CardBarang.vue'),
   },
   {
+    path: '/CardPrasat',
+    component: () => import('../components/CardPrasat.vue'),
+  },
+  {
     path: '/Navbar',
     component: () => import('../components/Navbar.vue'),
+  },
+  {
+    path: '/Notification',
+    component: () => import('../components/Notification.vue'),
   },
 ];
 

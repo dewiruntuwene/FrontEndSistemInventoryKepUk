@@ -127,6 +127,8 @@ const login = async () => {
       router.push("/UserCatalog");
     } else if (userRole === "ADMIN") {
       router.push("/Dashboard");
+    } else if (userRole === "KAPRODI") {
+      router.push("/DataBarangOnly");
     }
 
     localStorage.setItem("token", response.data.token);
