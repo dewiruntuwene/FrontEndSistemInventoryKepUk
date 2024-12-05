@@ -60,6 +60,20 @@
                 >
                   <li>
                     <router-link
+                      to="/UserCatalogPrasat"
+                      class="text-blue-500 hover:underline"
+                      >Pre-Order</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link
+                      to="/UserTransactioPreOrder"
+                      class="text-blue-500 hover:underline"
+                      >Transaksi Pre-Order</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link
                       to="/UserTransaction"
                       class="text-blue-500 hover:underline"
                       >Transaksi</router-link
@@ -140,6 +154,16 @@
 
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
+              <router-link
+                to="/UserCatalogPrasat"
+                class="text-gray-800 hover:text-gray-600"
+                >Pre-Order</router-link
+              >
+              <router-link
+                to="/UserTransactionPreOrder"
+                class="text-gray-800 hover:text-gray-600"
+                >Transaksi Pre-Order</router-link
+              >
               <router-link
                 to="/UserTransaction"
                 class="text-gray-800 hover:text-gray-600"
