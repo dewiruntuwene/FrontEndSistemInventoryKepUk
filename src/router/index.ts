@@ -111,6 +111,14 @@ const routes: Array<RouteRecordRaw> = [
         path: 'UserTransactionPreOrder',
         component: () => import('../pages/UserTransactionPreOrder.vue'),
       },
+      {
+        path: 'AllTransaction',
+        component: () => import('../pages/AllTransaction.vue'),
+      },
+      {
+        path: 'TrackTransaction',
+        component: () => import('../pages/TrackTransaction.vue'),
+      },
     ],
   },
   {
