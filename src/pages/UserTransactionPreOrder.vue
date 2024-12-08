@@ -78,7 +78,7 @@
   
   const apiUrl = import.meta.env.VITE_API_URL;
   
-  interface Barang {
+interface Barang {
   id_barang: number;
   nama_barang: string;
   kode_barang: string;
