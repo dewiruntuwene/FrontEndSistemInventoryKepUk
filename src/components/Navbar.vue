@@ -155,6 +155,11 @@
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
               <router-link
+                to="/AllTransaction"
+                class="text-gray-800 hover:text-gray-600"
+                >Semua Transaksi</router-link
+              >
+              <router-link
                 to="/UserCatalogPrasat"
                 class="text-gray-800 hover:text-gray-600"
                 >Pre-Order</router-link
