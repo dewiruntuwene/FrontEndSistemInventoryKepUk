@@ -29,7 +29,7 @@
                     scope="col"
                     class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                   >
-                    Id Peminjam
+                    Id Pre-Order
                   </th>
                   <th
                     scope="col"
@@ -65,19 +65,19 @@
                     scope="col"
                     class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                   >
-                    Tanggal Order
+                    Tanggal Pre Order
                   </th>
-                  <!-- <th
-                    scope="col"
-                    class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                  >
-                    Tanggal Pengembalian
-                  </th> -->
                   <th
                     scope="col"
                     class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                   >
-                    Detail Barang
+                    Rencana Pemakaian
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                  >
+                    Detail Pre-Order
                   </th>
                   <th
                     scope="col"
@@ -94,7 +94,7 @@
                   <!-- Isi Tabel -->
                   <td class="px-2 py-2 whitespace-nowrap text-center">
                     <div class="text-xs text-gray-900">
-                      {{ transaction.id_peminjam }}
+                      {{ transaction.id_pre_order_paket }}
                     </div>
                   </td>
                   <td class="px-2 py-2 whitespace-nowrap text-center">
@@ -102,36 +102,17 @@
                       {{ transaction.users.username }}
                     </div>
                   </td>
-                  <!-- <td class="px-2 py-2 whitespace-nowrap">
-                    <div class="text-xs text-gray-900">
-                      {{ transaction.nama_matakuliah }}
-                    </div>
-                  </td>
-                  <td class="px-2 py-2 whitespace-nowrap">
-                    <div class="text-xs text-gray-900">
-                      {{ transaction.prasat }}
-                    </div>
-                  </td>
-                  <td class="px-2 py-2 whitespace-nowrap">
-                    <div class="text-xs text-gray-900">
-                      {{ transaction.jam_praktek }}
-                    </div>
-                  </td>
-                  <td class="px-2 py-2 whitespace-nowrap">
-                    <div class="text-xs text-gray-900">
-                      {{ transaction.ruangan_lab }}
-                    </div>
-                  </td> -->
+                 
                   <td class="px-2 py-2 whitespace-nowrap text-center">
                     <div class="text-xs text-gray-900">
-                      {{ transaction.tanggal_order }}
+                      {{ transaction.tanggal_disetujui }}
                     </div>
                   </td>
-                  <!-- <td class="px-2 py-2 whitespace-nowrap">
+                  <td class="px-2 py-2 whitespace-nowrap">
                     <div class="text-xs text-gray-900">
-                      {{ transaction.tanggal_kembali_alat }}
+                      {{ transaction.rencana_pemakaian }}
                     </div>
-                  </td> -->
+                  </td>
                   <td class="px-2 py-2 whitespace-nowrap text-center">
                     <div class="text-xs text-gray-900">
                       <!-- Tampilkan Detail Barang -->
@@ -149,178 +130,92 @@
                         <div class="bg-white rounded-lg shadow-xl w-1/2 p-6 printable">
                           <h2 class="text-xl font-bold mb-4">Detail Barang</h2>
                           <div class="flex space-x-24 ">
-                            <div class="space-y-2">
+                            <!-- <div class="space-y-2">
                               <p>Nama Dosen</p>
                               <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.users.username }}</div>
-                            </div>
-                            <div class="space-y-2">
-                              <p>Nama Matakuliah</p>
-                              <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.nama_matakuliah }}</div>
-                            </div>
-                            <div class="space-y-2">
-                              <p>Prasat</p>
-                              <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.prasat }}</div>
-                            </div>
-                            <div class="space-y-2">
-                              <p>Jam Praktek</p>
-                              <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.jam_praktek }}</div>
+                            </div> -->
+                            <div v-for="(prasat, prasatIndex) in transaction.PreOrderPrasat" :key="prasatIndex" class="mt-2" >
+                              <div class="space-y-2">
+                                <p>Nama Prasat</p>
+                                <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ prasat.nama_prasat }}</div>
+                              </div>
+
+                              <div class="space-y-2">
+                                <p>Deskripsi</p>
+                                <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ prasat.deskripsi }}</div>
+                              </div>
+
+
+                              <h3 class="text-lg font-bold mt-6">Barang Dalam Prasat</h3>
+                              <table class="min-w-full divide-y divide-gray-200 mt-4 overflow-x-auto">
+                                <thead>
+                                  <tr>
+                                    <th
+                                      scope="col"
+                                      class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                    >
+                                      No
+                                    </th>
+                                    <th
+                                      scope="col"
+                                      class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                    >
+                                      Nama Barang
+                                    </th>
+                                    <th
+                                      scope="col"
+                                      class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                    >
+                                      Kode Barang
+                                    </th>
+                                    <th
+                                      scope="col"
+                                      class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                    >
+                                    Jumlah Barang
+                                    </th>
+                                    <!-- <th
+                                      scope="col"
+                                      class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                    >
+                                      Jumlah
+                                    </th> -->
+                                  </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200 mr-mx text-left">
+                                  <tr
+                                    v-for="(item, itemIndex) in prasat.preOrderDetail" :key="itemIndex">
+                                    <td class="px-2 py-2 whitespace-nowrap text-center">
+                                      <div class="text-xs text-gray-900">
+                                        {{ index + 1 }}
+                                      </div>
+                                    </td>
+                                    <td class="px-2 py-2 whitespace-nowrap text-center">
+                                      <div class="text-xs text-gray-900">
+                                        {{ item.barang.nama_barang }}
+                                      </div>
+                                    </td>
+                                    <td class="px-2 py-2 whitespace-nowrap text-center">
+                                      <div class="text-xs text-gray-900">
+                                        {{ item.barang.kode_barang }}
+                                      </div>
+                                    </td>
+                                    <!-- <td class="px-2 py-2 whitespace-nowrap text-center">
+                                      <div class="text-xs text-gray-900">
+                                        {{ item.barang[0].jenis_barang }}
+                                      </div>
+                                    </td> -->
+                                    <td class="px-2 py-2 whitespace-nowrap text-center">
+                                      <div class="text-xs text-gray-900">
+                                        {{ item.jumlah_barang }}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
                             </div>
                           </div>
   
-                          <div class="flex space-x-12 mt-4">
-                            <div class="space-y-2">
-                              <p>Tanggal Pengembalian</p>
-                              <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.tanggal_kembali_alat }}</div>
-                            </div>
-                            <div class="space-y-2">
-                              <p>Ruangan Lab</p>
-                              <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.ruangan_lab }}</div>
-                            </div>
-                            <div class="space-y-2">
-                              <p>Tanggal Order</p>
-                              <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.tanggal_order }}</div>
-                            </div>
-                          </div>
-  
-                          <h3 class="text-lg font-bold mt-6">Barang Habis Pakai</h3>
-                          <table class="min-w-full divide-y divide-gray-200 mt-4 overflow-x-auto">
-                            <thead>
-                              <tr>
-                                <th
-                                  scope="col"
-                                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                                >
-                                  No
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                                >
-                                  Nama Barang
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                                >
-                                  Kode Barang
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                                >
-                                  Jenis Barang
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                                >
-                                  Jumlah
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200 mr-mx text-left">
-                              <tr
-                                v-for="(item, index) in transaction.barangHabisPakai.filter(b => b.jenis_barang === 'Barang Habis Pakai')"
-                                :key="index"
-                              >
-                                <td class="px-2 py-2 whitespace-nowrap text-center">
-                                  <div class="text-xs text-gray-900">
-                                    {{ index + 1 }}
-                                  </div>
-                                </td>
-                                <td class="px-2 py-2 whitespace-nowrap text-center">
-                                  <div class="text-xs text-gray-900">
-                                    {{ item.nama_barang }}
-                                  </div>
-                                </td>
-                                <td class="px-2 py-2 whitespace-nowrap text-center">
-                                  <div class="text-xs text-gray-900">
-                                    {{ item.kode_barang }}
-                                  </div>
-                                </td>
-                                <td class="px-2 py-2 whitespace-nowrap text-center">
-                                  <div class="text-xs text-gray-900">
-                                    {{ item.jenis_barang }}
-                                  </div>
-                                </td>
-                                <td class="px-2 py-2 whitespace-nowrap text-center">
-                                  <div class="text-xs text-gray-900">
-                                    {{ item.jumlah_barang }}
-                                  </div>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-  
-                          <h3 class="text-lg font-bold mt-6">Alat Kesehatan</h3>
-                          <table class="min-w-full divide-y divide-gray-200 mt-4 overflow-x-auto">
-                            <thead>
-                              <tr>
-                                <th
-                                  scope="col"
-                                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                                >
-                                  No
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                                >
-                                  Nama Barang
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                                >
-                                  Kode Barang
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                                >
-                                  Jenis Barang
-                                </th>
-                                <th
-                                  scope="col"
-                                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                                >
-                                  Jumlah
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200 mr-mx text-left">
-                              <tr
-                                v-for="(item, index) in transaction.barangHabisPakai.filter(b => b.jenis_barang === 'Alat Kesehatan')"
-                                :key="index"
-                              >
-                                <td class="px-2 py-2 whitespace-nowrap text-center">
-                                  <div class="text-xs text-gray-900">
-                                    {{ index + 1 }}
-                                  </div>
-                                </td>
-                                <td class="px-2 py-2 whitespace-nowrap text-center">
-                                  <div class="text-xs text-gray-900">
-                                    {{ item.nama_barang }}
-                                  </div>
-                                </td>
-                                <td class="px-2 py-2 whitespace-nowrap text-center">
-                                  <div class="text-xs text-gray-900">
-                                    {{ item.kode_barang }}
-                                  </div>
-                                </td>
-                                <td class="px-2 py-2 whitespace-nowrap text-center">
-                                  <div class="text-xs text-gray-900">
-                                    {{ item.jenis_barang }}
-                                  </div>
-                                </td>
-                                <td class="px-2 py-2 whitespace-nowrap text-center">
-                                  <div class="text-xs text-gray-900">
-                                    {{ item.jumlah_barang }}
-                                  </div>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
   
                           <button
                             @click="closeDetailBarang"
@@ -340,10 +235,10 @@
                     </div>
                   </td>
                   <td class="px-2 py-2 whitespace-nowrap text-center">
-                    <template v-if="transaction.status === 'pending'">
+                    <template v-if="transaction.status === 'PENDING'">
                       <button
                         @click="
-                          updateTransaction(Number(transaction.id_peminjam))
+                          updateTransaction(Number(transaction.id_pre_order_paket))
                         "
                         type="button"
                         class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
@@ -352,7 +247,7 @@
                       </button>
                       <button
                         @click="
-                          cancaelTransaction(Number(transaction.id_peminjam))
+                          cancaelTransaction(Number(transaction.id_pre_order_paket))
                         "
                         type="button"
                         class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
@@ -363,8 +258,8 @@
                     <template v-else>
                       <span
                         :class="{
-                          'text-green-500': transaction.status === 'sukses',
-                          'text-red-500': transaction.status === 'dibatalkan',
+                          'text-green-500': transaction.status === 'APPROVED',
+                          'text-red-500': transaction.status === 'REJECTED',
                         }"
                         class="font-semibold"
                         >{{ transaction.status }}</span
@@ -387,29 +282,39 @@
   
   const apiUrl = import.meta.env.VITE_API_URL;
   
-  interface BarangHabisPakai {
-    kode_barang: string;
-    jumlah_barang: number;
+  interface Barang {
     nama_barang: string;
-    jenis_barang: string;
+    kode_barang: string;
+  }
+
+
+  interface PreOrderDetail {
+    jumlah_barang: string;
+    barang: Barang;
+  }
+
+  interface PreOrderPrasat {
+    nama_prasat: string;
+    deskripsi: string;
+    preOrderDetail: PreOrderDetail[];
   }
   
   interface Transaction {
-    id_peminjam: number;
-    nama_matakuliah: string;
-    prasat: string;
-    jam_praktek: string;
-    tanggal_praktek: string;
-    tanggal_pengambilan: string;
-    tanggal_order: string;
-    tanggal_kembali_alat: string;
-    ruangan_lab: string;
-    status: "sukses" | "pending" | "dibatalkan";
+    id_pre_order_paket: number;
+    tanggal_disetujui: string;
+    rencana_pemakaian: string;
+    status: string;
     users: {
       username: string;
     };
-    barangHabisPakai: BarangHabisPakai[];
+    PreOrderPrasat: PreOrderPrasat[];
   }
+
+  const preOrders: Transaction[] = [];
+
+  
+
+
   
   const transactions = ref<Transaction[]>([]);
     const selectedUsername = ref<string>("");
@@ -422,24 +327,29 @@
   const fetchTransactions = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await axios.get(`${apiUrl}/dataOrderBarang`, {
+      const response = await axios.get(`${apiUrl}/allpreorder`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       const data = response.data.map((transaction: any) => {
-        if (transaction.type === "BarangKeluar") {
-          transaction.status = "sukses";
-        }else if (transaction.type === "BarangPinjam") {
+        if (transaction.type === "APPROVED") {
           transaction.status = "sukses";
         }else if (transaction.type === "PENDING") {
           transaction.status = "pending";
-        } else if (transaction.type === "CANCEL") {
+        } else if (transaction.type === "REJECTED") {
           transaction.status = "dibatalkan";
         }
+        //console.log(transaction);
         // Anda bisa menambahkan logika serupa untuk mengubah type lain ke status yang sesuai
-        return transaction;
+        // Memastikan struktur data sesuai
+      return {
+        ...transaction,
+        PreOrderPrasat: transaction.PreOrderPrasat || [], // Pastikan ini ada
+        users: transaction.users || {},
+      };
       });
+      //console.log(response);
       transactions.value = data;
     } catch (error) {
       console.error("Error fetching transactions:", error);
@@ -452,7 +362,7 @@
     const token = localStorage.getItem("token");
     try {
       const response = await axios.patch(
-        `${apiUrl}/updateBarang/${id_peminjam}`,
+        `${apiUrl}/preorder/${id_peminjam}`,
         { status },
         {
           headers: {
@@ -460,7 +370,7 @@
           },
         },
       );
-      alert("Sukses Masuk Barang");
+      alert("Sukses di Approved");
       reloadPage();
       // Update local state after successful patch
       // const updatedTransaction = transactions.value.find(t => t.id_peminjam === id_peminjam);
@@ -476,7 +386,7 @@
     const token = localStorage.getItem("token");
     try {
       const response = await axios.patch(
-        `${apiUrl}/cancelOrder/${id_peminjam}`,
+        `${apiUrl}/cancelPreorder/${id_peminjam}`,
         { status },
         {
           headers: {
@@ -501,38 +411,16 @@
   };
   
   
-  const updateTransactionPinjam = async (id_peminjam: any) => {
-    const token = localStorage.getItem("token");
-    try {
-      const response = await axios.patch(
-        `${apiUrl}/pinjamBarang/${id_peminjam}`,
-        { status },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      alert("Sukses Masuk Barang Pinjam!");
-      // Update local state after successful patch
-      // const updatedTransaction = transactions.value.find(t => t.id_peminjam === id_peminjam);
-      // if (updatedTransaction) {
-      //   updatedTransaction.status = status;
-      // }
-    } catch (error) {
-      console.error("Error updating transaction:", error);
-    }
-  };
-  
   const filteredTransactions = computed(() => {
-    if (selectedUsername.value) {
-      return transactions.value.filter(transaction =>
-        transaction.users.username === selectedUsername.value,
-      );
-    } else {
-      return transactions.value;
-    }
-  });
+  // Filter transaksi berdasarkan username jika dipilih
+  if (selectedUsername.value) {
+    return transactions.value.filter(
+      (transaction) => transaction.users.username === selectedUsername.value
+    );
+  }
+  return transactions.value;
+});
+
   
   // Modal untuk detail barang
   const detailBarangIndex = ref<number | null>(null);
