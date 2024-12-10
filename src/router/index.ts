@@ -119,6 +119,22 @@ const routes: Array<RouteRecordRaw> = [
         path: 'TrackTransaction',
         component: () => import('../pages/TrackTransaction.vue'),
       },
+      {
+        path: 'DetailPreOrderBarang',
+        component: () => import('../pages/DetailPreOrderBarang.vue'),
+      },
+      {
+        path: 'DetailPreOrderBarangWarek1',
+        component: () => import('../pages/DetailPreOrderBarangWarek1.vue'),
+      },
+      {
+        path: 'DetailPreOrderBarangWarek2',
+        component: () => import('../pages/DetailPreOrderBarangWarek2.vue'),
+      },
+      {
+        path: 'DetailPreOrderBarangPm',
+        component: () => import('../pages/DetailPreOrderBarangPm.vue'),
+      },
     ],
   },
   {

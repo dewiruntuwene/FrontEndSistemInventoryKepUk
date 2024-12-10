@@ -129,6 +129,14 @@ const login = async () => {
       router.push("/Dashboard");
     } else if (userRole === "KAPRODI") {
       router.push("/DataBarangOnly");
+    } else if (userRole === "DEKAN") {
+      router.push("/DataBarangOnly");
+    } else if (userRole === "WAREK1") {
+      router.push("/DetailPreOrderBarangWarek1");
+    } else if (userRole === "WAREK2") {
+      router.push("/DetailPreOrderBarangWarek2");
+    } else if (userRole === "PURCHASEMANAGER") {
+      router.push("/DetailPreOrderBarangPm");
     }
 
     localStorage.setItem("token", response.data.token);

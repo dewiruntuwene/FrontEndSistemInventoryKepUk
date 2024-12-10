@@ -251,15 +251,22 @@
 
               <div class="mb-4">
                 <label for="prasat" class="text-gray-600">Prasat :</label>
-                <input
-                  type="text"
+                <select
                   class="form-input mt-1 block w-full border rounded border-gray-300"
                   v-model="pesan.prasat"
+                  @change="fetchPrasatItems"
                   :class="{
                     'border-red-500': isFormIncomplete && !pesan.prasat,
                   }"
-                />
+                >
+                  <option value="" disabled>Pilih Prasat</option>
+                  <option v-for="prasat in prasat" :key="prasat.id_preorder_prasat" :value="prasat.nama_prasat">
+                    {{ prasat.nama_prasat }}
+                  </option>
+                </select>
               </div>
+
+
               <div class="mb-4">
                 <label for="prasat" class="text-gray-600">Ruangan Lab :</label>
                 <input
@@ -365,36 +372,52 @@ import Navbar from "../components/Navbar.vue";
 import { Barang, Keranjang } from "../pages/UserCatalog.vue";
 
 const apiUrl = import.meta.env.VITE_API_URL;
-// const useSubmit = () => {
-//   const isSubmitOpen = ref(false);
 
-//   const toggleSubmit = () => {
-//     isSubmitOpen.value = !isSubmitOpen.value;
-//   };
-
-//   return {
-//     isSubmitOpen,
-//     toggleSubmit,
-//   };
-// };
-
-// const ModalExample = defineComponent({
-//   name: 'SubmitExample',
-//   setup() {
-//     const { isSubmitOpen, toggleSubmit } = useSubmit();
-
-//     return {
-//       isSubmitOpen,
-//       toggleSubmit,
-//     };
-//   },
-// });
 
 const router = useRouter();
 const toast = useToast();
 const isSubmitOpen = ref(false);
 const isFormIncomplete = ref(false); // New variable to track form completion
 const showError = ref(false);
+
+
+
+interface PreOrderDetail {
+  id_preorder_detail: number;
+  barangId: number;
+  jumlah_barang: number;
+  preOrderPrasatId: number;
+  barang: Barang;
+}
+
+interface PreOrderPrasat {
+  id_preorder_prasat: number;
+  nama_prasat: string;
+  deskripsi: string;
+  createdAt: string;
+  prasatId: number;
+  PreOrderDetail: PreOrderDetail[];
+}
+
+interface PreOrderPaket {
+  id_pre_order_paket: number;
+  userId: number;
+  rencana_pemakaian: string;
+  tanggal_order: string;
+  status: string;
+  tanggal_disetujui: string;
+  approvalId: number | null;
+  PreOrderPrasat: PreOrderPrasat[];
+}
+
+interface PrasatDropdown {
+  id: number;
+  nama_prasat: string;
+}
+
+const prasatsDropdown = ref<PrasatDropdown[]>([]);
+
+const prasat = ref<PreOrderPrasat[]>([]);
 
 const matakuliah = [
   "Kardio",
@@ -420,6 +443,7 @@ const pesan = ref({
 
 const keranjangs = ref<Keranjang[]>([]);
 console.log(keranjangs);
+const prasats = ref([]); 
 
 interface PesanKeranjang {
   jumlah_barang: number[];
@@ -437,26 +461,12 @@ const setKeranjangs = (data: Keranjang[]) => {
   }));
 };
 
-// const hapusKeranjang = async (id_keranjang: number) => {
-//   try {
-//     await axios.delete(`https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang/${id_keranjang}`);
-//     toast.error("Sukses Hapus Keranjang", {
-//       type: "error",
-//       position: "top-right",
-//       duration: 3000,
-//       dismissible: true,
-//     });
-//     const response = await axios.get("https://vjk2k0f5-5000.asse.devtunnels.ms/keranjang");
-//     setKeranjangs(response.data);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+
 
 const removeItemFromKeranjang = async (id_keranjang: number) => {
   try {
     await axios.delete(
-      `https://inventory-order-kep-uk.vercel.app/keranjang/${id_keranjang}`
+      `${apiUrl}/keranjang/${id_keranjang}`
     );
     keranjangs.value = keranjangs.value.filter(
       (item) => item.id_keranjang !== id_keranjang
@@ -535,7 +545,7 @@ const reloadPage = () => {
   location.reload();
 };
 
-onMounted(async () => {
+const getKeranjang = async () => {
   const token = localStorage.getItem("token");
   try {
     const response = await axios.get(`${apiUrl}/keranjang`, {
@@ -543,11 +553,16 @@ onMounted(async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    setKeranjangs(response.data);
-    console.log(keranjangs.value);
+    setKeranjangs(response.data); // Perbarui state keranjangs
+    console.log("Keranjang diperbarui:", keranjangs.value);
   } catch (error) {
-    console.log(error);
+    console.error("Gagal mengambil keranjang:", error);
   }
+};
+
+
+onMounted(async () => {
+  getKeranjang();
 });
 
 const toggleSubmitModal = () => {
@@ -566,4 +581,126 @@ const toggleSubmitModal = () => {
 
   // isSubmitOpen.value = !isSubmitOpen.value;
 };
+
+// Fetch daftar prasat untuk dropdown
+const fetchPrasatList = async () => {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await axios.get(`${apiUrl}/preorderdetailbyprasat`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    // Ekstrak hanya data yang diperlukan untuk dropdown
+    prasat.value = response.data
+      .flatMap((item: { PreOrderPrasat: any; }) => item.PreOrderPrasat)
+      .map((prasat: { id_preorder_prasat: any; nama_prasat: any; }) => ({
+        id: prasat.id_preorder_prasat,
+        nama_prasat: prasat.nama_prasat,
+      }));
+  } catch (error) {
+    console.error("Gagal mendapatkan daftar prasat:", error);
+    toast.error("Gagal mendapatkan daftar prasat", {
+      type: "error",
+      position: "top-right",
+      duration: 3000,
+      dismissible: true,
+    });
+  }
+};
+
+
+
+
+// Fetch barang berdasarkan prasat yang dipilih
+const fetchPrasatItems = async () => {
+  const token = localStorage.getItem("token");
+
+  try {
+    if (pesan.value.prasat) {
+      // Fetch data berdasarkan prasat
+      const response = await axios.get(`${apiUrl}/preorderdetailbyprasat`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = response.data;
+      const selectedPrasat = data
+        .flatMap((peminjam: { PreOrderPrasat: any[] }) => peminjam.PreOrderPrasat)
+        .find((prasat: { nama_prasat: string }) => prasat.nama_prasat === pesan.value.prasat);
+
+      if (selectedPrasat && selectedPrasat.PreOrderDetail) {
+        // Loop melalui setiap barang dalam PreOrderDetail
+        for (const detail of selectedPrasat.PreOrderDetail) {
+          const barang = {
+            kode_barang: detail.barang.kode_barang,
+            nama_barang: detail.barang.nama_barang,
+            total_stock: detail.barang.total_stock,
+            jenis_barang: detail.barang.jenis_barang,
+            gambar_barang: `https://inventory-order-kep-uk.vercel.app/uploads/${detail.barang.gambar_barang}`,
+            harga_barang: detail.barang.harga_barang,
+          };
+
+          try {
+            // API untuk membuat keranjang baru
+            const response = await axios.post(
+              `${apiUrl}/keranjang`,
+              {
+                jumlah_barang: detail.jumlah_barang,
+                barang,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+
+            // Perbarui keranjang setiap kali barang berhasil ditambahkan
+            await getKeranjang();
+
+
+            // Tampilkan notifikasi untuk setiap barang yang berhasil ditambahkan
+            toast.success(`Barang ${barang.nama_barang} berhasil masuk keranjang`, {
+              type: "success",
+              position: "top-right",
+              duration: 3000,
+              dismissible: true,
+            });
+          } catch (error) {
+            console.error(`Gagal menambahkan barang ${barang.nama_barang} ke keranjang:`, error);
+            toast.error(`Gagal menambahkan barang ${barang.nama_barang} ke keranjang`, {
+              type: "error",
+              position: "top-right",
+              duration: 3000,
+              dismissible: true,
+            });
+          }
+        }
+      } else {
+        console.warn("PreOrderDetail tidak ditemukan untuk prasat yang dipilih.");
+      }
+    }
+  } catch (error) {
+    console.error("Gagal mendapatkan barang dari prasat:", error);
+    toast.error("Gagal mendapatkan barang dari prasat", {
+      type: "error",
+      position: "top-right",
+      duration: 3000,
+      dismissible: true,
+    });
+  }
+};
+
+
+
+
+// Panggil fetchPrasatList saat komponen di-mount
+onMounted(() => {
+  fetchPrasatList();
+  fetchPrasatItems();
+});
+
 </script>

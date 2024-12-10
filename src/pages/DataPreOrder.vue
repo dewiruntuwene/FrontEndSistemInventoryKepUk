@@ -184,7 +184,7 @@
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200 mr-mx text-left">
                                   <tr
-                                    v-for="(item, itemIndex) in prasat.preOrderDetail" :key="itemIndex">
+                                    v-for="(item, itemIndex) in prasat.PreOrderDetail" :key="itemIndex">
                                     <td class="px-2 py-2 whitespace-nowrap text-center">
                                       <div class="text-xs text-gray-900">
                                         {{ index + 1 }}
@@ -205,11 +205,25 @@
                                         {{ item.barang[0].jenis_barang }}
                                       </div>
                                     </td> -->
-                                    <td class="px-2 py-2 whitespace-nowrap text-center">
-                                      <div class="text-xs text-gray-900">
-                                        {{ item.jumlah_barang }}
-                                      </div>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                      <input
+                                        type="number"
+                                        class="form-input mt-1 block w-full border border-gray-300 rounded"
+                                        v-model="item.jumlah_barang"  
+                                      />
+                                      <button
+                                        @click="updateJumlahBarang(Number(item.id_preorder_detail), Number(item.jumlah_barang))"
+                                        class="bg-blue-500 text-white text-xs px-2 py-1 rounded ml-2"
+                                      >
+                                        Update
+                                      </button>
                                     </td>
+
+
+
+
+
+
                                   </tr>
                                 </tbody>
                               </table>
@@ -289,7 +303,8 @@
 
 
   interface PreOrderDetail {
-    jumlah_barang: string;
+    id_preorder_detail: number;
+    jumlah_barang: number;
     barang: Barang;
   }
 
@@ -420,6 +435,74 @@
   }
   return transactions.value;
 });
+
+  // Fungsi untuk mengupdate jumlah barang
+  // const updateJumlahBarang = async (id_preorder_detail: number, jumlah_barang: number): Promise<void> => {
+  //   try {
+  //     const response = await axios.put(`${apiUrl}/updateJumlahBarang/${id_preorder_detail}`, { jumlah_barang });
+  //     alert(response.data.message);
+  //   } catch (error) {
+  //     console.error('Error updating jumlah barang:', error);
+  //     alert('Gagal memperbarui jumlah barang');
+  //   }
+  // };
+
+  // Reactive object untuk menyimpan jumlah barang yang diedit
+const editedJumlahBarang = ref<Record<number, number>>({});
+
+// Fungsi untuk memperbarui jumlah barang
+const updateJumlahBarang = async (id_preorder_detail: number, jumlah_barang: number): Promise<void> => {
+  try {
+    // Pastikan jumlah_barang adalah angka
+    if (isNaN(jumlah_barang) || jumlah_barang <= 0) {
+      alert("Jumlah barang harus lebih dari 0");
+      return;
+    }
+
+    const response = await axios.patch(`${apiUrl}/updateJumlahBarang/${id_preorder_detail}`, { jumlah_barang });
+    alert(response.data.message);
+
+    // Update data lokal setelah berhasil
+    const item = transactions.value.find(transaction => 
+      transaction.PreOrderPrasat?.some(prasat => 
+        prasat.preOrderDetail?.some(detail => detail.id_preorder_detail === id_preorder_detail)
+      )
+    );
+    
+    if (item) {
+      const detail = item.PreOrderPrasat.flatMap(prasat => prasat.preOrderDetail)
+        .find(detail => detail.id_preorder_detail === id_preorder_detail);
+      
+      if (detail) {
+        detail.jumlah_barang = jumlah_barang;  // Update jumlah_barang di lokal
+      }
+    }
+  } catch (error) {
+    console.error("Error updating jumlah barang:", error);
+    alert("Gagal memperbarui jumlah barang");
+  }
+};
+
+
+
+const handleInputChange = (
+  event: Event,
+  id_preorder_detail: number
+): void => {
+  const target = event.target as HTMLInputElement | null;
+  if (target) {
+    const parsedValue = parseFloat(target.value); // Konversi ke angka
+    if (!isNaN(parsedValue)) {
+      editedJumlahBarang.value[id_preorder_detail] = parsedValue; // Update jumlah barang untuk id yang sesuai
+    } else {
+      alert('Masukkan angka yang valid');
+    }
+  }
+};
+
+
+
+
 
   
   // Modal untuk detail barang
