@@ -159,7 +159,7 @@ export default defineComponent({
                   <!-- Akhir dari Icon SVG yang ditambahkan -->
                 </span>
                 <span>
-                  <router-link to="/DataBarangOnly"> Data Barang </router-link>
+                  <router-link to="/DataBarangOnlyDekan"> Data Barang </router-link>
                 </span>
               </a>
             </li>
@@ -190,7 +190,7 @@ export default defineComponent({
                   <!-- Akhir dari Icon SVG yang ditambahkan -->
                 </span>
                 <span>
-                  <router-link to="/BuatPrasat"> Buat Prasat </router-link>
+                  <router-link to="/BuatPrasatDekan"> Buat Prasat </router-link>
                 </span>
               </a>
             </li>
@@ -221,7 +221,7 @@ export default defineComponent({
                   <!-- Akhir dari Icon SVG yang ditambahkan -->
                 </span>
                 <span>
-                  <router-link to="/DataPreOrder"> Data Pre-Order </router-link>
+                  <router-link to="/DataPreOrderDekan"> Data Pre-Order </router-link>
                 </span>
               </a>
             </li>
@@ -252,7 +252,7 @@ export default defineComponent({
                   <!-- Akhir dari Icon SVG yang ditambahkan -->
                 </span>
                 <span>
-                  <router-link to="/DetailPreOrderBarang"> Pre Order Barang </router-link>
+                  <router-link to="/DetailPreOrderBarangDekan"> Pre Order Barang </router-link>
                 </span>
               </a>
             </li>
@@ -283,14 +283,10 @@ export default defineComponent({
                   <!-- Akhir dari Icon SVG yang ditambahkan -->
                 </span>
                 <span>
-                  <router-link to="/TrackTransaction"> Track Transaction </router-link>
+                  <router-link to="/TrackTransactionDekan"> Track Transaction </router-link>
                 </span>
               </a>
-            </li>
-
- 
-
-           
+            </li>           
           </ul>
         </nav>
       </div>

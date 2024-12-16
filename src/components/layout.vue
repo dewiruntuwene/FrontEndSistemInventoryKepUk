@@ -86,11 +86,11 @@ export default defineComponent({
           data-te-sidenav-accordion="true"
         >
           <a
-            class="mb-3 flex space-x-3 ml-7 border-b-2 border-solid border-gray-100 py-6 outline-none"
+            class="mb-3 flex space-x-3 ml-7 border-b-2 border-solid border-gray-100 py-6 outline-none "
             href="#!"
           >
             <div
-              class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600"
+              class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 "
             >
               <svg
                 class="absolute w-12 h-12 text-gray-400 -left-1"
@@ -130,7 +130,7 @@ export default defineComponent({
             </div>
           </a>
           <ul
-            class="relative m-0 list-none px-[0.2rem] pb-12"
+            class="relative m-0 list-none px-[0.2rem] pb-12 overflow-y-auto max-h-[calc(100vh-100px)]"
             data-te-sidenav-menu-ref
           >
             <li class="relative pt-4">
@@ -364,6 +364,131 @@ export default defineComponent({
                   <svg
                     class="h-6 w-6 text-slate-900"
                     width="24"
+                    hei ght="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" />
+                    <circle cx="12" cy="13" r="2" />
+                    <line x1="13.45" y1="11.55" x2="15.5" y2="9.5" />
+                    <path d="M6.4 20a9 9 0 1 1 11.2 0Z" />
+                  </svg>
+                  <!-- Akhir dari Icon SVG yang ditambahkan -->
+                </span>
+                <span>
+                  <router-link to="/BuatPrasatAdmin"> Buat Prasat </router-link>
+                </span>
+              </a>
+            </li>
+
+            <li class="relative pt-4">
+              <a
+                class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear hover:bg-natural-900 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-natural-900 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
+                data-te-sidenav-link-ref
+              >
+                <span class="mr-4">
+                  <!-- Icon SVG yang ditambahkan -->
+                  <svg
+                    class="h-6 w-6 text-slate-900"
+                    width="24"
+                    hei ght="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" />
+                    <circle cx="12" cy="13" r="2" />
+                    <line x1="13.45" y1="11.55" x2="15.5" y2="9.5" />
+                    <path d="M6.4 20a9 9 0 1 1 11.2 0Z" />
+                  </svg>
+                  <!-- Akhir dari Icon SVG yang ditambahkan -->
+                </span>
+                <span>
+                  <router-link to="/DataPreOrderAdmin"> Data Pre-Order </router-link>
+                </span>
+              </a>
+            </li>
+
+
+            <li class="relative pt-4">
+              <a
+                class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear hover:bg-natural-900 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-natural-900 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
+                data-te-sidenav-link-ref
+              >
+                <span class="mr-4">
+                  <!-- Icon SVG yang ditambahkan -->
+                  <svg
+                    class="h-6 w-6 text-slate-900"
+                    width="24"
+                    hei ght="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" />
+                    <circle cx="12" cy="13" r="2" />
+                    <line x1="13.45" y1="11.55" x2="15.5" y2="9.5" />
+                    <path d="M6.4 20a9 9 0 1 1 11.2 0Z" />
+                  </svg>
+                  <!-- Akhir dari Icon SVG yang ditambahkan -->
+                </span>
+                <span>
+                  <router-link to="/DetailPreOrderBarang"> Pre Order Barang </router-link>
+                </span>
+              </a>
+            </li>
+
+            <li class="relative pt-4">
+              <a
+                class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear hover:bg-natural-900 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-natural-900 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
+                data-te-sidenav-link-ref
+              >
+                <span class="mr-4">
+                  <!-- Icon SVG yang ditambahkan -->
+                  <svg
+                    class="h-6 w-6 text-slate-900"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" />
+                    <circle cx="12" cy="13" r="2" />
+                    <line x1="13.45" y1="11.55" x2="15.5" y2="9.5" />
+                    <path d="M6.4 20a9 9 0 1 1 11.2 0Z" />
+                  </svg>
+                  <!-- Akhir dari Icon SVG yang ditambahkan -->
+                </span>
+                <span>
+                  <router-link to="/TrackTransaction"> Track Transaction </router-link>
+                </span>
+              </a>
+            </li>
+
+            <li class="relative pt-4">
+              <a
+                class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear hover:bg-natural-900 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-natural-900 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
+                data-te-sidenav-link-ref
+              >
+                <span class="mr-4">
+                  <!-- Icon SVG yang ditambahkan -->
+                  <svg
+                    class="h-6 w-6 text-slate-900"
+                    width="24"
                     height="24"
                     viewBox="0 0 24 24"
                     stroke-width="2"
@@ -382,9 +507,7 @@ export default defineComponent({
                   <router-link to="/UserCatalog"> User Catalog </router-link>
                 </span>
               </a>
-            </li>
-
-           
+            </li>           
           </ul>
         </nav>
       </div>

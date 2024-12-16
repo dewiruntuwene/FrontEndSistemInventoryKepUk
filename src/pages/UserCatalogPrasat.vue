@@ -225,7 +225,7 @@ const checkout = async () => {
     const token = localStorage.getItem("token");
     try {
       const newPreOrder = {
-        rencana_pemakaian: pesanPrasat.value.rencana_pemakaian
+        rencana_pemakaian: pesanPrasat.value.rencana_pemakaian,
       };
   
       await axios.post(`${apiUrl}/preorder`, newPreOrder,{
@@ -244,7 +244,7 @@ const checkout = async () => {
 
   const reloadPage = () => {
     location.reload();
-  };
+};
 
 const toggleSubmitModal = () => {
   // Check if all fields in the form are filled
@@ -327,6 +327,7 @@ const toggleSubmitModal = () => {
                                 </li>
                             </ul>
                         </div>
+
 
                         <!-- Input Rencana Pemakaian -->
                         <div class="mb-4">

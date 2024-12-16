@@ -15,7 +15,8 @@ export default defineConfig({
     proxy: {
       "/api": {
         //target: "http://inventoryfkep-46301.portmap.io:46301",
-        target: "https://7j549d0c-5000.asse.devtunnels.ms/",
+        //target: "https://7j549d0c-5000.asse.devtunnels.ms/",
+        target: "http://inventoryfkepunklab.site:5000",
         changeOrigin: true,
         secure: true,
       },

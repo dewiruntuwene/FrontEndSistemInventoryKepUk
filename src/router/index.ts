@@ -92,12 +92,36 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../pages/BuatPrasat.vue'),
       },
       {
+        path: 'BuatPrasatDekan',
+        component: () => import('../pages/BuatPrasatDekan.vue'),
+      },
+      {
+        path: 'BuatPrasatAdmin',
+        component: () => import('../pages/BuatPrasatAdmin.vue'),
+      },
+      {
         path: 'DataBarangOnly',
         component: () => import('../pages/DataBarangOnly.vue'),
       },
       {
+        path: 'DataBarangOnly',
+        component: () => import('../pages/DataBarangOnly.vue'),
+      },
+      {
+        path: 'DataBarangOnlyDekan',
+        component: () => import('../pages/DataBarangOnlyDekan.vue'),
+      },
+      {
         path: 'DataPreOrder',
         component: () => import('../pages/DataPreOrder.vue'),
+      },
+      {
+        path: 'DataPreOrderDekan',
+        component: () => import('../pages/DataPreOrderDekan.vue'),
+      },
+      {
+        path: 'DataPreOrderAdmin',
+        component: () => import('../pages/DataPreOrderAdmin.vue'),
       },
       {
         path: 'UserCatalogPrasat',
@@ -120,8 +144,37 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../pages/TrackTransaction.vue'),
       },
       {
+        path: 'TrackTransactionKaprodi',
+        component: () => import('../pages/TrackTransactionKaprodi.vue'),
+      },
+      {
+        path: 'TrackTransactionDekan',
+        component: () => import('../pages/TrackTransactionDekan.vue'),
+      },
+      {
+        path: 'TrackTransactionWarek1',
+        component: () => import('../pages/TrackTransactionWarek1.vue'),
+      },
+      {
+        path: 'TrackTransactionWarek2',
+        component: () => import('../pages/TrackTransactionWarek2.vue'),
+      },
+      {
+        path: 'TrackTransactionPm',
+        component: () => import('../pages/TrackTransactionPm.vue'),
+      },
+
+      {
         path: 'DetailPreOrderBarang',
         component: () => import('../pages/DetailPreOrderBarang.vue'),
+      },
+      {
+        path: 'DetailPreOrderBarangKaprodi',
+        component: () => import('../pages/DetailPreOrderBarangKaprodi.vue'),
+      },
+      {
+        path: 'DetailPreOrderBarangDekan',
+        component: () => import('../pages/DetailPreOrderBarangDekan.vue'),
       },
       {
         path: 'DetailPreOrderBarangWarek1',
@@ -149,10 +202,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/Navbar',
     component: () => import('../components/Navbar.vue'),
   },
-  {
-    path: '/Notification',
-    component: () => import('../components/Notification.vue'),
-  },
+  // {
+  //   path: '/Notification',
+  //   component: () => import('../components/Notification.vue'),
+  // },
 ];
 
 

@@ -150,8 +150,8 @@
   import { ref, onMounted } from 'vue';
   import axios from 'axios';
   import { useToast } from 'vue-toast-notification';
-  import LayoutDekan from "../components/LayoutDekan.vue";
   import { Barang } from "../pages/UserCatalog.vue";
+  import LayoutDekan from '../components/LayoutDekan.vue';
   
   const toast = useToast();
   const apiUrl = import.meta.env.VITE_API_URL;

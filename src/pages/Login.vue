@@ -45,7 +45,7 @@ const token: string = urlParams.get("token") || "";
 // Fungsi untuk mengarahkan pengguna ke Google untuk otentikasi
 const auth = async () => {
   try {
-    const response = await fetch(`${apiUrl}/auth/google`, {
+    const response = await fetch(`/auth/google`, {
       method: "POST",
     });
 
@@ -130,7 +130,7 @@ const login = async () => {
     } else if (userRole === "KAPRODI") {
       router.push("/DataBarangOnly");
     } else if (userRole === "DEKAN") {
-      router.push("/DataBarangOnly");
+      router.push("/DataBarangOnlyDekan");
     } else if (userRole === "WAREK1") {
       router.push("/DetailPreOrderBarangWarek1");
     } else if (userRole === "WAREK2") {

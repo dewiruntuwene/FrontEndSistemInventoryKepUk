@@ -9,6 +9,8 @@ const confpassword = ref("");
 const registrationSuccess = ref(false);
 const userExists = ref(false); // Variabel untuk menampilkan pemberitahuan jika pengguna sudah terdaftar
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const register = async () => {
   try {
     const data = {
@@ -20,7 +22,7 @@ const register = async () => {
 
     // Kirim permintaan pendaftaran ke server
     const response = await axios.post(
-      "https://vjk2k0f5-5000.asse.devtunnels.ms/register",
+      `${apiUrl}/register`,
       data
     );
     console.log("Response:", response.data);
@@ -58,7 +60,7 @@ const register = async () => {
           id="email"
           v-model="username"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-          placeholder="name@company.com"
+          placeholder="name"
           required
         />
       </div>

@@ -1,5 +1,5 @@
 <template>
-    <LayoutDekan />
+    <layout />
     <div class="mt-0 pl-60 sticky top-0 z-50">
       <div class="border-b-2 border-black flex flex-row justify-between items-center p-3">
         <h4 class="pa-3 text-2xl font-bold">Buat Prasat</h4>
@@ -150,7 +150,7 @@
   import { ref, onMounted } from 'vue';
   import axios from 'axios';
   import { useToast } from 'vue-toast-notification';
-  import LayoutDekan from "../components/LayoutDekan.vue";
+  import layout from "../components/layout.vue";
   import { Barang } from "../pages/UserCatalog.vue";
   
   const toast = useToast();

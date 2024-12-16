@@ -129,105 +129,98 @@
                       >
                         <div class="bg-white rounded-lg shadow-xl w-1/2 p-6 printable">
                           <h2 class="text-xl font-bold mb-4">Detail Barang</h2>
-                          <div class="flex space-x-24 ">
+                          <div class="flex-col">
+                          <!-- <div class="space-y-2">
+                            <p>Nama Dosen</p>
+                            <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.users.username }}</div>
+                          </div> -->
+                          <div v-for="(prasat, prasatIndex) in transaction.PreOrderPrasat" :key="prasatIndex" class="mt-2" >
+            
+
                             <!-- <div class="space-y-2">
-                              <p>Nama Dosen</p>
-                              <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.users.username }}</div>
-                            </div> -->
-                            <div v-for="(prasat, prasatIndex) in transaction.PreOrderPrasat" :key="prasatIndex" class="mt-2" >
-                              <div class="space-y-2">
-                                <p>Nama Prasat</p>
-                                <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ prasat.nama_prasat }}</div>
-                              </div>
-
-                              <div class="space-y-2">
-                                <p>Deskripsi</p>
-                                <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ prasat.deskripsi }}</div>
-                              </div>
-
-
-                              <h3 class="text-lg font-bold mt-6">Barang Dalam Prasat</h3>
-                              <table class="min-w-full divide-y divide-gray-200 mt-4 overflow-x-auto">
-                                <thead>
-                                  <tr>
-                                    <th
-                                      scope="col"
-                                      class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                                    >
-                                      No
-                                    </th>
-                                    <th
-                                      scope="col"
-                                      class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                                    >
-                                      Nama Barang
-                                    </th>
-                                    <th
-                                      scope="col"
-                                      class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                                    >
-                                      Kode Barang
-                                    </th>
-                                    <th
-                                      scope="col"
-                                      class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                                    >
-                                    Jumlah Barang
-                                    </th>
-                                    <!-- <th
-                                      scope="col"
-                                      class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                                    >
-                                      Jumlah
-                                    </th> -->
-                                  </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200 mr-mx text-left">
-                                  <tr
-                                    v-for="(item, itemIndex) in prasat.PreOrderDetail" :key="itemIndex">
-                                    <td class="px-2 py-2 whitespace-nowrap text-center">
-                                      <div class="text-xs text-gray-900">
-                                        {{ index + 1 }}
-                                      </div>
-                                    </td>
-                                    <td class="px-2 py-2 whitespace-nowrap text-center">
-                                      <div class="text-xs text-gray-900">
-                                        {{ item.barang.nama_barang }}
-                                      </div>
-                                    </td>
-                                    <td class="px-2 py-2 whitespace-nowrap text-center">
-                                      <div class="text-xs text-gray-900">
-                                        {{ item.barang.kode_barang }}
-                                      </div>
-                                    </td>
-                                    <!-- <td class="px-2 py-2 whitespace-nowrap text-center">
-                                      <div class="text-xs text-gray-900">
-                                        {{ item.barang[0].jenis_barang }}
-                                      </div>
-                                    </td> -->
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                      <input
-                                        type="number"
-                                        class="form-input mt-1 block w-full border border-gray-300 rounded"
-                                        v-model="item.jumlah_barang"  
-                                      />
-                                      <button
-                                        @click="updateJumlahBarang(Number(item.id_preorder_detail), Number(item.jumlah_barang))"
-                                        class="bg-blue-500 text-white text-xs px-2 py-1 rounded ml-2"
-                                      >
-                                        Update
-                                      </button>
-                                    </td>
-
-
-
-
-
-
-                                  </tr>
-                                </tbody>
-                              </table>
+                              <p>Deskripsi</p>
+                              <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ prasat.deskripsi }}</div>
                             </div>
+ -->
+
+                            <h3 class="text-lg font-bold mt-6">{{ prasat.nama_prasat }}</h3>
+                            <table class="min-w-full divide-y divide-gray-200 mt-4 ">
+                              <thead>
+                                <tr>
+                                  <th
+                                    scope="col"
+                                    class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                  >
+                                    No
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                  >
+                                    Nama Barang
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                  >
+                                    Kode Barang
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                  >
+                                  Jumlah Barang
+                                  </th>
+                                  <!-- <th
+                                    scope="col"
+                                    class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                  >
+                                    Jumlah
+                                  </th> -->
+                                </tr>
+                              </thead>
+                              <tbody class="bg-white divide-y divide-gray-200 mr-mx text-left">
+                                <tr
+                                  v-for="(item, itemIndex) in prasat.PreOrderDetail" :key="itemIndex">
+                                  <td class="px-2 py-2 whitespace-nowrap text-center">
+                                    <div class="text-xs text-gray-900">
+                                      {{ index + 1 }}
+                                    </div>
+                                  </td>
+                                  <td class="px-2 py-2 whitespace-nowrap text-center">
+                                    <div class="text-xs text-gray-900">
+                                      {{ item.barang.nama_barang }}
+                                    </div>
+                                  </td>
+                                  <td class="px-2 py-2 whitespace-nowrap text-center">
+                                    <div class="text-xs text-gray-900">
+                                      {{ item.barang.kode_barang }}
+                                    </div>
+                                  </td>
+                                  <!-- <td class="px-2 py-2 whitespace-nowrap text-center">
+                                    <div class="text-xs text-gray-900">
+                                      {{ item.barang[0].jenis_barang }}
+                                    </div>
+                                  </td> -->
+                                  <td class="px-2 py-2 whitespace-nowrap flex ml-8">
+                                    <input
+                                      type="number"
+                                      class="form-input mt-1 block w-8 border border-gray-300 rounded text-center"
+                                      v-model="item.jumlah_barang"
+                                    />
+                                    <button
+                                      @click="updateJumlahBarang(item.id_preorder_detail)"
+                                      class="bg-blue-500 text-white text-xs px-2 py-1 rounded ml-2"
+                                    >
+                                      Update
+                                    </button>
+                                  </td>
+
+
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
                           </div>
   
   
@@ -311,7 +304,7 @@
   interface PreOrderPrasat {
     nama_prasat: string;
     deskripsi: string;
-    preOrderDetail: PreOrderDetail[];
+    PreOrderDetail: PreOrderDetail[];
   }
   
   interface Transaction {
@@ -451,37 +444,60 @@
 const editedJumlahBarang = ref<Record<number, number>>({});
 
 // Fungsi untuk memperbarui jumlah barang
-const updateJumlahBarang = async (id_preorder_detail: number, jumlah_barang: number): Promise<void> => {
+const updateJumlahBarang = async (id_preorder_detail:number) => {
+  const token = localStorage.getItem("token");
+
   try {
-    // Pastikan jumlah_barang adalah angka
+    // Cari item berdasarkan id_preorder_detail
+    const item = transactions.value.find(transaction =>
+      transaction.PreOrderPrasat?.some(prasat =>
+        prasat.PreOrderDetail?.some(detail => detail.id_preorder_detail === id_preorder_detail)
+      )
+    );
+
+    if (!item) {
+      alert("Item tidak ditemukan");
+      return;
+    }
+
+   // Ambil detail berdasarkan id_preorder_detail
+   const detail = item.PreOrderPrasat
+      .flatMap(prasat => prasat.PreOrderDetail)
+      .find(detail => detail.id_preorder_detail === id_preorder_detail);
+
+    // Validasi jika detail undefined
+    if (!detail) {
+      alert("Detail tidak ditemukan");
+      return;
+    }
+
+    // Ambil jumlah_barang dari detail
+    const { jumlah_barang } = detail;
+
+    // Validasi jumlah_barang
     if (isNaN(jumlah_barang) || jumlah_barang <= 0) {
       alert("Jumlah barang harus lebih dari 0");
       return;
     }
 
-    const response = await axios.patch(`${apiUrl}/updateJumlahBarang/${id_preorder_detail}`, { jumlah_barang });
+    // Kirim permintaan PATCH ke server
+    const response = await axios.patch(
+      `${apiUrl}/updateJumlahBarang/${id_preorder_detail}`,
+      { jumlah_barang },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
     alert(response.data.message);
 
-    // Update data lokal setelah berhasil
-    const item = transactions.value.find(transaction => 
-      transaction.PreOrderPrasat?.some(prasat => 
-        prasat.preOrderDetail?.some(detail => detail.id_preorder_detail === id_preorder_detail)
-      )
-    );
-    
-    if (item) {
-      const detail = item.PreOrderPrasat.flatMap(prasat => prasat.preOrderDetail)
-        .find(detail => detail.id_preorder_detail === id_preorder_detail);
-      
-      if (detail) {
-        detail.jumlah_barang = jumlah_barang;  // Update jumlah_barang di lokal
-      }
-    }
+    // Update lokal jika perlu (opsional, karena sudah sinkron dengan v-model)
   } catch (error) {
     console.error("Error updating jumlah barang:", error);
     alert("Gagal memperbarui jumlah barang");
   }
 };
+
 
 
 

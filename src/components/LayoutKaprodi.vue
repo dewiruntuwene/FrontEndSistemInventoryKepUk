@@ -252,7 +252,7 @@ export default defineComponent({
                   <!-- Akhir dari Icon SVG yang ditambahkan -->
                 </span>
                 <span>
-                  <router-link to="/DetailPreOrderBarang"> Pre Order Barang </router-link>
+                  <router-link to="/DetailPreOrderBarangKaprodi"> Pre Order Barang </router-link>
                 </span>
               </a>
             </li>
@@ -283,7 +283,7 @@ export default defineComponent({
                   <!-- Akhir dari Icon SVG yang ditambahkan -->
                 </span>
                 <span>
-                  <router-link to="/TrackTransaction"> Track Transaction </router-link>
+                  <router-link to="/TrackTransactionKaprodi"> Track Transaction </router-link>
                 </span>
               </a>
             </li>

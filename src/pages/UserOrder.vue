@@ -104,11 +104,26 @@
 </style>
 
 <template>
-  <div class="keranjang bg-gray-100 min-h-screen">
+  <div class="keranjang bg-gray-100 min-h-screen mb-0">
     <Navbar :updateKeranjang="keranjangs" />
 
     <div class="container mx-10 py-8 md:mr-3">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="grid grid-cols-3 lg:grid-cols-5 gap-8">
+        <!-- Card -->
+        <!-- <div class="w-1/5 mr-12 bg-gray-200 rounded-lg shadow-lg p-4  min-h-screen">
+          <h2 class="text-xl font-bold mb-2">Transaction Details</h2>
+          <p class="text-gray-600 mb-4">Transaction Dashboard</p>
+          <div class="flex flex-col">
+            <div v-for="(prasat, index) in transactionssisa" class="bg-white rounded-lg shadow-lg p-4 mb-4">
+              <h3 class="text-lg font-bold mb-2">{{ prasat[0].nama_prasat }}</h3>
+              <div v-for="(barang, index) in prasat" class="flex justify-between py-1 border-b border-gray-300">
+                <span>{{ barang.nama_barang }}</span>
+                <span>{{ barang.jumlah_barang_po }}</span>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
         <!-- Tabel Keranjang -->
         <div class="table lg:col-span-2 pl-8">
           <h2 class="text-3xl font-bold mb-4">
@@ -255,13 +270,11 @@
                   class="form-input mt-1 block w-full border rounded border-gray-300"
                   v-model="pesan.prasat"
                   @change="fetchPrasatItems"
-                  :class="{
-                    'border-red-500': isFormIncomplete && !pesan.prasat,
-                  }"
+                  
                 >
                   <option value="" disabled>Pilih Prasat</option>
-                  <option v-for="prasat in prasat" :key="prasat.id_preorder_prasat" :value="prasat.nama_prasat">
-                    {{ prasat.nama_prasat }}
+                  <option v-for="prasatitem in prasat" :key="prasatitem.id_preorder_prasat" :value="prasatitem.nama_prasat">
+                    {{ prasatitem.nama_prasat }}
                   </option>
                 </select>
               </div>
@@ -313,13 +326,25 @@
               </div>
               <div class="mb-4">
                 <label type="Date" for="tanggalPraktek" class="text-gray-600"
-                  >Tanggal Kembali Alat (Khusus BHP) :</label
+                  >Tanggal Kembali Alat (Khusus Alat Kesehatan) :</label
                 >
                 <input
                   datepicker
                   type="Date"
                   class="form-input mt-1 block w-full border rounded border-gray-300"
                   v-model="pesan.tanggal_kembali_alat"
+                />
+              </div>
+              
+              <div class="mb-4">
+                <label for="prasat" class="text-gray-600">Keterangan :</label>
+                <input
+                  type="text"
+                  class="form-input mt-1 block w-full border rounded border-gray-300"
+                  v-model="pesan.keterangan"
+                  :class="{
+                    'border-red-500': isFormIncomplete && !pesan.keterangan,
+                  }"
                 />
               </div>
 
@@ -415,6 +440,13 @@ interface PrasatDropdown {
   nama_prasat: string;
 }
 
+  // State untuk menyimpan data transaksi dan transaksi yang dipilih
+  const transactionssisa = ref<{
+    nama_barang: string;
+    jumlah_barang_po: number;
+    nama_prasat: string;
+  }[][]>([]);
+
 const prasatsDropdown = ref<PrasatDropdown[]>([]);
 
 const prasat = ref<PreOrderPrasat[]>([]);
@@ -438,6 +470,7 @@ const pesan = ref({
   jumlah_barang: "",
   tanggal_kembali_alat: "",
   ruangan_lab: "",
+  keterangan: "",
   keranjangs: [],
 });
 
@@ -518,6 +551,7 @@ const checkout = async () => {
       tanggal_praktek: pesan.value.tanggal_praktek,
       tanggal_kembali_alat: pesan.value.tanggal_kembali_alat,
       ruangan_lab: pesan.value.ruangan_lab,
+      keterangan: pesan.value.keterangan,
       keranjangs: keranjangs.value.map((item) => ({
         id_keranjang: item.id_keranjang,
         jumlah_barang: item.jumlah_barang,
@@ -569,7 +603,6 @@ const toggleSubmitModal = () => {
   // Check if all fields in the form are filled
   isFormIncomplete.value =
     !pesan.value.nama_matakuliah ||
-    !pesan.value.prasat ||
     !pesan.value.jam_praktek ||
     !pesan.value.tanggal_praktek ||
     !pesan_keranjang.value.jumlah_barang;
@@ -694,6 +727,30 @@ const fetchPrasatItems = async () => {
   }
 };
 
+// Fungsi untuk mengambil data dari API dan memformat data
+const fetchSisaTransactions = async () => {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await axios.get(`${apiUrl}/sisabarang`, {
+      headers: {
+          Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = response.data;
+
+    // Ubah data menjadi array
+    const dataArray = Object.values(data) as {
+      nama_barang: string;
+      jumlah_barang_po: number;
+      nama_prasat: string;
+    }[][];
+
+    transactionssisa.value = dataArray;
+  } catch (error) {
+    console.error("Error fetching transactions:", error);
+  }
+};
+
 
 
 
@@ -701,6 +758,7 @@ const fetchPrasatItems = async () => {
 onMounted(() => {
   fetchPrasatList();
   fetchPrasatItems();
+  fetchSisaTransactions()
 });
 
 </script>
