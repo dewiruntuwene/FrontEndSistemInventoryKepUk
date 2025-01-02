@@ -209,10 +209,10 @@ const login = async () => {
       >
         Login to your account
       </button>
-      <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+      <!-- <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
         Not registered?
         <router-link to="/register" class="underline">Register</router-link>
-      </div>
+      </div> -->
     </form>
     <button
       @click="auth"
