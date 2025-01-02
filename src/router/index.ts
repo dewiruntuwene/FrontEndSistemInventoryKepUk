@@ -44,6 +44,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     children: [
       {
+        path: 'BuatAkun',
+        component: () => import('../pages/BuatAkun.vue'),
+      },
+      {
         path: 'BarangKeluar',
         component: () => import('../pages/BarangKeluar.vue'),
       },
