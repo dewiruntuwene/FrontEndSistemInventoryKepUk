@@ -168,7 +168,7 @@ const login = async () => {
   >
     <form class="space-y-6" action="#" @submit.prevent="login">
       <h5 class="text-xl font-medium text-gray-900 dark:text-white">
-        Sign in to our platform
+        Sign in
       </h5>
       <div>
         <label
@@ -209,10 +209,10 @@ const login = async () => {
       >
         Login to your account
       </button>
-      <!-- <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-        Not registered?
-        <router-link to="/register" class="underline">Register</router-link>
-      </div> -->
+      <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+        Forgot Password?
+        <router-link to="/EmailSendResetPass" class="underline">Reset</router-link>
+      </div>
     </form>
     <button
       @click="auth"
