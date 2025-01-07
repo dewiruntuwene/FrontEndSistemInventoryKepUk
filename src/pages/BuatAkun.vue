@@ -172,11 +172,20 @@ const updateUser = async () => {
         </div>
         <div class="mb-4">
           <label class="block text-gray-700">Role:</label>
-          <input
+          <select
             v-model="selectedUser.role"
             type="text"
             class="w-full border border-gray-300 p-2 rounded"
-          />
+          >
+          <option value="" disabled selected>Pilih Role</option>
+            <option value="ADMIN">Admin</option>
+            <option value="USER">User</option>
+            <option value="KAPRODI">Kaprodi</option>
+            <option value="DEKAN">Dekan</option>
+            <option value="WAREK1">Warek 1</option>
+            <option value="WAREK2">Warek 2</option>
+            <option value="PURCHASEMANAGER">Purchase Manager</option>
+          </select>
         </div>
         <div class="flex justify-end">
           <button @click="showModal = false" class="bg-gray-300 px-4 py-2 rounded mr-2">
