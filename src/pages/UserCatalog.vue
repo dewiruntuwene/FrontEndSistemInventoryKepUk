@@ -99,7 +99,7 @@ const filteredBarangs = computed(() => {
 
 // Langkah 2 dan 3: Isi objek Barang dengan data respons
 const normalizeResponseToBarang = (response: any): Barang[] => {
-  const baseUrl = "https://inventory-order-kep-uk.vercel.app";
+  const baseUrl = "https://inventoryfkepunklab.site";
   return response.map((item: any) => ({
     path: `${baseUrl}/uploads/${item.gambar_barang}`,
     nama_barang: item.nama_barang,
