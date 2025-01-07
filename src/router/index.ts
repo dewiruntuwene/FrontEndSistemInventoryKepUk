@@ -192,6 +192,14 @@ const routes: Array<RouteRecordRaw> = [
         path: 'DetailPreOrderBarangPm',
         component: () => import('../pages/DetailPreOrderBarangPm.vue'),
       },
+      {
+        path: 'ResetPass',
+        component: () => import('../pages/ResetPass.vue'),
+      },
+      {
+        path: 'EmailSendResetPass',
+        component: () => import('../pages/EmailSendResetPass.vue'),
+      },
     ],
   },
   {
