@@ -11,10 +11,14 @@ const registrationSuccess = ref(false);
 const userExists = ref(false); // Variabel untuk menampilkan pemberitahuan jika pengguna sudah terdaftar
 
 const users = ref<Users[]>([]);
+const showModal = ref(false);
+const selectedUser = ref<Users | null>(null);
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 
 interface Users {
+    user_id: number;
     username: string;
     email: string;
     password: string;
@@ -62,6 +66,27 @@ const loadDataFromAPI = async () => {
 onMounted(async() => {
   loadDataFromAPI();
 })
+
+const editUser = (user: Users) => {
+  selectedUser.value = { ...user };
+  showModal.value = true;
+};
+
+const updateUser = async () => {
+  if (selectedUser.value) {
+    try {
+      const { user_id, username, email, role } = selectedUser.value;
+      await axios.put(`${apiUrl}/users/${user_id}`, { username, email, role });
+      alert("User updated successfully!");
+      showModal.value = false;
+      await loadDataFromAPI();
+    } catch (error) {
+      console.error("Error updating user:", error);
+      alert("Failed to update user.");
+    }
+  }
+};
+
 </script>
 
 <template>
@@ -76,6 +101,7 @@ onMounted(async() => {
             <th class="py-2 px-4 text-left border">Email</th>
             <th class="py-2 px-4 text-left border">Password</th>
             <th class="py-2 px-4 text-left border">Role</th>
+            <th class="py-2 px-4 text-left border">Action</th>
             <!-- <th class="py-2 px-4 text-left border">Harga Barang</th>
             <th class="py-2 px-4 text-left border">Gambar</th>
             <th class="py-2 px-4 text-left border">Action</th> -->
@@ -83,15 +109,15 @@ onMounted(async() => {
         </thead>
         <tbody class="text-gray-600 text-sm font-light">
         <tr
-            v-for="(item, index) in users"
-            :key="index"
+            v-for="(user, index) in users"
+            :key="user.user_id"
             class="border-b hover:bg-gray-100"
         >
-            <td class="py-2 px-4 text-left border">{{ item.username }}</td>
+            <td class="py-2 px-4 text-left border">{{ user.username }}</td>
             <td class="py-2 px-4 text-left border">
             <input
                 type="text"
-                :value="item.email"
+                :value="user.email"
                 class="border border-gray-300 rounded px-2 py-1 w-full"
                 disabled
             />
@@ -99,7 +125,7 @@ onMounted(async() => {
             <td class="py-2 px-4 text-left border">
             <input
                 type="text"
-                :value="item.password"
+                :value="user.password"
                 class="border border-gray-300 rounded px-2 py-1 w-full"
                 disabled
             />
@@ -107,24 +133,61 @@ onMounted(async() => {
             <td class="py-2 px-4 text-left border">
             <input
                 type="text"
-                :value="item.role"
+                :value="user.role"
                 class="border border-gray-300 rounded px-2 py-1 w-full"
                 disabled
             />
             </td>
-            <!-- <td class="py-2 px-4 text-left border">
-            <<button
-                @click="deleteBarang(Number(item.id_barang))"
-                type="button"
-                class="focus:outline-none"
-                aria-label="remove Item"
-            >
-                <img src="/delete.png" alt="remove" class="h-6 w-6" />
-            </button>
-            </td> -->
+            <td class="py-3 px-2 text-left border flex space-x-2">
+              <button @click="editUser(user)" class="bg-blue-500 text-white px-4 py-2 rounded">
+                Edit
+              </button>
+              <!-- <button @click="deleteUser(Number(item.user_id))" type="button" class="focus:outline-none" aria-label="remove Item">
+                <img src="/delete.png" alt="remove" class="h-6 w-6">
+              </button> -->
+            </td>
         </tr>
         </tbody>
     </table>
+
+    <!-- Modal -->
+    <div v-if="showModal && selectedUser" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center">
+      <div class="bg-white p-6 rounded shadow-md w-1/3">
+        <h2 class="text-xl font-bold mb-4">Edit User</h2>
+        <div class="mb-4">
+          <label class="block text-gray-700">Username:</label>
+          <input
+            v-model="selectedUser.username"
+            type="text"
+            class="w-full border border-gray-300 p-2 rounded"
+          />
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700">Email:</label>
+          <input
+            v-model="selectedUser.email"
+            type="email"
+            class="w-full border border-gray-300 p-2 rounded"
+          />
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700">Role:</label>
+          <input
+            v-model="selectedUser.role"
+            type="text"
+            class="w-full border border-gray-300 p-2 rounded"
+          />
+        </div>
+        <div class="flex justify-end">
+          <button @click="showModal = false" class="bg-gray-300 px-4 py-2 rounded mr-2">
+            Cancel
+          </button>
+          <button @click="updateUser" class="bg-blue-500 text-white px-4 py-2 rounded">
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
 
     <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 items-center justify-content-center">
         <form class="space-y-6" action="#" @submit.prevent="register">
