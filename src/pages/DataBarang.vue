@@ -70,13 +70,13 @@
               <td class="py-2 px-4 text-left border">
                 <img
                   v-if="item.gambar_barang"
-                  :src="`https://inventory-order-kep-uk.vercel.app/uploads/${item.gambar_barang}`"
+                  :src="`https://inventoryfkepunklab.site/uploads/${item.gambar_barang}`"
                   alt="Gambar Barang"
                   class="h-12 w-12 object-cover"
                 />
               </td>
               <td class="py-2 px-4 text-left border">
-                <<button
+                <button
                   @click="deleteBarang(Number(item.id_barang))"
                   type="button"
                   class="focus:outline-none"
@@ -84,10 +84,77 @@
                 >
                   <img src="/delete.png" alt="remove" class="h-6 w-6" />
                 </button>
+                <button @click="editBarang(item)" type="button" class="focus:outline-none" aria-label="Edit Item">
+                  <img src="/edit.png" alt="Edit" class="h-6 w-6">
+                </button>
               </td>
             </tr>
           </tbody>
         </table>
+
+        <!-- Modal -->
+        <div v-if="showModal && selectedBarang" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center">
+          <div class="bg-white p-6 rounded shadow-md w-1/3">
+            <h2 class="text-xl font-bold mb-4">Edit User</h2>
+            <div class="mb-4">
+              <label class="block text-gray-700">Kode Barang:</label>
+              <input
+                v-model="selectedBarang.kode_barang"
+                type="text"
+                class="w-full border border-gray-300 p-2 rounded"
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700">Nama Barang:</label>
+              <input
+                v-model="selectedBarang.nama_barang"
+                type="email"
+                class="w-full border border-gray-300 p-2 rounded"
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700">Total Stock:</label>
+              <input
+                v-model="selectedBarang.total_stock"
+                type="text"
+                class="w-full border border-gray-300 p-2 rounded"
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700">Jenis Barang:</label>
+              <input
+                v-model="selectedBarang.jenis_barang"
+                type="text"
+                class="w-full border border-gray-300 p-2 rounded"
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700">Harga Barang:</label>
+              <input
+                v-model="selectedBarang.harga_barang"
+                type="text"
+                class="w-full border border-gray-300 p-2 rounded"
+              />
+            </div>
+            <!-- <div class="mb-4">
+              <label class="block text-gray-700">Gambar Barang:</label>
+              <input
+                v-on="selectedBarang.gambar_barang"
+                type="file"
+                class="w-full border border-gray-300 p-2 rounded"
+                accept="image/*"
+              />
+            </div> -->
+            <div class="flex justify-end space-x-6 py-3 px-2 text-left border">
+              <button @click="showModal = false" class="bg-gray-300 px-4 py-2 rounded mr-2">
+                Cancel
+              </button>
+              <button @click="updateBarang" class="bg-blue-500 text-white px-4 py-2 rounded">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Kolom baru di bagian kanan untuk menambahkan barang -->
@@ -159,6 +226,9 @@ import { useToast } from "vue-toast-notification";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const toast = useToast();
+
+const showModal = ref(false);
+const selectedBarang = ref<Barang | null>(null);
 
 interface Barang {
   kode_barang: number;
@@ -284,6 +354,26 @@ export default defineComponent({
 
     loadDataFromAPI();
 
+    const editBarang = (item: Barang) => {
+      selectedBarang.value = { ...item };
+      showModal.value = true;
+    };
+
+    const updateBarang = async () => {
+      if (selectedBarang.value) {
+        try {
+          const { id_barang, kode_barang, nama_barang, total_stock, harga_barang, jenis_barang, gambar_barang } = selectedBarang.value;
+          await axios.patch(`${apiUrl}/barang/${id_barang}`, { kode_barang, nama_barang, total_stock, harga_barang, jenis_barang, gambar_barang });
+          alert("Barang updated successfully!");
+          showModal.value = false;
+          await loadDataFromAPI();
+        } catch (error) {
+          console.error("Error updating user:", error);
+          alert("Failed to update user.");
+        }
+      }
+    };
+
     return {
       barangs,
       newItem,
@@ -291,6 +381,10 @@ export default defineComponent({
       validateAndAddItem,
       handleImageUpload,
       deleteBarang,
+      updateBarang,
+      editBarang,
+      selectedBarang,
+      showModal
     };
   },
 });
