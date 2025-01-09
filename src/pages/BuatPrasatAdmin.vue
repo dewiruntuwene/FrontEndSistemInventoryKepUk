@@ -20,31 +20,76 @@
   
     <div class="max-w-6xl mx-auto">
       <div class="bg-white mt-7 ml-20 pl-28 overflow-x-auto max-h-xs max-w-full">
-  <table class="min-w-full table-auto border-collapse">
-    <thead class="bg-gradient-to-r from-slate-400 to-slate-600 text-gray-900 uppercase text-sm leading-normal">
-      <tr>
-        <th class="py-3 px-4 text-center border-b">No</th>
-        <th class="py-3 px-4 text-center border-b">Nama Prasat</th>
-        <th class="py-3 px-4 text-center border-b">Deskripsi</th>
-        <th class="py-3 px-4 text-center border-b">Barang</th>
-      </tr>
-    </thead>
-    <tbody class="text-gray-600 text-sm font-light">
-      <tr v-for="(item, index) in data" :key="index" class="hover:bg-gray-100 transition-all">
-        <td class="py-3 px-4 text-center border-b">{{ index + 1 }}</td>
-        <td class="py-3 px-4 text-center border-b">{{ item.nama_prasat }}</td>
-        <td class="py-3 px-4 text-center border-b">{{ item.deskripsi }}</td>
-        <td class="py-3 px-4 text-center border-b">
-          <ul>
-            <li v-for="barang in item.barangDalamPrasat" :key="barang.id_barang_dalam_paket">
-              {{ barang.barang.nama_barang }} - Jumlah: {{ barang.jumlah_barang }}
-            </li>
-          </ul>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+      <table class="min-w-full table-auto border-collapse">
+        <thead class="bg-gradient-to-r from-slate-400 to-slate-600 text-gray-900 uppercase text-sm leading-normal">
+          <tr>
+            <th class="py-3 px-4 text-center border-b">No</th>
+            <th class="py-3 px-4 text-center border-b">Nama Prasat</th>
+            <th class="py-3 px-4 text-center border-b">Deskripsi</th>
+            <th class="py-3 px-4 text-center border-b">Barang</th>
+            <th class="py-3 px-4 text-center border-b">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="text-gray-600 text-sm font-light">
+          <tr v-for="(item, index) in data" :key="index" class="hover:bg-gray-100 transition-all">
+            <td class="py-3 px-4 text-center border-b">{{ index + 1 }}</td>
+            <td class="py-3 px-4 text-center border-b">{{ item.nama_prasat }}</td>
+            <td class="py-3 px-4 text-center border-b">{{ item.deskripsi }}</td>
+            <td class="py-3 px-4 text-center border-b">
+              <ul>
+                <li v-for="barang in item.barangDalamPrasat" :key="barang.id_barang_dalam_paket">
+                  {{ barang.barang.nama_barang }} - Jumlah: {{ barang.jumlah_barang }}
+                </li>
+              </ul>
+            </td>
+            <td class="py-3 px-4 text-center border-b">
+              <button @click="openEditModal(item)" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-3 rounded">Edit</button>
+              <button @click="deletePrasat(item.id_prasat)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded ml-2">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Modal Edit Prasat -->
+  <div v-if="isModalOpen" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-lg p-6 max-w-lg w-full">
+      <h2 class="text-xl font-bold mb-4">Edit Prasat</h2>
+      <form @submit.prevent="updatePrasat">
+        <div class="mb-4">
+          <label for="nama_prasat" class="block text-sm font-bold mb-2">Nama Prasat:</label>
+          <input v-model="selectedPrasat.nama_prasat" type="text" id="nama_prasat" class="border rounded px-2 py-1 w-full" />
+        </div>
+        <div class="mb-4">
+          <label for="deskripsi" class="block text-sm font-bold mb-2">Deskripsi:</label>
+          <input v-model="selectedPrasat.deskripsi" type="text" id="deskripsi" class="border rounded px-2 py-1 w-full" />
+        </div>
+
+        <div class="mb-4">
+          <h3 class="text-lg font-bold">Barang Dalam Prasat</h3>
+          <div v-for="(barang, index) in selectedPrasat.barangDalamPrasat" :key="index" class="flex space-x-4 mb-2">
+            <div class="flex-1">
+              <label class="block text-sm font-bold mb-1">Barang ID:</label>
+              <input v-model="barang.barangId" type="number" class="border rounded px-2 py-1 w-full" readonly />
+            </div>
+            <div class="flex-1">
+              <label class="block text-sm font-bold mb-1">Jumlah:</label>
+              <input v-model="barang.jumlah_barang" type="number" class="border rounded px-2 py-1 w-full" />
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-end space-x-4">
+          <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+            Update
+          </button>
+          <button @click="closeModal" type="button" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
       <div class="mt-5 ml-20 pl-28 relative">
         <button v-if="!showForm" @click="showForm = true" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
@@ -162,6 +207,10 @@
   const data = ref<any[]>([]);
   const isAutofill = ref<boolean>(false);
   const barangOptions = ref<any[]>([]);
+  const showEditModal = ref(false);
+  const editItem = ref<any>({});
+  const isModalOpen = ref<boolean>(false);
+  const selectedPrasat = ref<any>(null);
   
   console.log(data);
 
@@ -182,6 +231,9 @@
     barangId: Number;
     jumlah_barang: Number;
   }
+
+
+
 
   const barangDalamPrasat = ref<any[]>([]);
 
@@ -281,6 +333,47 @@
       toast.error('Failed to add item');
     }
   };
+
+
+const openEditModal = (prasat: any) => {
+  selectedPrasat.value = { ...prasat };
+  isModalOpen.value = true;
+};
+
+const closeModal = () => {
+  isModalOpen.value = false;
+  selectedPrasat.value = null;
+};
+
+const updatePrasat = async () => {
+  try {
+    const updatedData = {
+      nama_prasat: selectedPrasat.value.nama_prasat,
+      deskripsi: selectedPrasat.value.deskripsi,
+      created_by: 5, // Bisa diubah sesuai kebutuhan
+      barangDalamPrasat: selectedPrasat.value.barangDalamPrasat,
+    };
+
+    await axios.put(`${apiUrl}/prasat/${selectedPrasat.value.id_prasat}`, updatedData);
+    toast.success('Prasat updated successfully');
+    await fetchData();
+    closeModal();
+  } catch (error) {
+    console.error('Error updating prasat:', error);
+    toast.error('Failed to update prasat');
+  }
+};
+
+const deletePrasat = async (id_prasat: number) => {
+  try {
+    await axios.delete(`${apiUrl}/prasat/${id_prasat}`);
+    toast.success("Prasat deleted successfully.");
+    fetchData();
+  } catch (error) {
+    toast.error("Failed to delete prasat.");
+  }
+};
+
   
   const updateItem = async () => {
     if (currentItemIndex.value !== null) {
@@ -306,6 +399,8 @@
       }
     }
   };
+
+  
   
   const deleteBarangMasuk = async (id: number) => {
     try {
