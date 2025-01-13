@@ -288,9 +288,66 @@ export default defineComponent({
               </a>
             </li>
 
- 
+            <li class="relative pt-4">
+              <a
+                class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear hover:bg-natural-900 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-natural-900 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
+                data-te-sidenav-link-ref
+              >
+                <span class="mr-4">
+                  <!-- Icon SVG yang ditambahkan -->
+                  <svg
+                    class="h-6 w-6 text-slate-900"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" />
+                    <circle cx="12" cy="13" r="2" />
+                    <line x1="13.45" y1="11.55" x2="15.5" y2="9.5" />
+                    <path d="M6.4 20a9 9 0 1 1 11.2 0Z" />
+                  </svg>
+                  <!-- Akhir dari Icon SVG yang ditambahkan -->
+                </span>
+                <span>
+                  <router-link to="/AllUserTransaction"> All User Transaction </router-link>
+                </span>
+              </a>
+            </li>
 
-           
+            <li class="relative pt-4">
+              <a
+                class="flex cursor-pointer items-center truncate rounded-[5px] py-[0.45rem] px-6 text-[0.85rem] text-natural-900 outline-none transition duration-300 ease-linear hover:bg-natural-900 hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-natural-900 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
+                data-te-sidenav-link-ref
+              >
+                <span class="mr-4">
+                  <!-- Icon SVG yang ditambahkan -->
+                  <svg
+                    class="h-6 w-6 text-slate-900"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" />
+                    <polyline points="12 8 12 12 14 14" />
+                    <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
+                  </svg>
+                  <!-- Akhir dari Icon SVG yang ditambahkan -->
+                </span>
+                <span>
+                  <router-link to="/UserCatalog"> User Catalog </router-link>
+                </span>
+              </a>
+            </li>    
           </ul>
         </nav>
       </div>

@@ -102,6 +102,7 @@ interface Prasat {
   }
   
   interface Transaction {
+    id_pre_order_paket: number;
     tanggal_disetujui: string;
     rencana_pemakaian: string;
     status: "sukses" | "pending" | "dibatalkan";
@@ -141,6 +142,8 @@ interface Prasat {
   onMounted(() => {
     fetchTransactions();
   });
+
+
   
   const filter = ref<"all" | "sukses" | "pending" | "dibatalkan">("all");
   

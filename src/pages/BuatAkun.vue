@@ -47,6 +47,7 @@ const register = async () => {
 
     // Tambahkan pemberitahuan bahwa registrasi berhasil
     alert("Registrasi berhasil! Silakan login.");
+    loadDataFromAPI();
   } catch (error) {
     console.error("Error:", error);
     alert("Tejadi Kesalahan Saat Registrasi");
@@ -91,62 +92,60 @@ const updateUser = async () => {
 
 <template>
   <Layout />
-  <div class="flex flex-row justify-between p-3">
-    <table class="ml-8 min-w-max w-full table-auto">
-        <thead>
-        <tr
-            class="bg-blue-200 text-gray-600 uppercase text-sm leading-normal"
-        >
-            <th class="py-2 px-4 text-left border">Username</th>
-            <th class="py-2 px-4 text-left border">Email</th>
-            <th class="py-2 px-4 text-left border">Password</th>
-            <th class="py-2 px-4 text-left border">Role</th>
-            <th class="py-2 px-4 text-left border">Action</th>
+  <div class="flex flex-col lg:flex-row justify-between p-3 gap-6 max-h-[calc(100vh-100px)]">
+    <table class="ml-40 text-left w-full border-collapse">
+        <thead class="bg-gray-800 text-white">
+        <tr>
+            <th class="w-1/3 text-left py-2 px-4 uppercase font-semibold text-sm">Username</th>
+            <th class="w-1/3 text-left py-2 px-4 uppercase font-semibold text-sm">Email</th>
+            <th class="w-1/3 text-left py-2 px-4 uppercase font-semibold text-sm">Password</th>
+            <th class="w-1/3 text-left py-2 px-4 uppercase font-semibold text-sm">Role</th>
+            <th class="w-1/3 text-left py-2 px-4 uppercase font-semibold text-sm">Action</th>
             <!-- <th class="py-2 px-4 text-left border">Harga Barang</th>
             <th class="py-2 px-4 text-left border">Gambar</th>
             <th class="py-2 px-4 text-left border">Action</th> -->
         </tr>
         </thead>
-        <tbody class="text-gray-600 text-sm font-light">
-        <tr
-            v-for="(user, index) in users"
-            :key="user.user_id"
-            class="border-b hover:bg-gray-100"
-        >
-            <td class="py-2 px-4 text-left border">{{ user.username }}</td>
-            <td class="py-2 px-4 text-left border">
-            <input
-                type="text"
-                :value="user.email"
-                class="border border-gray-300 rounded px-2 py-1 w-full"
-                disabled
-            />
-            </td>
-            <td class="py-2 px-4 text-left border">
-            <input
-                type="text"
-                :value="user.password"
-                class="border border-gray-300 rounded px-2 py-1 w-full"
-                disabled
-            />
-            </td>
-            <td class="py-2 px-4 text-left border">
-            <input
-                type="text"
-                :value="user.role"
-                class="border border-gray-300 rounded px-2 py-1 w-full"
-                disabled
-            />
-            </td>
-            <td class="py-3 px-2 text-left border flex space-x-2">
-              <button @click="editUser(user)" class="bg-blue-500 text-white px-4 py-2 rounded">
-                Edit
-              </button>
-              <!-- <button @click="deleteUser(Number(item.user_id))" type="button" class="focus:outline-none" aria-label="remove Item">
-                <img src="/delete.png" alt="remove" class="h-6 w-6">
-              </button> -->
-            </td>
-        </tr>
+        <tbody class="text-gray-700 text-sm font-light">
+          <tr
+              v-for="(user, index) in users"
+              :key="user.user_id"
+              class="hover:bg-lighter overflow-auto max-h-[calc(100vh-100px)]"
+          >
+              <td class="py-2 px-4 border-b border-grey-light">{{ user.username }}</td>
+              <td class="py-2 px-4 border-b border-grey-light">
+              <input
+                  type="text"
+                  :value="user.email"
+                  class="py-2 px-4 border-b border-grey-light"
+                  disabled
+              />
+              </td>
+              <td class="py-2 px-4 border-b border-grey-light">
+              <input
+                  type="text"
+                  :value="user.password"
+                  class="py-2 px-4 border-b border-grey-light"
+                  disabled
+              />
+              </td>
+              <td class="py-2 px-4 border-b border-grey-light">
+              <input
+                  type="text"
+                  :value="user.role"
+                  class="py-2 px-4 border-b border-grey-light"
+                  disabled
+              />
+              </td>
+              <td class="py-3 px-2 text-left border flex space-x-2">
+                <button @click="editUser(user)" class="bg-blue-500 text-white px-4 py-2 rounded">
+                  Edit
+                </button>
+                <!-- <button @click="deleteUser(Number(item.user_id))" type="button" class="focus:outline-none" aria-label="remove Item">
+                  <img src="/delete.png" alt="remove" class="h-6 w-6">
+                </button> -->
+              </td>
+          </tr>
         </tbody>
     </table>
 
@@ -323,7 +322,9 @@ const updateUser = async () => {
       </form>
     </div>  
   </div> -->
+  
 </template>
+
 
 <style>
 body,
@@ -343,4 +344,12 @@ html {
   background-color: #fff;
   text-align: center;
 }
+       .font-family-karla { font-family: karla; }
+        .bg-sidebar { background: #3d68ff; }
+        .cta-btn { color: #3d68ff; }
+        .upgrade-btn { background: #1947ee; }
+        .upgrade-btn:hover { background: #0038fd; }
+        .active-nav-link { background: #1947ee; }
+        .nav-item:hover { background: #1947ee; }
+        .account-link:hover { background: #3d68ff; }
 </style>

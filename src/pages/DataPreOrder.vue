@@ -4,7 +4,7 @@
       <div
         class="border-b-2 border-black flex flex-row justify-between items-center p-3 non-printable"
       >
-        <h4 class="pa-3 text-2xl font-bold">Data Peminjaman</h4>
+        <h4 class="pa-3 text-2xl font-bold">Data Pre-Order</h4>
       </div>
     </div>
     <div class="mt-0 pb-5 pl-[15rem]">
@@ -84,6 +84,12 @@
                     class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                   >
                     Action
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                  >
+                    Hapus
                   </th>
                 </tr>
               </thead>
@@ -215,6 +221,7 @@
                                       Update
                                     </button>
                                   </td>
+                                  
 
 
                                 </tr>
@@ -250,7 +257,7 @@
                         type="button"
                         class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                       >
-                        Selesai
+                        Approve
                       </button>
                       <button
                         @click="
@@ -272,6 +279,15 @@
                         >{{ transaction.status }}</span
                       >
                     </template>
+                  </td>
+                  <td class="px-2 py-2 whitespace-nowrap flex ml-8">
+                    <!-- Tombol Hapus -->
+                      <button
+                        @click="confirmDelete(transaction.id_pre_order_paket)"
+                        class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                      >
+                        Hapus Pre-Order
+                      </button>
                   </td>
                 </tr>
               </tbody>
@@ -380,6 +396,7 @@
       );
       alert("Sukses di Approved");
       reloadPage();
+      fetchTransactions();
       // Update local state after successful patch
       // const updatedTransaction = transactions.value.find(t => t.id_peminjam === id_peminjam);
       // if (updatedTransaction) {
@@ -403,6 +420,7 @@
         },
       );
       alert("Order Dibatalkan");
+      fetchTransactions();
       reloadPage();
       // Update local state after successful patch
       // const updatedTransaction = transactions.value.find(t => t.id_peminjam === id_peminjam);
@@ -497,6 +515,26 @@ const updateJumlahBarang = async (id_preorder_detail:number) => {
     alert("Gagal memperbarui jumlah barang");
   }
 };
+
+  // Fungsi untuk menghapus pre-order
+  const confirmDelete = async (id_pre_order_paket: number) => {
+    const confirmed = window.confirm("Apakah Anda yakin ingin menghapus pre-order ini?");
+    if (!confirmed) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`${apiUrl}/preorder/${id_pre_order_paket}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      alert("Pre-order berhasil dihapus");
+      fetchTransactions(); // Refresh data setelah penghapusan
+    } catch (error) {
+      console.error("Error deleting pre-order:", error);
+      alert("Gagal menghapus pre-order");
+    }
+  };
 
 
 

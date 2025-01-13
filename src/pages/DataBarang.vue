@@ -1,31 +1,29 @@
 <template>
   <Layout />
-  <div class="mt-0 pl-60 sticky top-0 z-50">
+  <!-- <div class="mt-0 pl-60 sticky top-0 z-50">
     <div
       class="border-b-2 border-black flex flex-row justify-between items-center p-3"
     >
       <h4 class="pa-3 text-2xl font-bold">Data Barang</h4>
     </div>
-  </div>
+  </div> -->
 
-  <div class="mt-0 pl-[15rem] pr-4">
+  <div class="mt-0 pl-[15rem] pr-4 ml-8">
     <div class="flex flex-row mt-4">
       <!-- Tabel dengan data dari API -->
       <div
         class="max-w-4xl mr-8 bg-white border-y-2 border-b-4 p-5 overflow-x-auto"
       >
-        <table class="min-w-max w-full table-auto">
-          <thead>
-            <tr
-              class="bg-blue-200 text-gray-600 uppercase text-sm leading-normal"
-            >
-              <th class="py-2 px-4 text-left border">Kode Barang</th>
-              <th class="py-2 px-4 text-left border">Nama Barang</th>
-              <th class="py-2 px-4 text-left border">Total Stok</th>
-              <th class="py-2 px-4 text-left border">Jenis Barang</th>
-              <th class="py-2 px-4 text-left border">Harga Barang</th>
-              <th class="py-2 px-4 text-left border">Gambar</th>
-              <th class="py-2 px-4 text-left border">Action</th>
+        <table class="text-left w-full border-collapse">
+          <thead class="bg-gray-800 text-white">
+            <tr>
+              <th class="w-1/8 text-left py-2 px-4 uppercase font-semibold text-sm">Kode Barang</th>
+              <th class="w-1/2 text-left py-2 px-4 uppercase font-semibold text-sm">Nama Barang</th>
+              <th class="w-1/3 text-left py-2 px-4 uppercase font-semibold text-sm">Total Stok</th>
+              <th class="w-1/3 text-left py-2 px-4 uppercase font-semibold text-sm">Jenis Barang</th>
+              <th class="w-1/3 text-left py-2 px-4 uppercase font-semibold text-sm">Harga Barang</th>
+              <th class="w-1/3 text-left py-2 px-4 uppercase font-semibold text-sm">Gambar</th>
+              <th class="w-1/3 text-left py-2 px-4 uppercase font-semibold text-sm">Action</th>
             </tr>
           </thead>
           <tbody class="text-gray-600 text-sm font-light">
@@ -43,11 +41,11 @@
                   disabled
                 />
               </td>
-              <td class="py-2 px-4 text-left border">
+              <td class="py-2 px-2 text-center border">
                 <input
                   type="number"
                   :value="item.total_stock"
-                  class="border border-gray-300 rounded px-2 py-1 w-full"
+                  class="border border-gray-300 rounded px-2 py-1 w-full font-bold"
                   disabled
                 />
               </td>
@@ -59,7 +57,7 @@
                   disabled
                 />
               </td>
-              <td class="py-2 px-4 text-left border">
+              <td class="py-2 px-2 text-left border">
                 <input
                   type="number"
                   :value="item.harga_barang"
@@ -403,7 +401,7 @@ td {
 }
 
 th {
-  background-color: #f2f2f2;
+  /* background-color: #f2f2f2; */
   font-weight: bold;
 }
 

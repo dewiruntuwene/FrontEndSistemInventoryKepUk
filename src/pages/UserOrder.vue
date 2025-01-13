@@ -452,13 +452,19 @@ const prasatsDropdown = ref<PrasatDropdown[]>([]);
 const prasat = ref<PreOrderPrasat[]>([]);
 
 const matakuliah = [
-  "Kardio",
-  "Hematologi",
-  "Anatomi",
-  "Fisiologi",
-  "Patologi",
-  "Farmakologi",
-  "Null",
+  "Basic Nursing Skill",
+  "IDK II",
+  "Komunikasi",
+  "K3",
+  "KMB",
+  "Maternitas II",
+  "Pediatrik",
+  "Mental",
+  "KMB",
+  "Maternitas Old",
+  "Komplimenter",
+  "Keperawatan Keluarga",
+  "Lainnya",
 ];
 
 const pesan = ref({

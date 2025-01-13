@@ -207,6 +207,7 @@ const loadPrasatFromCart = async () => {
 
     // Normalisasi data berdasarkan struktur API
     data.value = response.data.map((item: any) => ({
+      id_preorder_keranjang: item.id_preorder_keranjang,
       id_prasat: item.prasat.id_prasat,
       nama_prasat: item.prasat.nama_prasat,
     }));
@@ -259,6 +260,28 @@ const toggleSubmitModal = () => {
   // isSubmitOpen.value = !isSubmitOpen.value;
 };
 
+// Fungsi delete prasat
+const deletePrasat = async (id_preorder_keranjang: number) => {
+  try {
+    await axios.delete(`${apiUrl}/preorderkeranjang/${id_preorder_keranjang}`);
+    toast.success("Sukses di Hapus", {
+      type: "success",
+      position: "top-right",
+      duration: 3000,
+      dismissible: true,
+    });
+
+    // Filter data setelah delete
+    data.value = data.value.filter(
+      (item) => item.id_preorder_keranjang !== id_preorder_keranjang
+    );
+    // Muat ulang data dari keranjang
+    await loadPrasatFromCart();
+  } catch (error) {
+    console.error("Error deleting prasat:", error);
+  }
+};
+
 
 
 </script>
@@ -287,7 +310,7 @@ const toggleSubmitModal = () => {
       </div>
   
       <!-- Input Search -->
-      <form class="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- <form class="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
         <label for="default-search" class="sr-only">Search</label>
         <div class="relative">
           <input
@@ -298,12 +321,11 @@ const toggleSubmitModal = () => {
             placeholder="Cari barang..."
           />
         </div>
-      </form>
+      </form> -->
   
-      <div class="container mx-10 py-8 md:mr-3">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="container mx-10 py-8 md:mr-3 flex">
             <!-- Card List -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+            <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-6 gap-2 mt-8 w-88 mr-4">
                 <CardPrasat 
                 v-for="prasat in filteredPrasats" 
                 :key="prasat.id_prasat" 
@@ -314,30 +336,63 @@ const toggleSubmitModal = () => {
             </div>
 
                     <!-- Form Checkout -->
-            <div class="mt-8 md:w-full lg:w-1/3 ml-20 form">
-               
-                <div class="w-full md:w-56 md:ml-10 lg:w-56 sm:w-28s">
-                    <form @submit.prevent="checkout" class="bg-white shadow-md rounded-md p-6">
+            <div class="mt-8 md:w-full lg:w-1/3 form"> 
+                <!-- <div class="w-full md:w-56 md:ml-10 lg:w-56 sm:w-28s"> -->
+                    <form @submit.prevent="checkout" class="bg-white shadow-md rounded-md p-4 w-48">
                         <!-- Daftar Prasat -->
                         <div class="mb-4">
-                            <label for="prasat" class="text-gray-600">Prasat yang Ditambahkan:</label>
-                            <ul class="list-disc list-inside">
-                                <li v-for="item in data" :key="item.id_prasat">
-                                    {{ item.id_prasat }} - {{ item.nama_prasat }}
-                                </li>
-                            </ul>
+                          <label for="prasat" class="text-gray-600 text-lg font-semibold">Daftar Prasat:</label>
+                          <ul class="bg-gray-100 p-2 rounded-md shadow-md space-y-4">
+                            <li
+                              v-for="(item, index) in data"
+                              :key="item.id_prasat"
+                              class="bg-white p-2 rounded-md flex justify-between items-center shadow-sm"
+                            >
+                              <!-- Prasat Info -->
+                              <div>
+                                <p class="text-sm font-medium text-gray-800">{{ item.nama_prasat }}</p>
+                                <!-- <p class="text-xs text-gray-500">ID: {{ item.id_prasat }}</p> -->
+                              </div>
+
+                              <!-- Delete Icon -->
+                              <button
+                                @click="deletePrasat(Number(item.id_preorder_keranjang))"
+                                class="text-red-500 hover:text-red-700"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  class="h-4 w-4"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"
+                                  />
+                                </svg>
+                              </button>
+                            </li>
+                          </ul>
                         </div>
+
 
 
                         <!-- Input Rencana Pemakaian -->
                         <div class="mb-4">
                             <label for="rencana_pemakaian" class="text-gray-600">Rencana Pemakaian:</label>
-                            <input
+                            <select
                                 type="text"
                                 class="form-input mt-1 block w-full border rounded border-gray-300"
                                 v-model="pesanPrasat.rencana_pemakaian"
                                 :class="{ 'border-red-500': isFormIncomplete && !pesanPrasat.rencana_pemakaian }"
-                            />
+                            >
+                            <option value="Beginning to Mid">Beginning to Mid</option>
+                            <option value="Mid to End">Mid to End</option>
+                            <option value="End to Beginning">End to Beginning</option>
+                          </select>
                         </div>
 
                         <!-- Error Message -->
@@ -364,11 +419,10 @@ const toggleSubmitModal = () => {
                             </div>
                         </div>
                     </form>
-                </div>
+                <!-- </div> -->
             </div>
-            </div>
-        </div>
       </div>
+    </div>
 
   </template>
   

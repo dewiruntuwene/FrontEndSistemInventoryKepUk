@@ -40,10 +40,18 @@
         <div class="flex flex-col">
           <div v-for="(prasat, index) in transactionssisa" class="bg-white rounded-lg shadow-lg p-4 mb-4">
             <h3 class="text-lg font-bold mb-2">{{ prasat[0].nama_prasat }}</h3>
-            <div v-for="(barang, index) in prasat" class="flex justify-between py-1 border-b border-gray-300">
+            <div
+              v-for="(barang, index) in prasat"
+              class="flex justify-between py-1 border-b border-gray-300"
+            >
               <span>{{ barang.nama_barang }}</span>
-              <span>{{ barang.jumlah_barang_po }}</span>
+              <span
+                :class="{'text-red-500 font-bold': barang.jumlah_barang_po < 6}"
+              >
+                {{ barang.jumlah_barang_po }}
+              </span>
             </div>
+
           </div>
         </div>
       </div>
@@ -137,6 +145,17 @@ const fetchSisaTransactions = async () => {
       jumlah_barang_po: number;
       nama_prasat: string;
     }[][];
+
+    // Cek apakah ada barang dengan jumlah di bawah 6
+    dataArray.forEach(prasat => {
+      prasat.forEach(barang => {
+        if (barang.jumlah_barang_po < 6) {
+          alert(
+            `Peringatan! Barang "${barang.nama_barang}" tinggal ${barang.jumlah_barang_po} item. Segera lakukan pemesanan ulang.`
+          );
+        }
+      });
+    });
 
     transactionssisa.value = dataArray;
   } catch (error) {

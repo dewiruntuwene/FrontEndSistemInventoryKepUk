@@ -146,6 +146,10 @@
       console.error("Error fetching orders:", error);
     }
   };
+
+  const reloadPage = () => {
+    location.reload();
+  };
   
   const updateStatus = async (idContainer: number) => {
     const token = localStorage.getItem("token");
@@ -154,6 +158,7 @@
         keterangan: send.value.keterangan,
       });
       fetchOrders();
+      reloadPage();
       alert("Status berhasil diupdate!");
     } catch (error) {
       console.error("Error updating status:");

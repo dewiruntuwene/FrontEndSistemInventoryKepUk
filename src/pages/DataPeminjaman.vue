@@ -4,7 +4,7 @@
     <div
       class="border-b-2 border-black flex flex-row justify-between items-center p-3 non-printable"
     >
-      <h4 class="pa-3 text-2xl font-bold">Data Peminjaman</h4>
+      <h4 class="pa-3 text-2xl font-bold">Data Order</h4>
     </div>
   </div>
   <div class="mt-0 pb-5 pl-[15rem]">
