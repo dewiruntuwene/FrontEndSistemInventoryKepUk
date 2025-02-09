@@ -190,7 +190,7 @@
                   <td class="px-6 py-4 whitespace-nowrap">{{ index + 1 }}</td>
                   <td class="px-6 py-4 whitespace-nowrap">
                     <img
-                      :src="`https://inventory-order-kep-uk.vercel.app/uploads/${keranjang.barangs.gambar_barang}`"
+                      :src="`https://inventoryfkepunklab.site/uploads/${keranjang.barangs.gambar_barang}`"
                       class="w-24 h-24 object-cover rounded-md shadow-md"
                       alt="Product"
                     />
@@ -246,18 +246,13 @@
               class="bg-white shadow-md rounded-md p-6"
             >
               <div class="mb-4">
-                <label for="namaMatakuliah" class="text-gray-600"
-                  >Nama Matakuliah :</label
-                >
+                <label for="namaMatakuliah" class="text-gray-600">Nama Mata Kuliah:</label>
                 <select
                   v-model="pesan.nama_matakuliah"
                   class="form-select mt-1 block w-full border rounded border-gray-300"
-                  :class="{
-                    'border-red-500':
-                      isFormIncomplete && !pesan.nama_matakuliah,
-                  }"
+                  :class="{ 'border-red-500': isFormIncomplete && !pesan.nama_matakuliah }"
                 >
-                  <option value="" disabled selected>Pilih Matakuliah</option>
+                  <option value="" disabled selected>Pilih Mata Kuliah</option>
                   <option v-for="mk in matakuliah" :key="mk" :value="mk">
                     {{ mk }}
                   </option>
@@ -281,15 +276,17 @@
 
 
               <div class="mb-4">
-                <label for="prasat" class="text-gray-600">Ruangan Lab :</label>
-                <input
-                  type="text"
-                  class="form-input mt-1 block w-full border rounded border-gray-300"
+                <label for="ruanganLab" class="text-gray-600">Ruangan Lab:</label>
+                <select
                   v-model="pesan.ruangan_lab"
-                  :class="{
-                    'border-red-500': isFormIncomplete && !pesan.ruangan_lab,
-                  }"
-                />
+                  class="form-select mt-1 block w-full border rounded border-gray-300"
+                  :class="{ 'border-red-500': isFormIncomplete && !pesan.ruangan_lab }"
+                >
+                  <option value="" disabled selected>Pilih Ruangan Lab</option>
+                  <option v-for="lab in ruanganLab" :key="lab" :value="lab">
+                    {{ lab }}
+                  </option>
+                </select>
               </div>
               <div class="mb-4">
                 <label for="jamPraktek" class="text-gray-600"
@@ -398,7 +395,8 @@ import { Barang, Keranjang } from "../pages/UserCatalog.vue";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-
+const matakuliah = ref<string[]>([]); // Array untuk nama mata kuliah
+const ruanganLab = ref<string[]>([]);
 const router = useRouter();
 const toast = useToast();
 const isSubmitOpen = ref(false);
@@ -440,6 +438,13 @@ interface PrasatDropdown {
   nama_prasat: string;
 }
 
+
+
+// interface Ruangan {
+//   id_ruangan: number;
+//   nama_ruangan: string;
+// }
+
   // State untuk menyimpan data transaksi dan transaksi yang dipilih
   const transactionssisa = ref<{
     nama_barang: string;
@@ -451,21 +456,21 @@ const prasatsDropdown = ref<PrasatDropdown[]>([]);
 
 const prasat = ref<PreOrderPrasat[]>([]);
 
-const matakuliah = [
-  "Basic Nursing Skill",
-  "IDK II",
-  "Komunikasi",
-  "K3",
-  "KMB",
-  "Maternitas II",
-  "Pediatrik",
-  "Mental",
-  "KMB",
-  "Maternitas Old",
-  "Komplimenter",
-  "Keperawatan Keluarga",
-  "Lainnya",
-];
+// const matakuliah = [
+//   "Basic Nursing Skill",
+//   "IDK II",
+//   "Komunikasi",
+//   "K3",
+//   "KMB",
+//   "Maternitas II",
+//   "Pediatrik",
+//   "Mental",
+//   "KMB",
+//   "Maternitas Old",
+//   "Komplimenter",
+//   "Keperawatan Keluarga",
+//   "Lainnya",
+// ];
 
 const pesan = ref({
   nama_dosen: "",
@@ -678,7 +683,7 @@ const fetchPrasatItems = async () => {
             nama_barang: detail.barang.nama_barang,
             total_stock: detail.barang.total_stock,
             jenis_barang: detail.barang.jenis_barang,
-            gambar_barang: `https://inventory-order-kep-uk.vercel.app/uploads/${detail.barang.gambar_barang}`,
+            gambar_barang: `https://inventoryfkepunklab.site/uploads/${detail.barang.gambar_barang}`,
             harga_barang: detail.barang.harga_barang,
           };
 
@@ -757,6 +762,26 @@ const fetchSisaTransactions = async () => {
   }
 };
 
+const fetchMatakuliah = async () => {
+  try {
+    const response = await axios.get(`${apiUrl}/matakuliah`);
+    matakuliah.value = response.data.map((item: { nama_matakuliah: string }) => item.nama_matakuliah);
+  } catch (error) {
+    console.error("Error fetching mata kuliah:", error);
+    toast.error("Gagal mengambil data mata kuliah.");
+  }
+};
+
+const fetchRuanganLab = async () => {
+  try {
+    const response = await axios.get(`${apiUrl}/ruanganlab`);
+    ruanganLab.value = response.data.map((item: { nama_ruangan: string }) => item.nama_ruangan);
+  } catch (error) {
+    console.error("Error fetching ruangan lab:", error);
+    toast.error("Gagal mengambil data ruangan lab.");
+  }
+};
+
 
 
 
@@ -764,7 +789,9 @@ const fetchSisaTransactions = async () => {
 onMounted(() => {
   fetchPrasatList();
   fetchPrasatItems();
-  fetchSisaTransactions()
+  fetchSisaTransactions();
+  fetchMatakuliah();
+  fetchRuanganLab();
 });
 
 </script>

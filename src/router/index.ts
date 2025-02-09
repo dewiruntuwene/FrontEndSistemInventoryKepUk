@@ -242,6 +242,14 @@ const routes: Array<RouteRecordRaw> = [
         path: 'EmailSendResetPass',
         component: () => import('../pages/EmailSendResetPass.vue'),
       },
+      {
+        path: 'BuatMatkul',
+        component: () => import('../pages/BuatMatkul.vue'),
+      },
+      {
+        path: 'BuatRuangan',
+        component: () => import('../pages/BuatRuangan.vue'),
+      },
     ],
   },
   {

@@ -1,7 +1,8 @@
 <script  lang="ts">
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 interface DecodedToken {
   name: string;
@@ -14,8 +15,12 @@ export default defineComponent({
   setup() {
     const userName = ref("");
     const userRole = ref("");
+    const pendingOrdersCount = ref(0);
+    let intervalId: any = null;
 
     const router = useRouter();
+
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const decodeToken = () => {
       const token = localStorage.getItem("token");
@@ -39,14 +44,31 @@ export default defineComponent({
       router.push("/login");
     };
 
+    const fetchPendingOrdersCount = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/countorder`); // Sesuaikan URL API Anda
+        pendingOrdersCount.value = response.data.pendingOrdersCount;
+      } catch (error) {
+        console.error("Error fetching pending orders count:", error);
+      }
+    };
+
     onMounted(() => {
       decodeToken();
+      fetchPendingOrdersCount(); // Fetch pertama kali
+      intervalId = setInterval(fetchPendingOrdersCount, 5000); // Cek setiap 5 detik
+    });
+
+    onUnmounted(() => {
+      if (intervalId) clearInterval(intervalId);
     });
 
     return {
       userRole,
       userName,
       onFileChange,
+      fetchPendingOrdersCount,
+      pendingOrdersCount,
     };
   },
 });
@@ -197,41 +219,30 @@ export default defineComponent({
               </li>
 
               <li class="relative pt-4">
-                <a
+                <router-link
+                  to="/DataPeminjaman"
                   class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item"
-                  data-te-sidenav-link-ref
                 >
                   <span class="mr-4">
-                    <!-- Icon SVG yang ditambahkan -->
-                    <svg
-                      class="h-6 w-6 text-white"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      stroke-width="2"
-                      stroke="currentColor"
-                      fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
+                    <svg class="h-6 w-6 text-white" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                       <path stroke="none" d="M0 0h24v24H0z" />
                       <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                      <path
-                        d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"
-                      />
+                      <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 1 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
                       <line x1="9" y1="9" x2="10" y2="9" />
                       <line x1="9" y1="13" x2="15" y2="13" />
                       <line x1="9" y1="17" x2="15" y2="17" />
                     </svg>
-                    <!-- Akhir dari Icon SVG yang ditambahkan -->
                   </span>
                   <span>
-                    <router-link to="/DataPeminjaman">
-                      Orders
-                    </router-link>
+                    Orders
+                    <span v-if="pendingOrdersCount > 0" class="ml-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                      {{ pendingOrdersCount }}
+                    </span>
                   </span>
-                </a>
+                </router-link>
               </li>
+
+
 
               <li class="relative pt-4">
                 <a
@@ -538,7 +549,67 @@ export default defineComponent({
                     <router-link to="/UserCatalog"> User Catalog </router-link>
                   </span>
                 </a>
-              </li>           
+              </li> 
+              
+              <li class="relative pt-4">
+                <a
+                  class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item"
+                  data-te-sidenav-link-ref
+                >
+                  <span class="mr-4">
+                    <!-- Icon SVG yang ditambahkan -->
+                    <svg
+                      class="h-6 w-6 text-white"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                      stroke="currentColor"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" />
+                      <polyline points="12 8 12 12 14 14" />
+                      <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
+                    </svg>
+                    <!-- Akhir dari Icon SVG yang ditambahkan -->
+                  </span>
+                  <span>
+                    <router-link to="/BuatMatkul"> Buat Matakuliah </router-link>
+                  </span>
+                </a>
+              </li>
+
+              <li class="relative pt-4">
+                <a
+                  class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item"
+                  data-te-sidenav-link-ref
+                >
+                  <span class="mr-4">
+                    <!-- Icon SVG yang ditambahkan -->
+                    <svg
+                      class="h-6 w-6 text-white"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                      stroke="currentColor"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" />
+                      <polyline points="12 8 12 12 14 14" />
+                      <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
+                    </svg>
+                    <!-- Akhir dari Icon SVG yang ditambahkan -->
+                  </span>
+                  <span>
+                    <router-link to="/BuatRuangan"> Buat Ruangan </router-link>
+                  </span>
+                </a>
+              </li>
             </ul>
           </nav>   
       </div>

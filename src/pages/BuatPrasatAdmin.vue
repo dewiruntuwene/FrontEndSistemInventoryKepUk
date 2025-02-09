@@ -111,10 +111,17 @@
                 <div class="flex justify-between space-x-4">
                 <div>
                   <label for="kode_barang" class="block text-sm font-bold mb-2">Kode Barang:</label>
+                  
                   <select
                     v-model=" newItem.kode_barang"
                     class="border rounded px-2 py-1 w-full"
                     id="kode_barang"
+                    :options="barangOptions"
+                    :searchable="true"
+                    :close-on-select="true"
+                    :clear-on-select="true"
+                    :track-by="'kode_barang'"
+                    placeholder="Pilih Kode Barang"
                     @change="onKodeBarangChange"
                   >
                     <option value="" disabled>Pilih Kode Barang</option>

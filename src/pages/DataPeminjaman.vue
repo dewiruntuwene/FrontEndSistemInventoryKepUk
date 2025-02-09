@@ -146,7 +146,7 @@
                       v-if="detailBarangIndex === index"
                       class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50"
                     >
-                      <div class="bg-white rounded-lg shadow-xl w-1/2 p-6 printable">
+                      <div class="bg-white rounded-lg shadow-xl w-1/2 p-6 printable overflow-y-auto max-h-[70vh]">
                         <h2 class="text-xl font-bold mb-4">Detail Barang</h2>
                         <div class="flex space-x-24 ">
                           <div class="space-y-2">
@@ -179,6 +179,17 @@
                           <div class="space-y-2">
                             <p>Tanggal Order</p>
                             <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.tanggal_order }}</div>
+                          </div>
+                          <div class="space-y-2">
+                            <p>Tanggal Praktek</p>
+                            <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.tanggal_praktek }}</div>
+                          </div>
+                        </div>
+
+                        <div class="space-y-2">
+                          <div class="space-y-2">
+                            <p>Keterangan</p>
+                            <div class="border border-gray-300 rounded px-2 py-1 mb-2">{{ transaction.keterangan }}</div>
                           </div>
                         </div>
 
@@ -404,6 +415,7 @@ interface Transaction {
   tanggal_order: string;
   tanggal_kembali_alat: string;
   ruangan_lab: string;
+  keterangan: string;
   status: "sukses" | "pending" | "dibatalkan";
   users: {
     username: string;
