@@ -263,6 +263,9 @@
                           </tbody>
                         </table>
 
+                        <!-- Pemisah Halaman -->
+                        <div class="page-break"></div>
+
                         <h3 class="text-lg font-bold mt-6">Alat Kesehatan</h3>
                         <table class="min-w-full divide-y divide-gray-200 mt-4 overflow-x-auto">
                           <thead>
@@ -593,6 +596,8 @@ td {
 @media print {
   body * {
     visibility: hidden;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
   .printable, .printable * {
     visibility: visible;
@@ -606,7 +611,33 @@ td {
     margin: 0;
     padding: 0;
     border: none;
+    max-height: none !important;
+    overflow: visible !important;
+    page-break-before: auto;
+    page-break-inside: avoid;
   }
+
+  table {
+    page-break-inside: auto;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tbody {
+    display: table-row-group;
+  }
+
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  .page-break {
+    page-break-before: always;
+  }
+
    /* Sembunyikan elemen lain yang tidak diinginkan */
    .non-printable {
     display: none;

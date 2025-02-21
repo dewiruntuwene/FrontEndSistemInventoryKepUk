@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import axios from "axios";
 import Layout from "../components/layout.vue"; // Sesuaikan dengan path komponen Layout
-import NavbarAdmin from "../components/NavbarAdmin.vue";
+//import NavbarAdmin from "../components/NavbarAdmin.vue";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -50,7 +50,6 @@ const tableBodyRef = ref<HTMLElement | null>(null);
 
 <template>
   <Layout />
-  <NavbarAdmin />
   <div class="mt-0 pl-60 sticky top-0 z-50">
     <div
       class="border-b-2 border-black flex flex-row justify-between items-center p-3"

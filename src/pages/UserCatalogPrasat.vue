@@ -389,7 +389,7 @@ const deletePrasat = async (id_preorder_keranjang: number) => {
                                 v-model="pesanPrasat.rencana_pemakaian"
                                 :class="{ 'border-red-500': isFormIncomplete && !pesanPrasat.rencana_pemakaian }"
                             >
-                            <option value="Beginning to Mid">Beginning to Mid</option>
+                            <option value="Beginning to Mid">Beginning to End</option>
                             <option value="Mid to End">Mid to End</option>
                             <option value="End to Beginning">End to Beginning</option>
                           </select>
