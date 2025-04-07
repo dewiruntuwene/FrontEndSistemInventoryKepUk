@@ -218,7 +218,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import axios from "axios";
-import Layout from "../components/layout.vue";
+import Layout from "../../components/layout.vue";
 import { useToast } from "vue-toast-notification";
 
 const apiUrl = import.meta.env.VITE_API_URL;

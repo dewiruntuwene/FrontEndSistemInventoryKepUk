@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import axios from "axios";
-import Layout from "../components/layout.vue";
+import Layout from "../../components/layout.vue";
 
 const username = ref("");
 const email = ref("");

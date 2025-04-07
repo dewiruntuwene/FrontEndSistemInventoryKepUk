@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import Layout from "../components/layout.vue";
+import Layout from "../../components/layout.vue";
 import axios from 'axios';
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -72,9 +72,9 @@ const totalJumlahBarangByMatakuliah = computed(() => {
 
 <template>
   <Layout />
-  <div class="mx-auto max-w-6xl mr-20 min-w-3.5 h-fit overflow-x-auto pt-0 mr-5 pl-20">
+  <div class="mx-auto max-w-6xl min-w-3.5 h-fit overflow-x-auto pt-0 mr-5 pl-20">
     <table class="min-w-full bg-white border rounded-lg overflow-hidden ">
-      <thead class="bg-gray-100 bg-slate-300 text-gray-800 uppercase text-sm font-semibold text-left">
+      <thead class="bg-slate-300 text-gray-800 uppercase text-sm font-semibold text-left">
         <tr>
           <th class="px-30 py-30 md:px-6 md:py-3">Kode Barang</th>
           <th class="px-40 py-30 md:px-6 md:py-3">Nama Barang</th>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import axios from "axios";
-import Layout from "../components/layout.vue"; // Sesuaikan dengan path komponen Layout
+import Layout from "../../components/layout.vue"; // Sesuaikan dengan path komponen Layout
 //import NavbarAdmin from "../components/NavbarAdmin.vue";
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -83,16 +83,16 @@ const tableBodyRef = ref<HTMLElement | null>(null);
           <tbody class="text-gray-600 text-sm font-light" ref="tableBody">
             <!-- Data dari array -->
             <tr v-for="(item, index) in data" :key="index">
-              <td class="py-3 px-2 text-left border text-center">
+              <td class="py-3 px-2 text-left border">
                 <span>{{ item.kode_barang }}</span>
               </td>
-              <td class="py-3 px-2 text-left border text-center">
+              <td class="py-3 px-2 text-left border">
                 <span>{{ item.nama_barang }}</span>
               </td>
-              <td class="py-3 px-2 text-left border text-center">
+              <td class="py-3 px-2 text-left border">
                 <span>{{ item.jenis_barang }}</span>
               </td>
-              <td class="py-3 px-2 text-left border text-center">
+              <td class="py-3 px-2 text-left border">
                 <span>{{ item.total_stock }}</span>
               </td>
             </tr>

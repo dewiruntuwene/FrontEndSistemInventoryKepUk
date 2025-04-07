@@ -101,7 +101,7 @@ export default defineComponent({
         
           <nav
             id="sidenav-8"
-            class="lg:left-0 left-[-300px] fixed top-0 left-0 z-[1035] h-full w-60 -translate-x-full overflow-hidden bg-sidebar shadow-[0_4px_12px_0_rgba(0,0,0,0.07),_0_2px_4px_rgba(0,0,0,0.05)] data-[te-sidenav-hidden='false']:translate-x-0 dark:bg-slate-200 text-white text-base font-semibold pt-3"
+            class="lg:left-0 left-[-300px] fixed top-0 h-full w-60 -translate-x-full overflow-hidden bg-sidebar shadow-[0_4px_12px_0_rgba(0,0,0,0.07),_0_2px_4px_rgba(0,0,0,0.05)] data-[te-sidenav-hidden='false']:translate-x-0 dark:bg-slate-200 text-white text-base font-semibold pt-3"
             data-te-sidenav-init
             data-te-sidenav-hidden="false"
             data-te-sidenav-position="absolute"
@@ -220,7 +220,7 @@ export default defineComponent({
 
               <li class="relative pt-4">
                 <router-link
-                  to="/DataPeminjaman"
+                  to="/DataOrder"
                   class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item"
                 >
                   <span class="mr-4">

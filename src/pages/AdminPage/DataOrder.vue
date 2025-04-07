@@ -27,61 +27,33 @@
               <tr>
                 <th
                   scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                  class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                 >
                   Id Peminjam
                 </th>
                 <th
                   scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                  class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                 >
                   Nama Dosen
                 </th>
-                <!-- <th
-                  scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                >
-                  Nama Mata Kuliah
-                </th>
+                
                 <th
                   scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                >
-                  Prasat
-                </th>
-                <th
-                  scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                >
-                  Jam Praktek
-                </th>
-                <th
-                  scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                >
-                  Ruangan Lab
-                </th> -->
-                <th
-                  scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                  class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                 >
                   Tanggal Order
                 </th>
-                <!-- <th
-                  scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                >
-                  Tanggal Pengembalian
-                </th> -->
+               
                 <th
                   scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                  class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                 >
                   Detail Barang
                 </th>
                 <th
                   scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                  class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                 >
                   Action
                 </th>
@@ -102,36 +74,13 @@
                     {{ transaction.users.username }}
                   </div>
                 </td>
-                <!-- <td class="px-2 py-2 whitespace-nowrap">
-                  <div class="text-xs text-gray-900">
-                    {{ transaction.nama_matakuliah }}
-                  </div>
-                </td>
-                <td class="px-2 py-2 whitespace-nowrap">
-                  <div class="text-xs text-gray-900">
-                    {{ transaction.prasat }}
-                  </div>
-                </td>
-                <td class="px-2 py-2 whitespace-nowrap">
-                  <div class="text-xs text-gray-900">
-                    {{ transaction.jam_praktek }}
-                  </div>
-                </td>
-                <td class="px-2 py-2 whitespace-nowrap">
-                  <div class="text-xs text-gray-900">
-                    {{ transaction.ruangan_lab }}
-                  </div>
-                </td> -->
+                
                 <td class="px-2 py-2 whitespace-nowrap text-center">
                   <div class="text-xs text-gray-900">
                     {{ transaction.tanggal_order }}
                   </div>
                 </td>
-                <!-- <td class="px-2 py-2 whitespace-nowrap">
-                  <div class="text-xs text-gray-900">
-                    {{ transaction.tanggal_kembali_alat }}
-                  </div>
-                </td> -->
+              
                 <td class="px-2 py-2 whitespace-nowrap text-center">
                   <div class="text-xs text-gray-900">
                     <!-- Tampilkan Detail Barang -->
@@ -199,31 +148,31 @@
                             <tr>
                               <th
                                 scope="col"
-                                class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                               >
                                 No
                               </th>
                               <th
                                 scope="col"
-                                class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                               >
                                 Nama Barang
                               </th>
                               <th
                                 scope="col"
-                                class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                               >
                                 Kode Barang
                               </th>
                               <th
                                 scope="col"
-                                class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                               >
                                 Jenis Barang
                               </th>
                               <th
                                 scope="col"
-                                class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                               >
                                 Jumlah
                               </th>
@@ -231,7 +180,7 @@
                           </thead>
                           <tbody class="bg-white divide-y divide-gray-200 mr-mx text-left">
                             <tr
-                              v-for="(item, index) in transaction.barangHabisPakai.filter(b => b.jenis_barang === 'Barang Habis Pakai')"
+                              v-for="(item, index) in transaction.barangHabisPakai.filter(b => b.jenis_barang === 'Barang Habis Pakai').slice(0,7)"
                               :key="index"
                             >
                               <td class="px-2 py-2 whitespace-nowrap text-center">
@@ -263,40 +212,37 @@
                           </tbody>
                         </table>
 
-                        <!-- Pemisah Halaman -->
-                        <div class="page-break"></div>
-
                         <h3 class="text-lg font-bold mt-6">Alat Kesehatan</h3>
                         <table class="min-w-full divide-y divide-gray-200 mt-4 overflow-x-auto">
                           <thead>
                             <tr>
                               <th
                                 scope="col"
-                                class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                               >
                                 No
                               </th>
                               <th
                                 scope="col"
-                                class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                               >
                                 Nama Barang
                               </th>
                               <th
                                 scope="col"
-                                class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                               >
                                 Kode Barang
                               </th>
                               <th
                                 scope="col"
-                                class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                               >
                                 Jenis Barang
                               </th>
                               <th
                                 scope="col"
-                                class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                               >
                                 Jumlah
                               </th>
@@ -304,7 +250,7 @@
                           </thead>
                           <tbody class="bg-white divide-y divide-gray-200 mr-mx text-left">
                             <tr
-                              v-for="(item, index) in transaction.barangHabisPakai.filter(b => b.jenis_barang === 'Alat Kesehatan')"
+                              v-for="(item, index) in transaction.barangHabisPakai.filter(b => b.jenis_barang === 'Alat Kesehatan').slice(0,7)"
                               :key="index"
                             >
                               <td class="px-2 py-2 whitespace-nowrap text-center">
@@ -397,7 +343,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
 import axios from "axios";
-import Layout from "../components/layout.vue";
+import Layout from "../../components/layout.vue";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -433,6 +379,8 @@ const uniqueUsernames = computed(() => {
   const usernames = transactions.value.map(transaction => transaction.users.username);
   return [...new Set(usernames)];
 });
+
+
 
 const fetchTransactions = async () => {
   const token = localStorage.getItem("token");
@@ -549,6 +497,23 @@ const filteredTransactions = computed(() => {
   }
 });
 
+const paginatedBarangHabisPakai = computed(() => {
+  const perPage = 10;
+
+  // Ambil semua barang habis pakai dari semua transaksi
+  const items = transactions.value.flatMap((transaction) =>
+    transaction.barangHabisPakai.filter((b) => b.jenis_barang === "Barang Habis Pakai")
+  );
+
+  let pages: Array<Array<BarangHabisPakai>> = []; // Pastikan tipe data benar
+  for (let i = 0; i < items.length; i += perPage) {
+    pages.push(items.slice(i, i + perPage));
+  }
+  return pages;
+});
+
+
+
 // Modal untuk detail barang
 const detailBarangIndex = ref<number | null>(null);
 const showDetailBarang = (index: number) => {
@@ -617,9 +582,13 @@ td {
     page-break-inside: avoid;
   }
 
-  table {
-    page-break-inside: auto;
+  table, tr, td, th {
+    page-break-inside: avoid;
   }
+
+  /* table {
+    page-break-inside: auto;
+  } */
 
   thead {
     display: table-header-group;
@@ -638,7 +607,6 @@ td {
     page-break-before: always;
   }
 
-   /* Sembunyikan elemen lain yang tidak diinginkan */
    .non-printable {
     display: none;
   }

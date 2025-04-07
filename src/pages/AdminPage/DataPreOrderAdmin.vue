@@ -27,61 +27,37 @@
               <tr>
                 <th
                   scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                  class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                 >
                   Id Pre-Order
                 </th>
                 <th
                   scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                  class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                 >
                   Nama Dosen
                 </th>
-                <!-- <th
-                  scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                >
-                  Nama Mata Kuliah
-                </th>
                 <th
                   scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                >
-                  Prasat
-                </th>
-                <th
-                  scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                >
-                  Jam Praktek
-                </th>
-                <th
-                  scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
-                >
-                  Ruangan Lab
-                </th> -->
-                <th
-                  scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                  class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                 >
                   Tanggal Pre Order
                 </th>
                 <th
                   scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                  class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                 >
                   Rencana Pemakaian
                 </th>
                 <th
                   scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                  class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                 >
                   Detail Pre-Order
                 </th>
                 <th
                   scope="col"
-                  class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                  class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                 >
                   Action
                 </th>
@@ -149,25 +125,25 @@
                                 <tr>
                                   <th
                                     scope="col"
-                                    class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                    class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                                   >
                                     No
                                   </th>
                                   <th
                                     scope="col"
-                                    class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                    class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                                   >
                                     Nama Barang
                                   </th>
                                   <th
                                     scope="col"
-                                    class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                    class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                                   >
                                     Kode Barang
                                   </th>
                                   <th
                                     scope="col"
-                                    class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
+                                    class="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider border-b text-center"
                                   >
                                   Jumlah Barang
                                   </th>
@@ -288,7 +264,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
 import axios from "axios";
-import layout from "../components/layout.vue";
+import layout from "../../components/layout.vue";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 

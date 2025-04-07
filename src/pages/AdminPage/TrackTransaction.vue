@@ -80,7 +80,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import axios from "axios";
-import layout from "../components/layout.vue";
+import layout from "../../components/layout.vue";
 
 // Tipe data
 interface Barang {

@@ -227,7 +227,7 @@
          <!-- Form Checkout -->
         <form
             @submit.prevent="checkout"
-            class="bg-white shadow-md rounded-md p-6 mt-8 md:w-full lg:w-1/3 ml-32 form w-64 md:w-56 md:ml-10 lg:w-56 sm:w-28s"
+            class="bg-white shadow-md rounded-md p-6 mt-8 ml-32 form w-64 md:w-56 md:ml-10 lg:w-56 sm:w-28s"
           >
             <div class="mb-4">
               <label for="namaMatakuliah" class="text-gray-600">Nama Mata Kuliah:</label>
@@ -373,8 +373,8 @@ import { ref, onMounted, defineComponent } from "vue";
 import axios from "axios";
 import { useToast } from "vue-toast-notification";
 import { useRouter } from "vue-router";
-import Navbar from "../components/Navbar.vue";
-import { Barang, Keranjang } from "../pages/UserCatalog.vue";
+import Navbar from "../../components/Navbar.vue";
+import { Barang, Keranjang } from "./UserCatalog.vue";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
